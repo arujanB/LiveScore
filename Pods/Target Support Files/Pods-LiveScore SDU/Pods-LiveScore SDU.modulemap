@@ -1,0 +1,6 @@
+framework module Pods_LiveScore_SDU {
+  umbrella header "Pods-LiveScore SDU-umbrella.h"
+
+  export *
+  module * { export * }
+}

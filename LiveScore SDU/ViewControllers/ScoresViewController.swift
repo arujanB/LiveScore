@@ -24,7 +24,7 @@ final class ScoresViewController: UIViewController {
     
     var apiCaller = APICaller()
     var mainGameData: [MainGameDatum] = []
-    
+    var mainGameDataScreen: [MainGameDatum] = []
     
     //enum segment
     private var scoreSegmentEnum: ScoreSegment = .today
@@ -82,7 +82,6 @@ final class ScoresViewController: UIViewController {
         segmentControll.setTitle("\(createBTN()[4].month) \(createBTN()[4].day)", forSegmentAt: 3)
         segmentControll.setTitle("\(createBTN()[5].month) \(createBTN()[5].day)", forSegmentAt: 4)
         
-        
         segmentControll.selectedSegmentIndex = 2
         segmentControll.addTarget(self, action: #selector(segmentControlValuChanged(_:)), for: .valueChanged)
         
@@ -99,8 +98,6 @@ final class ScoresViewController: UIViewController {
         return segmentControll
     }()
     
-    
-    
     //MARK: - TableView
     private let myTableView: UITableView = {
         var tableView = UITableView()
@@ -111,21 +108,39 @@ final class ScoresViewController: UIViewController {
         return tableView
     }()
     
+    var selectedSegmentIndex: Int = 0
+    var selectedCategory: String = ""
+    
     @objc func segmentControlValuChanged(_ sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0 {
+            selectedSegmentIndex = 0
+            selectedCategory = "\(createBTN()[1].month) \(createBTN()[1].day)"
+            
             scoreSegmentEnum = .first
 //            view.backgroundColor = .yellow
             myTableView.reloadData()
         }else if sender.selectedSegmentIndex == 1 {
+            selectedSegmentIndex = 1
+            selectedCategory = "\(createBTN()[2].month) \(createBTN()[2].day)"
+            
             scoreSegmentEnum = .yesterday
             myTableView.reloadData()
         }else if sender.selectedSegmentIndex == 2 {
+            selectedSegmentIndex = 2
+            selectedCategory = "\(createBTN()[3].month) \(createBTN()[3].day)"
+            
             scoreSegmentEnum = .today
             myTableView.reloadData()
         }else if sender.selectedSegmentIndex == 3 {
+            selectedSegmentIndex = 3
+            selectedCategory = "\(createBTN()[4].month) \(createBTN()[4].day)"
+            
             scoreSegmentEnum = .tomorrow
             myTableView.reloadData()
         }else {
+            selectedSegmentIndex = 4
+            selectedCategory = "\(createBTN()[5].month) \(createBTN()[5].day)"
+            
             scoreSegmentEnum = .last
             myTableView.reloadData()
         }
@@ -166,6 +181,19 @@ final class ScoresViewController: UIViewController {
         
         myTableView.dataSource = self
         myTableView.delegate = self
+        
+        //Change TRY something
+        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.mainGameDataScreen = values
+                self.myTableView.reloadSections([0], with: .none)
+//                self.myTableView.reloadData()
+                print("screen\(self.mainGameDataScreen)")
+
+            }
+        }, date: selectedCategory)
+        //
         
 //        apiCaller.fetchRequestMainGame { [weak self] values in
 //            DispatchQueue.main.async {
@@ -364,7 +392,9 @@ extension ScoresViewController: UITableViewDataSource{
         cell.mainGameDataFromScore.removeAll()
         print("CELL: \(mainGameData)")
         print("MAIN CELL\(cell.mainGameDataFromScore)")
+        
         cell.mainGameDataFromScore = mainGameData
+        cell.mainGameDataFromScoreScreen = mainGameDataScreen
         
         print("AFTER MAIN CELL\(cell.mainGameDataFromScore)")
 //        tableView.reloadData()

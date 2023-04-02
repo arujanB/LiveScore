@@ -34,6 +34,26 @@ struct APICaller {
         task.resume()
     }
     
+    //MARK: - MAIN CELL DATA
+    func fetchRequestMainCell(completion: @escaping (MainCellData) -> Void, protocolId: Int){
+        let urlString = "http://localhost:8080/protocol/\(protocolId)"
+//        let urlString = "http://localhost:8080/protocol/1"
+        
+        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        let request = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+            guard let data else { return }
+            if let dataCell = try? JSONDecoder().decode(MainCellData.self, from: data) {
+                completion(dataCell)
+//                print("AAAAAAA...............AAAAAAAAA\(dataCell.gameId)")
+            }else {
+                print("FAIL UUUUUU")
+            }
+        }
+        task.resume()
+    }
+    
     //MARK: - TABLE TEAM FOOTBALL
     func fetchRequestTable(completion: @escaping ([TableTeamFootballDatum]) -> Void){
         let urlString = "http://localhost:8080/team_statistics/points?groupId=1"
@@ -103,6 +123,25 @@ struct APICaller {
             guard let data else { return }
             if let teamStatisticsRedCardData = try? JSONDecoder().decode(TeamStatisticsRedCardData.self, from: data) {
                 completion(teamStatisticsRedCardData)
+            }else {
+                print("FAIL")
+            }
+        }
+        task.resume()
+    }
+    
+    //Change TRY something
+    func fetchRequestMainGameChange(completion: @escaping ([MainGameDatum]) -> Void, date: String){
+//        let urlString = "http://localhost:8080/game/date?date=2023-03-06"
+        let urlString = "http://localhost:8080/game/date?date=\(date)"
+        
+        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        let request = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+            guard let data else { return }
+            if let mainGameData = try? JSONDecoder().decode(MainGameData.self, from: data) {
+                completion(mainGameData)
             }else {
                 print("FAIL")
             }

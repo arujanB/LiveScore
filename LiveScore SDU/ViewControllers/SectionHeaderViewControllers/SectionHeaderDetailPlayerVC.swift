@@ -13,12 +13,12 @@ class SectionHeaderDetailPlayerVC: UIViewController {
     
     var allList: [[PlayerStatisticsDatum]] = []
     
-    private var playerStatisticsData: [PlayerStatisticsDatum] = []
+    private var playerStatisticsGoals: [PlayerStatisticsDatum] = []
     private var playerStatisticsAssistsData: [PlayerStatisticsDatum] = []
     private var playerStatisticsRedCardData: [PlayerStatisticsDatum] = []
     private var playerStatisticsYellowCardData: [PlayerStatisticsDatum] = []
     
-    private lazy var array = ["GOALS SCORED", "ASSISTS", "RED CARD", "YELLOW CARD", "ALL"]
+    private lazy var array = ["ALL", "GOALS SCORED", "ASSISTS", "RED CARD", "YELLOW CARD"]
     
     private lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -51,6 +51,8 @@ class SectionHeaderDetailPlayerVC: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        selectedCategory = array[0]
+        
         tableView.dataSource = self
         
         //connect with backpart
@@ -66,13 +68,17 @@ class SectionHeaderDetailPlayerVC: UIViewController {
 //        btnOverview.addTarget(self, action: #selector(changeView(_:)), for: .touchUpInside)
     }
     
+    //for show the datas which you choose in collection cell
+    var selectedCollectionIndex: Int = 0
+    var selectedCategory: String = ""
+    
     //MARK: - Connect with BACK
     func allFetchAPI(){
         
         apiCaller.fetchRequestPS (completion: { [weak self] values in
             DispatchQueue.main.async {
                 guard let self else { return }
-                self.playerStatisticsData = values
+                self.playerStatisticsGoals = values
                 self.tableView.reloadData()
             }
         }, sectionName: APIStats.goals.rawValue, groupId: 1)
@@ -197,9 +203,25 @@ extension SectionHeaderDetailPlayerVC: UICollectionViewDataSource{
         cell.layer.borderWidth = 1
         cell.layer.borderColor = CGColor.init(red: 58, green: 58, blue: 58, alpha: 1)
 //        cell.backgroundColor = .clear
+        if array[indexPath.row] == selectedCategory {
+            cell.backgroundColor = .gray
+        }else {
+            cell.backgroundColor = .clear
+        }
         return cell
     }
 
+}
+
+//MARK: - CollectionView Delegate
+extension SectionHeaderDetailPlayerVC: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedCollectionIndex = indexPath.row
+        selectedCategory = array[indexPath.row]
+        
+        collectionView.reloadData()
+        tableView.reloadData()
+    }
 }
 
 //MARK: - CollectionView Delegate: Cell Layout Size
@@ -216,42 +238,63 @@ extension SectionHeaderDetailPlayerVC: UICollectionViewDelegateFlowLayout{
 extension SectionHeaderDetailPlayerVC: UITableViewDataSource {
     //section
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if selectedCollectionIndex != 0 {
+            return array[selectedCollectionIndex]
+        }
         return array[section]
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        if selectedCollectionIndex != 0{
+            return 1
+        }
         return array.count
     }
     
     //cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return Database.playerInfoArray.count
-        if section == 0 {
-            return playerStatisticsData.count
-        }else if section == 1 {
-            return playerStatisticsAssistsData.count
-        }else if section == 2 {
-            return playerStatisticsRedCardData.count
-        }else if section == 3 {
-            return playerStatisticsYellowCardData.count
+        /*
+         ["ALL", "GOALS SCORED", "ASSISTS", "RED CARD", "YELLOW CARD"]
+         */
+        if selectedCollectionIndex != 0 {
+            if selectedCollectionIndex == 1 {
+                return playerStatisticsGoals.count
+            }else if selectedCollectionIndex == 2 {
+                return playerStatisticsAssistsData.count
+            }else if selectedCollectionIndex == 3 {
+                return playerStatisticsRedCardData.count
+            }else if selectedCollectionIndex == 4 {
+                return playerStatisticsYellowCardData.count
+            }
+        }else {
+            if section == 1 {
+                return playerStatisticsGoals.count
+            }else if section == 2 {
+                return playerStatisticsAssistsData.count
+            }else if section == 3 {
+                return playerStatisticsRedCardData.count
+            }else if section == 4 {
+                return playerStatisticsYellowCardData.count
+            }
         }
-        return playerStatisticsData.count
+        return 0
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SectionHeaderPlayerTableViewCell.IDENTIFIER, for: indexPath) as! SectionHeaderPlayerTableViewCell
         cell.backgroundColor = .clear
 //        cell.setInfo(with: Database.playerInfoArray[indexPath.row])
-        if indexPath.section == 0 {
-            cell.setInfo(with: playerStatisticsData[indexPath.row])
-        }else if indexPath.section == 1 {
-            cell.setInfo(with: playerStatisticsAssistsData[indexPath.row])
+        if indexPath.section == 1 {
+            cell.setInfo(with: playerStatisticsGoals[indexPath.row])
         }else if indexPath.section == 2 {
-            cell.setInfo(with: playerStatisticsRedCardData[indexPath.row])
+            cell.setInfo(with: playerStatisticsAssistsData[indexPath.row])
         }else if indexPath.section == 3 {
+            cell.setInfo(with: playerStatisticsRedCardData[indexPath.row])
+        }else if indexPath.section == 4 {
             cell.setInfo(with: playerStatisticsYellowCardData[indexPath.row])
         }else {
-            cell.setInfo(with: playerStatisticsData[indexPath.row])
+            cell.setInfo(with: playerStatisticsGoals[indexPath.row])
         }
 //        cell.setInfo(with: playerStatisticsData[indexPath.row])
         return cell

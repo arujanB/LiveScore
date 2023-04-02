@@ -12,6 +12,7 @@ class MainTableViewCell: UITableViewCell {
 
     var scoreEnum: ScoreSegment = .today
     var mainGameDataFromScore: [MainGameDatum] = []
+    var mainGameDataFromScoreScreen: [MainGameDatum] = []
     
     var outputDetail: ((Int) -> Void)?
     

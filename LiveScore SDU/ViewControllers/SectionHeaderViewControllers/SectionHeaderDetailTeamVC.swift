@@ -132,12 +132,10 @@ extension SectionHeaderDetailTeamVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Get the data for the selected item
         let category = array[indexPath.row]
-
         selectedCategory = category
                 
         collectionView.reloadData()
         selectedCollectionIndex = indexPath.row
-        // Reload the table view with the data corresponding to the selected item
         tableView.reloadData()
     }
 }

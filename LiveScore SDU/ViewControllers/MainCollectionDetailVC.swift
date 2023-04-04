@@ -13,17 +13,20 @@ class MainCollectionDetailVC: UIViewController {
     
     let apiCaller = APICaller()
     
+    var protocolID = 0
     var mainDataCell: MainCellData?
     var events: [Event] = []
     
-    private lazy var group1NameString: String? = {
+    private lazy var group1NameString: String = {
         guard let team1 = mainDataCell?.team1 else {
             return "nil"
         }
         return team1
     }()
     
-    private lazy var group1Name = groupName(group: group1NameString!)
+//    private lazy var group1NameString = mainDataCell?.team1
+    
+    private lazy var group1Name = groupName(group: "mainGameDataScreenScore.")
     private lazy var group2Name = groupName(group: "Barabar")
     
     private lazy var group1Img = groupImg(img: "barbara")
@@ -142,6 +145,7 @@ class MainCollectionDetailVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 0.098, green: 0.098, blue: 0.098, alpha: 1)
         fetchAPI()
+        print(protocolID)
         
         myGoalTableView1.dataSource = self
         myGoalTableView1.delegate = self
@@ -159,6 +163,8 @@ class MainCollectionDetailVC: UIViewController {
     }
     
     func fetchAPI() {
+//        var dataa: MainCellData
+        
         apiCaller.fetchRequestMainCell(completion: { [weak self] values in
             DispatchQueue.main.async {
                 guard let self else { return }
@@ -166,8 +172,13 @@ class MainCollectionDetailVC: UIViewController {
                 self.infoTableView.reloadData()
                 self.myGoalTableView1.reloadData()
                 self.myGoalTableView2.reloadData()
+//                guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
+                print("CELL\(self.mainDataCell)")
+                guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
+                print("DATA: \(data)")
             }
         }, protocolId: 1)
+        
     }
     
     func groupName(group name:String) -> UILabel {

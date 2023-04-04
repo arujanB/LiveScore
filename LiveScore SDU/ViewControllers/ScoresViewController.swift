@@ -13,21 +13,13 @@ protocol ProtocolForHeader {
 }
 
 final class ScoresViewController: UIViewController {
-//    var delegate: ProtocolForHeader?
-//    var sectionArray: NameLocationData?
-//
-//    func fetchData(){
-//        delegate?.getHeaderData(with: sectionArray!)
-//    }
-    
-//    var data:[String] = dataString()
     
     var apiCaller = APICaller()
     var mainGameData: [MainGameDatum] = []
     var mainGameDataScreen: [MainGameDatum] = []
     
     //enum segment
-    private var scoreSegmentEnum: ScoreSegment = .today
+    private var scoreSegmentEnum: ScoreSegment = .first
     
     var dateArray: [DateModel] = []
     
@@ -114,36 +106,50 @@ final class ScoresViewController: UIViewController {
     @objc func segmentControlValuChanged(_ sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0 {
             selectedSegmentIndex = 0
-            selectedCategory = "\(createBTN()[1].month) \(createBTN()[1].day)"
+            selectedCategory = "\(createBTN()[1].year)-\(createBTN()[1].monthNumber)-\(createBTN()[1].dayWith0)"
             
             scoreSegmentEnum = .first
-//            view.backgroundColor = .yellow
-            myTableView.reloadData()
+            self.myTableView.reloadSections([0], with: .none)
         }else if sender.selectedSegmentIndex == 1 {
             selectedSegmentIndex = 1
-            selectedCategory = "\(createBTN()[2].month) \(createBTN()[2].day)"
+            selectedCategory = "\(createBTN()[2].year)-\(createBTN()[2].monthNumber)-\(createBTN()[2].dayWith0)"
             
             scoreSegmentEnum = .yesterday
-            myTableView.reloadData()
+            
+            self.myTableView.reloadSections([0], with: .none)
         }else if sender.selectedSegmentIndex == 2 {
             selectedSegmentIndex = 2
-            selectedCategory = "\(createBTN()[3].month) \(createBTN()[3].day)"
+            selectedCategory = "\(createBTN()[3].year)-\(createBTN()[3].monthNumber)-\(createBTN()[3].dayWith0)"
             
             scoreSegmentEnum = .today
-            myTableView.reloadData()
+            self.myTableView.reloadSections([0], with: .none)
         }else if sender.selectedSegmentIndex == 3 {
             selectedSegmentIndex = 3
-            selectedCategory = "\(createBTN()[4].month) \(createBTN()[4].day)"
+            selectedCategory = "\(createBTN()[4].year)-\(createBTN()[4].monthNumber)-\(createBTN()[4].dayWith0)"
             
             scoreSegmentEnum = .tomorrow
-            myTableView.reloadData()
+            self.myTableView.reloadSections([0], with: .none)
         }else {
             selectedSegmentIndex = 4
-            selectedCategory = "\(createBTN()[5].month) \(createBTN()[5].day)"
+            selectedCategory = "\(createBTN()[5].year)-\(createBTN()[5].monthNumber)-\(createBTN()[5].dayWith0)"
             
             scoreSegmentEnum = .last
-            myTableView.reloadData()
+            self.myTableView.reloadSections([0], with: .none)
         }
+        
+        selectedSegmentIndex = sender.selectedSegmentIndex
+        selectedCategory = "\(createBTN()[selectedSegmentIndex].year)-\(createBTN()[selectedSegmentIndex].monthNumber)-\(createBTN()[selectedSegmentIndex].dayWith0)"
+        
+        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.mainGameDataScreen = values
+                self.myTableView.reloadSections([0], with: .none)
+//                self.myTableView.reloadData()
+                print("screen\(self.mainGameDataScreen)")
+            }
+        }, date: selectedCategory)
+        self.myTableView.reloadSections([0], with: .none)
     }
     
     
@@ -181,27 +187,6 @@ final class ScoresViewController: UIViewController {
         
         myTableView.dataSource = self
         myTableView.delegate = self
-        
-        //Change TRY something
-        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                self.mainGameDataScreen = values
-                self.myTableView.reloadSections([0], with: .none)
-//                self.myTableView.reloadData()
-                print("screen\(self.mainGameDataScreen)")
-
-            }
-        }, date: selectedCategory)
-        //
-        
-//        apiCaller.fetchRequestMainGame { [weak self] values in
-//            DispatchQueue.main.async {
-//                guard let self else { return }
-//                self.mainGameData = values
-//                self.myTableView.reloadData()
-//            }
-//        }
         
 //        apiCaller.fetchRequestMainGame(completion: { [weak self] values in
 //            DispatchQueue.main.async {
@@ -256,8 +241,6 @@ final class ScoresViewController: UIViewController {
             apiCaller.fetchRequestMainGame(completion: { [weak self] values in
                 DispatchQueue.main.async {
                     guard let self else { return }
-//                    mainGameData.removeAll()
-//                    self.mainGameData = values
                     self.mainGameData.append(contentsOf: values)
                     self.myTableView.reloadSections([0], with: .none)
                     print("men\(self.mainGameData)")
@@ -323,7 +306,16 @@ final class ScoresViewController: UIViewController {
             
             print(weekdayString)
             
-            let data = DateModel(week: weekdayString.uppercased(), day: "\(day)", month: monthString.uppercased())
+            let year = calendar.component(.year, from: date) // extract the year component from the date
+            print(year)
+            
+            let monthNumber = String(format: "%02d", Calendar.current.component(.month, from: date))
+            print(monthNumber) // Output: "04"
+            
+            let dayNumber = String(format: "%02d", day)
+            print("DAY with 0: \(dayNumber)") // Ex: if day 4 -> give 04
+            
+            let data = DateModel(week: weekdayString.uppercased(), day: "\(day)", month: monthString.uppercased(), year: "\(year)", monthNumber: monthNumber, dayWith0: dayNumber)
             print(data)
             
             dateData.append(data)
@@ -331,20 +323,6 @@ final class ScoresViewController: UIViewController {
         
         return dateData
     }
-
-//    @objc func switchChangeButton(_ buttoon: UIButton) {
-//        switch buttoon.tag {
-//        case 0:
-//            let vc = FavoritesViewController()
-//            navigationController?.present(vc, animated: true)
-//            print("helllo")
-//        case 1:
-//            let vc = RefreshViewController()
-//            navigationController?.present(vc, animated: true)
-//        default:
-//            break
-//        }
-//    }
     
 }
 
@@ -352,7 +330,6 @@ final class ScoresViewController: UIViewController {
 extension ScoresViewController: UITableViewDataSource{
     //section
     func numberOfSections(in tableView: UITableView) -> Int {
-        //Database.nameLocationDataArray.count
         return 1
     }
     
@@ -364,10 +341,6 @@ extension ScoresViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = SectionHearderView()
         view.setInfo(with: Database.nameLocationDataArray[section])
-        
-        //pro
-//        sectionArray = NameLocationData(footballName: Database.nameLocationDataArray[section].footballName, location: Database.nameLocationDataArray[section].location, logo: Database.nameLocationDataArray[section].logo)
-//        //
         
         view.outputDetail = { [weak self] data in
             let vc = SectionHeaderDetailMainVC()
@@ -388,25 +361,29 @@ extension ScoresViewController: UITableViewDataSource{
 //        cell.setNameLabel(with: row[indexPath.row])
         cell.backgroundColor = .clear
         
-        cell.scoreEnum = .today
-        cell.mainGameDataFromScore.removeAll()
+//        cell.mainGameDataFromScore.removeAll()
         print("CELL: \(mainGameData)")
         print("MAIN CELL\(cell.mainGameDataFromScore)")
+        print("Screen CELL\(cell.mainGameDataFromScoreScreen)")
         
-        cell.mainGameDataFromScore = mainGameData
+        cell.scoreEnum = scoreSegmentEnum
+        cell.selectedCategoryScreen = selectedCategory
         cell.mainGameDataFromScoreScreen = mainGameDataScreen
         
+        print("mainGameDataScreen \(mainGameDataScreen)")
+        cell.mainGameDataFromScore = mainGameData
         print("AFTER MAIN CELL\(cell.mainGameDataFromScore)")
-//        tableView.reloadData()
+        
         cell.outputDetail = { id in
             let vc = MainCollectionDetailVC()
             self.navigationController?.pushViewController(vc, animated: true)
+            vc.protocolID = id
         }
+        
+        cell.reload()
         
         return cell
     }
-    
-
 }
 
 //MARK: - TableView Delegate
@@ -414,10 +391,6 @@ extension ScoresViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 400
 //        return 100 * CGFloat(Database.nameLocationDataArray.count)
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
 }
 

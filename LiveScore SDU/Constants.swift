@@ -66,6 +66,9 @@ struct DateModel {
     var week: String
     var day: String
     var month: String
+    var year: String
+    var monthNumber: String
+    var dayWith0: String
 }
 
  typealias DateData = [DateModel]

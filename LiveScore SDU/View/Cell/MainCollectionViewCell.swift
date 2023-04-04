@@ -120,10 +120,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    func configure(with model: MainGameDatum, enum e: ScoreSegment) {
-//        if e == .today{
-            
-        
+    func configure(with model: MainGameDatum) {
         group1.text = model.team1Name
         group2.text = model.team2Name
         
@@ -148,7 +145,6 @@ class MainCollectionViewCell: UICollectionViewCell {
         }else {
             time.text = "FT"
         }
-//        }
     }
     
     override init(frame: CGRect) {

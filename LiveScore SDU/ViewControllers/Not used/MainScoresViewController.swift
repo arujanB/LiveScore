@@ -234,7 +234,17 @@ class MainScoresViewController: UIViewController {
             
             print(weekdayString)
             
-            let data = DateModel(week: weekdayString.uppercased(), day: "\(day)", month: monthString.uppercased())
+            let year = calendar.component(.year, from: date) // extract the year component from the date
+            let yearString = dateFormatter.string(from: date)
+            print(year)
+            
+            let monthNumber = String(format: "%02d", Calendar.current.component(.month, from: date))
+            print(monthNumber) // Output: "04"
+            
+            let dayNumber = String(format: "%02d", day)
+            print("DAY with 0: \(dayNumber)") // Ex: if day 4 -> give 04
+            
+            let data = DateModel(week: weekdayString.uppercased(), day: "\(day)", month: monthString.uppercased(), year: yearString, monthNumber: monthNumber, dayWith0: dayNumber)
             print(data)
             
             dateData.append(data)

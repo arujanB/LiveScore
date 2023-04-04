@@ -13,6 +13,7 @@ class MainTableViewCell: UITableViewCell {
     var scoreEnum: ScoreSegment = .today
     var mainGameDataFromScore: [MainGameDatum] = []
     var mainGameDataFromScoreScreen: [MainGameDatum] = []
+    var selectedCategoryScreen = ""
     
     var outputDetail: ((Int) -> Void)?
     
@@ -44,12 +45,16 @@ class MainTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func reload() {
+        mainCollectionView.reloadData()
+    }
 }
 
 //MARK: - CollectionView DataSource
 extension MainTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return mainGameDataFromScore.count
+//        return mainGameDataFromScore.count
+        return mainGameDataFromScoreScreen.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -58,16 +63,17 @@ extension MainTableViewCell: UICollectionViewDataSource {
         cell.layer.masksToBounds = true
         cell.layer.borderColor = .init(red: 0.104, green: 0.104, blue: 0.104, alpha: 1)
         cell.layer.borderWidth = 1
-//        if scoreEnum == .today {
-            print("Main TableView cell\(mainGameDataFromScore)")
+        print("Main TableView cell\(mainGameDataFromScore)")
+        print("Main TableView cell\(mainGameDataFromScoreScreen)")
         
-        cell.configure(with: mainGameDataFromScore[indexPath.row], enum: scoreEnum)
-            cell.backgroundColor = .gray
-            cell.outputDetail = {
-                self.outputDetail?(indexPath.row)
-            }
-//        }
-//        cell.setData(with: Database.gameScoreDataArray[indexPath.row])
+        cell.configure(with: mainGameDataFromScoreScreen[indexPath.row])
+        cell.backgroundColor = .gray
+        cell.outputDetail = {
+            self.outputDetail?(indexPath.row)
+        }
+//        let indexPath = IndexPath(item: mainGameDataFromScoreScreen[indexPath.row].protocolID, section: 0)
+//        collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
+        
         
         return cell
     }
@@ -76,10 +82,7 @@ extension MainTableViewCell: UICollectionViewDataSource {
 
 extension MainTableViewCell: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Hello")
         outputDetail?(indexPath.row)
-//            let vc = MainCollectionDetailVC()
-//            collectionView.navigationController?.pushViewController(vc, animated: true)
     }
 
 }

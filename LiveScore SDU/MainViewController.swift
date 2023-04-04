@@ -21,7 +21,7 @@ class MainViewController: UITabBarController {
         
         
         let vc1 = UINavigationController(rootViewController: ScoresViewController())
-        let vc2 = UINavigationController(rootViewController: MainCollectionDetailVC())
+        let vc2 = UINavigationController(rootViewController: FavoritesViewController())
         let vc3 = UINavigationController(rootViewController: RefreshViewController())
         
         vc1.tabBarItem.image = UIImage(systemName: "soccerball.inverse")

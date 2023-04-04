@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - MainCellData
 struct MainCellData: Codable {
-    let protocolId, gameId: Int
+    var protocolId, gameId: Int
     let team1, team2: String
     let team1Logo: String
     let team2Logo: String

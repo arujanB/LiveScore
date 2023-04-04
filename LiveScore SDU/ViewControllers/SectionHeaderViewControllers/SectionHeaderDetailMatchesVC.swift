@@ -61,7 +61,7 @@ extension SectionHeaderDetailMatchesVC: UITableViewDataSource{
         cell.backgroundColor = UIColor.init(red: 0.118, green: 0.118, blue: 0.118, alpha: 1)
         
         cell.outputDetail = {
-            let vc = MainCollectionDetailVC()
+            let vc = RefreshViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
         

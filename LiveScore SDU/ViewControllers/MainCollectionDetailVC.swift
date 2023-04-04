@@ -7,37 +7,37 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class MainCollectionDetailVC: UIViewController {
     static let IDENTIFIER = "MyCollectionDetailVC"
     
-    let apiCaller = APICaller()
-    
-    var protocolID = 0
-    var mainDataCell: MainCellData?
+    var mainDataCellData: MainCellData?
     var events: [Event] = []
     
-    private lazy var group1NameString: String = {
-        guard let team1 = mainDataCell?.team1 else {
-            return "nil"
-        }
-        return team1
-    }()
+    init(model: MainCellData) {
+        self.mainDataCellData = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 //    private lazy var group1NameString = mainDataCell?.team1
     
-    private lazy var group1Name = groupName(group: "mainGameDataScreenScore.")
-    private lazy var group2Name = groupName(group: "Barabar")
+    private lazy var group1Name = groupName(group: mainDataCellData!.team1)
+    private lazy var group2Name = groupName(group: mainDataCellData!.team2)
     
-    private lazy var group1Img = groupImg(img: "barbara")
-    private lazy var group2Img = groupImg(img: "barbara")
+    private lazy var group1Img = groupImg(img: mainDataCellData!.team1Logo)
+    private lazy var group2Img = groupImg(img: mainDataCellData!.team2Logo)
     
     private lazy var nameLogo1: UIStackView = logoNameStackView(logo: group1Img, name: group1Name)
     private lazy var nameLogo2: UIStackView = logoNameStackView(logo: group2Img, name: group2Name)
    
     private lazy var score: UILabel = {
         let label = UILabel()
-        label.text = mainDataCell?.gameScore ?? "0-23"
+        label.text = mainDataCellData!.gameScore
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 27)
         label.textColor = UIColor(red: 0.788, green: 0.788, blue: 0.788, alpha: 1)
@@ -144,8 +144,6 @@ class MainCollectionDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 0.098, green: 0.098, blue: 0.098, alpha: 1)
-        fetchAPI()
-        print(protocolID)
         
         myGoalTableView1.dataSource = self
         myGoalTableView1.delegate = self
@@ -160,25 +158,13 @@ class MainCollectionDetailVC: UIViewController {
         setUpConstrains()
         
         setNav()
-    }
-    
-    func fetchAPI() {
-//        var dataa: MainCellData
         
-        apiCaller.fetchRequestMainCell(completion: { [weak self] values in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                self.mainDataCell = values
-                self.infoTableView.reloadData()
-                self.myGoalTableView1.reloadData()
-                self.myGoalTableView2.reloadData()
-//                guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
-                print("CELL\(self.mainDataCell)")
-                guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
-                print("DATA: \(data)")
-            }
-        }, protocolId: 1)
+        print(mainDataCellData)
+        events = mainDataCellData!.events
         
+        self.infoTableView.reloadData()
+        self.myGoalTableView1.reloadData()
+        self.myGoalTableView2.reloadData()
     }
     
     func groupName(group name:String) -> UILabel {
@@ -193,9 +179,11 @@ class MainCollectionDetailVC: UIViewController {
     }
     func groupImg(img name: String) -> UIImageView {
         let img = UIImageView()
-        img.image = UIImage(named: name)
         img.contentMode = .scaleAspectFit
 //        img.sizeThatFits(CGSize.init(width: 7, height: 5))
+        
+        let url = URL(string: name)!
+        img.kf.setImage(with: url)
             
         return img
     }
@@ -233,16 +221,20 @@ class MainCollectionDetailVC: UIViewController {
 extension MainCollectionDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == infoTableView {
-            return 5
-        } else if tableView == myGoalTableView1 {
-            return Database.gameScoreDataArray.count
+            return events.count
         }
-        return Database.gameScoreDataArray.count
+        
+        return mainDataCellData!.events.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == infoTableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: MainCollectionDetailInfoCell.IDENTIFIER, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: MainCollectionDetailInfoCell.IDENTIFIER, for: indexPath) as! MainCollectionDetailInfoCell
+            cell.configure(with: events[indexPath.row], with: mainDataCellData!)
+            return cell
+        }else if tableView == myGoalTableView1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: MainCollectionDetailGoalCell.IDENTIFIER, for: indexPath) as! MainCollectionDetailGoalCell
+            cell.configure1(with: events[indexPath.row], with: mainDataCellData!)
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: MainCollectionDetailGoalCell.IDENTIFIER, for: indexPath)

@@ -57,6 +57,27 @@ class MainCollectionDetailGoalCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure1(with events: Event, with mainCell: MainCellData) {
+        if mainCell.team1Id == events.teamId{
+            name.text = events.playerName
+
+            if events.eventName == "GOAL"{
+                goalScore.text = "\(events.minute)"
+            }
+        }
+    }
+    
+    func configure2(with events: Event, with mainCell: MainCellData) {
+        if mainCell.team2Id == events.teamId{
+            name.text = events.playerName
+
+            if events.eventName == "GOAL"{
+                goalScore.text = "\(events.minute)"
+            }
+        }
+    }
+
+    
 }
 //MARK: - SetUpViews & setUpConstrains
 extension MainCollectionDetailGoalCell {

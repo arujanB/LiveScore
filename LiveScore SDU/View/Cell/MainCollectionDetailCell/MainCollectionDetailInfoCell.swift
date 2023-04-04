@@ -10,6 +10,14 @@ import UIKit
 class MainCollectionDetailInfoCell: UITableViewCell {
     static let IDENTIFIER = "MainCollectionDetailInfoCell"
     
+    var eventsData: [Event] = []
+    
+//    var mainDataCellDataTeam: MainCellData?
+    
+    
+    var teamId1 = 0
+    var teamId2 = 0
+    
     private lazy var numberLabel: UILabel = myLabel(with: "5+2")
     
     private lazy var score: UILabel = {
@@ -19,11 +27,11 @@ class MainCollectionDetailInfoCell: UITableViewCell {
         label.textColor = .white
         return label
     }()
-    private lazy var name1Group: UILabel = myLabel(with: "Luccas Tarro")
-    private lazy var name2Group: UILabel = myLabel(with: "Default")
+    private lazy var name1Group: UILabel = myLabel2(with: "Luccas Tarro")
+    private lazy var name2Group: UILabel = myLabel2(with: "Default")
 
-    private lazy var img1Group: UIImageView = myImg(with: "ball")
-    private lazy var img2Group: UIImageView = myImg(with: "yellowCard")
+    private lazy var img1Group: UIImageView = myImg(with: " ")
+    private lazy var img2Group: UIImageView = myImg(with: " ")
 
     private lazy var stackViewMainName: UIStackView = {
         var stackView = UIStackView()
@@ -59,6 +67,10 @@ class MainCollectionDetailInfoCell: UITableViewCell {
         
         setUpViews()
         setUpConstrains()
+        
+//        print(mainDataCellDataTeam)
+//        teamId1
+//        teamId2
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +85,16 @@ class MainCollectionDetailInfoCell: UITableViewCell {
         return label
     }
     
+    func myLabel2(with value: String) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10.5)
+        label.text = value
+        label.textColor = .white
+        label.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        
+        return label
+    }
+    
     func myImg(with named: String) -> UIImageView {
         let img = UIImageView()
         img.image = UIImage(named: named)
@@ -84,13 +106,44 @@ class MainCollectionDetailInfoCell: UITableViewCell {
         return img
     }
     
-    func setInfo(with data: PlayerStatisticsDatum){
-//        self.id.text = "\(data.perGame)"
-        self.name1Group.text = "\(data.playerName)"
-        self.numberLabel.text = "\(data.total)"
+//    func setInfo(with data: PlayerStatisticsDatum){
+////        self.id.text = "\(data.perGame)"
+//        self.name1Group.text = "\(data.playerName)"
+//        self.numberLabel.text = "\(data.total)"
+//        
+//        let url = URL(string: data.teamLogo)!
+//        img1Group.kf.setImage(with: url)
+//    }
+    
+    func configure(with events: Event, with mainCell: MainCellData) {
+        numberLabel.text = "\(events.minute)"
+        score.text = events.gameScore
         
-        let url = URL(string: data.teamLogo)!
-        img1Group.kf.setImage(with: url)
+        if mainCell.team1Id == events.teamId{
+            name1Group.text = events.playerName
+            name2Group.text = " "
+            
+            if events.eventName == "GOAL"{
+                img1Group.image = UIImage(named: "ball")
+            }else if events.eventName == "YELLOW_CARD"{
+                img1Group.image = UIImage(named: "yellowCard")
+            }else {
+                img1Group.image = UIImage(named: "redCard")
+            }
+        }
+        
+        if mainCell.team2Id == events.teamId {
+            name1Group.text = " "
+            name2Group.text = events.playerName
+            
+            if events.eventName == "GOAL"{
+                img2Group.image = UIImage(named: "ball")
+            }else if events.eventName == "YELLOW_CARD"{
+                img2Group.image = UIImage(named: "yellowCard")
+            }else {
+                img2Group.image = UIImage(named: "redCard")
+            }
+        }
     }
     
 }

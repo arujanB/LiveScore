@@ -18,6 +18,9 @@ final class ScoresViewController: UIViewController {
     var mainGameData: [MainGameDatum] = []
     var mainGameDataScreen: [MainGameDatum] = []
     
+    var mainDataCell: MainCellData?
+    var detailData:[MainCellData] = []
+    
     //enum segment
     private var scoreSegmentEnum: ScoreSegment = .first
     
@@ -137,7 +140,7 @@ final class ScoresViewController: UIViewController {
             self.myTableView.reloadSections([0], with: .none)
         }
         
-        selectedSegmentIndex = sender.selectedSegmentIndex
+        selectedSegmentIndex = sender.selectedSegmentIndex + 1
         selectedCategory = "\(createBTN()[selectedSegmentIndex].year)-\(createBTN()[selectedSegmentIndex].monthNumber)-\(createBTN()[selectedSegmentIndex].dayWith0)"
         
         apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
@@ -176,6 +179,7 @@ final class ScoresViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        fetchData()
+        fetchMainCollectionDetailVCAPI()
         
         segmentControll.selectedSegmentIndex = 2
         buttonICON.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
@@ -249,7 +253,6 @@ final class ScoresViewController: UIViewController {
             }, date: formattedDate)
             
             print(formattedDate)
-//            print("DateTo:\(String(describing: self.dateTo))")
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 
@@ -271,7 +274,6 @@ final class ScoresViewController: UIViewController {
         
         for index in -3..<0 {
             let yesterday = Calendar.current.date(byAdding: .day, value: index, to: currentDate)
-    //        let dateString = dateFormatter.string(from: yesterday!)
             array.append(yesterday!)
         }
         
@@ -324,6 +326,22 @@ final class ScoresViewController: UIViewController {
         return dateData
     }
     
+    func fetchMainCollectionDetailVCAPI() {
+//        var dataa: MainCellData
+        
+        apiCaller.fetchRequestMainCell(completion: { [weak self] values in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.mainDataCell = values
+//                guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
+                print("CELL\(self.mainDataCell)")
+                guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
+                print("DATA: \(data)")
+            }
+        }, protocolId: 1)
+        
+    }
+    
 }
 
 //MARK: - tableView DataSource
@@ -374,10 +392,22 @@ extension ScoresViewController: UITableViewDataSource{
         cell.mainGameDataFromScore = mainGameData
         print("AFTER MAIN CELL\(cell.mainGameDataFromScore)")
         
+        //MARK: - MainCollectionDetailVC
         cell.outputDetail = { id in
-            let vc = MainCollectionDetailVC()
-            self.navigationController?.pushViewController(vc, animated: true)
-            vc.protocolID = id
+            self.mainDataCell?.protocolId = self.mainGameDataScreen[id].protocolID
+                let vc = MainCollectionDetailVC(model: self.mainDataCell!)
+                self.navigationController?.pushViewController(vc, animated: true)
+
+//            let vc = MainCollectionDetailVC(model: self.detailData[id])
+            
+            
+            
+            //            [weak self] id in // capture self as weak to avoid retain cycle
+            //            guard var mainDataCell = self?.mainDataCell else { return } // capture mainDataCell as a variable
+            //
+            //            mainDataCell.protocolId = id // update the value of protocolId
+            //            let vc = MainCollectionDetailVC(model: mainDataCell)
+            //            self?.navigationController?.pushViewController(vc, animated: true)
         }
         
         cell.reload()

@@ -13,7 +13,7 @@ class SectionHeaderPlayerTableViewCell: UITableViewCell {
     
     static let IDENTIFIER = "SectionHeaderPlayerTableViewCell"
     
-    private lazy var id: UILabel = myLabel(with: "1")
+    private lazy var id: UILabel = myLabel(with: " ")
     private lazy var name: UILabel = myLabel(with: "Default")
 
     private lazy var img: UIImageView = {

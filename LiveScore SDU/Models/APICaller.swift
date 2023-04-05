@@ -63,7 +63,7 @@ struct APICaller {
             guard let data else { return }
             if let dataCell = try? JSONDecoder().decode(MainCellData.self, from: data) {
                 completion(dataCell)
-//                print("AAAAAAA...............AAAAAAAAA\(dataCell.gameId)")
+                print("AAAAAAA...............AAAAAAAAA\(dataCell.events)")
             }else {
                 print("FAIL UUUUUU")
             }

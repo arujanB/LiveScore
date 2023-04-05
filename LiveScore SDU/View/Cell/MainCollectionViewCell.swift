@@ -137,14 +137,15 @@ class MainCollectionViewCell: UICollectionViewCell {
         score2.text = components[1]
         
         let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        let date = format.date(from: model.gameDateTime)
         format.dateFormat = "HH:mm"
         
-        if let date = format.date(from: model.gameDateTime) {
-            time.text = format.string(from: date)
-//            time.text = "\(String(describing: format.date(from: model.gameDateTime)))"
-        }else {
-            time.text = "FT"
-        }
+//        if  {
+            time.text = format.string(from: date!)
+//        }else {
+//            time.text = "FT"
+//        }
     }
     
     override init(frame: CGRect) {

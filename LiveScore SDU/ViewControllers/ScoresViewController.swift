@@ -19,6 +19,8 @@ final class ScoresViewController: UIViewController {
     var mainGameDataScreen: [MainGameDatum] = []
     
     var mainDataCell: MainCellData?
+//    var mainDataCell: [MainCellData]?
+    
     var detailData:[MainCellData] = []
     
     //enum segment
@@ -111,11 +113,31 @@ final class ScoresViewController: UIViewController {
             selectedSegmentIndex = 0
             selectedCategory = "\(createBTN()[1].year)-\(createBTN()[1].monthNumber)-\(createBTN()[1].dayWith0)"
             
+            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.mainGameDataScreen = values
+                    self.myTableView.reloadSections([0], with: .none)
+    //                self.myTableView.reloadData()
+                    print("screen\(self.mainGameDataScreen)")
+                }
+            }, date: selectedCategory)
+            
             scoreSegmentEnum = .first
             self.myTableView.reloadSections([0], with: .none)
         }else if sender.selectedSegmentIndex == 1 {
             selectedSegmentIndex = 1
             selectedCategory = "\(createBTN()[2].year)-\(createBTN()[2].monthNumber)-\(createBTN()[2].dayWith0)"
+            
+            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.mainGameDataScreen = values
+                    self.myTableView.reloadSections([0], with: .none)
+    //                self.myTableView.reloadData()
+                    print("screen\(self.mainGameDataScreen)")
+                }
+            }, date: selectedCategory)
             
             scoreSegmentEnum = .yesterday
             
@@ -124,11 +146,31 @@ final class ScoresViewController: UIViewController {
             selectedSegmentIndex = 2
             selectedCategory = "\(createBTN()[3].year)-\(createBTN()[3].monthNumber)-\(createBTN()[3].dayWith0)"
             
+            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.mainGameDataScreen = values
+                    self.myTableView.reloadSections([0], with: .none)
+    //                self.myTableView.reloadData()
+                    print("screen\(self.mainGameDataScreen)")
+                }
+            }, date: selectedCategory)
+            
             scoreSegmentEnum = .today
             self.myTableView.reloadSections([0], with: .none)
         }else if sender.selectedSegmentIndex == 3 {
             selectedSegmentIndex = 3
             selectedCategory = "\(createBTN()[4].year)-\(createBTN()[4].monthNumber)-\(createBTN()[4].dayWith0)"
+            
+            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.mainGameDataScreen = values
+                    self.myTableView.reloadSections([0], with: .none)
+    //                self.myTableView.reloadData()
+                    print("screen\(self.mainGameDataScreen)")
+                }
+            }, date: selectedCategory)
             
             scoreSegmentEnum = .tomorrow
             self.myTableView.reloadSections([0], with: .none)
@@ -136,22 +178,32 @@ final class ScoresViewController: UIViewController {
             selectedSegmentIndex = 4
             selectedCategory = "\(createBTN()[5].year)-\(createBTN()[5].monthNumber)-\(createBTN()[5].dayWith0)"
             
+            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.mainGameDataScreen = values
+                    self.myTableView.reloadSections([0], with: .none)
+    //                self.myTableView.reloadData()
+                    print("screen\(self.mainGameDataScreen)")
+                }
+            }, date: selectedCategory)
+            
             scoreSegmentEnum = .last
             self.myTableView.reloadSections([0], with: .none)
         }
         
-        selectedSegmentIndex = sender.selectedSegmentIndex + 1
-        selectedCategory = "\(createBTN()[selectedSegmentIndex].year)-\(createBTN()[selectedSegmentIndex].monthNumber)-\(createBTN()[selectedSegmentIndex].dayWith0)"
+//        selectedSegmentIndex = sender.selectedSegmentIndex + 1
+//        selectedCategory = "\(createBTN()[selectedSegmentIndex].year)-\(createBTN()[selectedSegmentIndex].monthNumber)-\(createBTN()[selectedSegmentIndex].dayWith0)"
         
-        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                self.mainGameDataScreen = values
-                self.myTableView.reloadSections([0], with: .none)
-//                self.myTableView.reloadData()
-                print("screen\(self.mainGameDataScreen)")
-            }
-        }, date: selectedCategory)
+//        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+//            DispatchQueue.main.async {
+//                guard let self else { return }
+//                self.mainGameDataScreen = values
+//                self.myTableView.reloadSections([0], with: .none)
+////                self.myTableView.reloadData()
+//                print("screen\(self.mainGameDataScreen)")
+//            }
+//        }, date: selectedCategory)
         self.myTableView.reloadSections([0], with: .none)
     }
     
@@ -394,20 +446,22 @@ extension ScoresViewController: UITableViewDataSource{
         
         //MARK: - MainCollectionDetailVC
         cell.outputDetail = { id in
-            self.mainDataCell?.protocolId = self.mainGameDataScreen[id].protocolID
-                let vc = MainCollectionDetailVC(model: self.mainDataCell!)
-                self.navigationController?.pushViewController(vc, animated: true)
+            self.apiCaller.fetchRequestMainCell(completion: { [weak self] values in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.mainDataCell?.protocolId = self.mainGameDataScreen[id].protocolID
+                    let vc = MainCollectionDetailVC(model: values)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                    guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
+                    print("DATA: \(data)")
+                }
+            }, protocolId: self.mainGameDataScreen[id].protocolID)
+            
+//            self.mainDataCell?.protocolId = self.mainGameDataScreen[id].protocolID
+//                            let vc = MainCollectionDetailVC(model: self.mainDataCell!)
+//                            self.navigationController?.pushViewController(vc, animated: true)
 
-//            let vc = MainCollectionDetailVC(model: self.detailData[id])
             
-            
-            
-            //            [weak self] id in // capture self as weak to avoid retain cycle
-            //            guard var mainDataCell = self?.mainDataCell else { return } // capture mainDataCell as a variable
-            //
-            //            mainDataCell.protocolId = id // update the value of protocolId
-            //            let vc = MainCollectionDetailVC(model: mainDataCell)
-            //            self?.navigationController?.pushViewController(vc, animated: true)
         }
         
         cell.reload()

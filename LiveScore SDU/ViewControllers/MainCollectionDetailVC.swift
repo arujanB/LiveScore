@@ -19,6 +19,10 @@ class MainCollectionDetailVC: UIViewController {
         self.mainDataCellData = model
         super.init(nibName: nil, bundle: nil)
     }
+//    init(model: MainCellData) {
+//        self.mainDataCellData = model
+//        super.init(nibName: nil, bundle: nil)
+//    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -205,9 +209,27 @@ class MainCollectionDetailVC: UIViewController {
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
+        tableView.backgroundColor = .clear
         
         let cellHeight = CGFloat(20)
-        let tableHeight = CGFloat(Database.gameScoreDataArray.count) * cellHeight
+        
+        
+//        var goals1Count = 0
+//        var goals2Count = 0
+//        for i in 0..<mainDataCellData!.events.count {
+//            if mainDataCellData?.team1Id == events[i].teamId{
+//                if mainDataCellData!.events[i].eventName == "GOAL"{
+//                    goalsCount += 1
+//                }
+//            } else if mainDataCellData?.team2Id == events[i].teamId{
+//                if mainDataCellData!.events[i].eventName == "GOAL"{
+//                    goa2sCount += 1
+//                }
+//            }
+//
+//        }
+//        let tableHeight = CGFloat(Database.gameScoreDataArray.count) * cellHeight
+        let tableHeight = CGFloat(1) * cellHeight
         tableView.heightAnchor.constraint(equalToConstant: tableHeight).isActive = true
         
         return tableView
@@ -224,7 +246,8 @@ extension MainCollectionDetailVC: UITableViewDataSource {
             return events.count
         }
         
-        return mainDataCellData!.events.count
+//        return mainDataCellData!.events.count
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -321,7 +344,7 @@ extension MainCollectionDetailVC {
         createCustomNavigationBar()
         
         let audioRightButton = createCustomButton(
-            imageName: "phone",
+            imageName: "safari",
             selector: #selector(audioRightButtonTapped)
         )
         let videoRightButton = createCustomButton(

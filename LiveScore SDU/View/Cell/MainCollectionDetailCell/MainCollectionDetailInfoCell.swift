@@ -90,7 +90,7 @@ class MainCollectionDetailInfoCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 10.5)
         label.text = value
         label.textColor = .white
-        label.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        label.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         return label
     }

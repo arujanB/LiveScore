@@ -15,11 +15,9 @@ protocol ProtocolForHeader {
 final class ScoresViewController: UIViewController {
     
     var apiCaller = APICaller()
-    var mainGameData: [MainGameDatum] = []
     var mainGameDataScreen: [MainGameDatum] = []
     
     var mainDataCell: MainCellData?
-//    var mainDataCell: [MainCellData]?
     
     var detailData:[MainCellData] = []
     
@@ -192,40 +190,14 @@ final class ScoresViewController: UIViewController {
             self.myTableView.reloadSections([0], with: .none)
         }
         
-//        selectedSegmentIndex = sender.selectedSegmentIndex + 1
-//        selectedCategory = "\(createBTN()[selectedSegmentIndex].year)-\(createBTN()[selectedSegmentIndex].monthNumber)-\(createBTN()[selectedSegmentIndex].dayWith0)"
-        
-//        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-//            DispatchQueue.main.async {
-//                guard let self else { return }
-//                self.mainGameDataScreen = values
-//                self.myTableView.reloadSections([0], with: .none)
-////                self.myTableView.reloadData()
-//                print("screen\(self.mainGameDataScreen)")
-//            }
-//        }, date: selectedCategory)
         self.myTableView.reloadSections([0], with: .none)
     }
-    
     
     //MARK: - Main SectionButton
     private lazy var sectionButton: UIButton = {
         var button = UIButton()
         return button
     }()
-    
-//    var dateString: String? {
-//        didSet {
-//            apiCaller.fetchRequestMainGame(completion: { [weak self] values in
-//                DispatchQueue.main.async {
-//                    guard let self else { return }
-//                    self.mainGameData = values
-//                    self.myTableView.reloadData()
-//                }
-//            }, date: dateString!)
-//            print(dateString!)
-//        }
-//    }
     
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -244,41 +216,16 @@ final class ScoresViewController: UIViewController {
         myTableView.dataSource = self
         myTableView.delegate = self
         
-//        apiCaller.fetchRequestMainGame(completion: { [weak self] values in
-//            DispatchQueue.main.async {
-//                guard let self else { return }
-//                self.mainGameData = values
-//                self.myTableView.reloadSections([0], with: .none)
-////                self.myTableView.reloadData()
-//                print("men\(self.mainGameData)")
-//
-//            }
-//        }, date: dateTo!)
+//        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())
+//        let dates = getDates(from: yesterday!)
+//        print(dates.map({
+//            formatDate($0)
+//        }))
 
     }
     
-//    var dateTo : String? {
-//        didSet {
-//            if let myOptional = dateTo {
-//                apiCaller.fetchRequestMainGame(completion: { [weak self] values in
-//                    DispatchQueue.main.async {
-//                        guard let self else { return }
-//                        self.mainGameData = values
-//                        self.myTableView.reloadSections([0], with: .none)
-//        //                self.myTableView.reloadData()
-//                        print("men\(self.mainGameData)")
-//
-//                    }
-//                }, date: myOptional)
-//             }
-//        }
-//    }
-    
     @objc func showDatePicker() {
         print("CLICKED showDatePicker")
-        print("BEFORE:\(mainGameData)")
-        mainGameData.removeAll()
-        print("AFTER:\(mainGameData)")
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
 //        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
@@ -294,13 +241,12 @@ final class ScoresViewController: UIViewController {
             let formattedDate = dateFormatter.string(from: selectedDate)
 //            self.dateTo = formattedDate
             
-            apiCaller.fetchRequestMainGame(completion: { [weak self] values in
+            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
                 DispatchQueue.main.async {
                     guard let self else { return }
-                    self.mainGameData.append(contentsOf: values)
+                    self.mainGameDataScreen = values
                     self.myTableView.reloadSections([0], with: .none)
-                    print("men\(self.mainGameData)")
-
+                    let dates = getDates(from: <#T##Date#>)
                 }
             }, date: formattedDate)
             
@@ -312,6 +258,40 @@ final class ScoresViewController: UIViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - Selected Data from calendar
+    func getDates(from date: Date) -> [Date] {
+        let currentDate = date
+        var array:[Date] = []
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        for index in -2..<0 {
+            let yesterday = Calendar.current.date(byAdding: .day, value: index, to: currentDate)
+            array.append(yesterday!)
+        }
+        
+        array.append(currentDate)
+        
+        for index in 1..<3{
+            let future = Calendar.current.date(byAdding: .day, value: index, to: currentDate)
+            array.append(future!)
+        }
+        
+        return array
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        
+        dateFormatter.dateFormat = "MMM d"
+        let monthString = dateFormatter.string(from: date)
+        print(monthString)
+        
+        return monthString
     }
     
     //MARK: - Date Dynamic for Segment
@@ -329,12 +309,10 @@ final class ScoresViewController: UIViewController {
             array.append(yesterday!)
         }
         
-    //    var currentDateString: String = dateFormatter.string(from: currentDate)
         array.append(currentDate)
         
         for index in 1..<4{
             let future = Calendar.current.date(byAdding: .day, value: index, to: currentDate)
-    //        let dateString = dateFormatter.string(from: future!)
             array.append(future!)
         }
         
@@ -430,10 +408,7 @@ extension ScoresViewController: UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.IDENTIFIER, for: indexPath) as! MainTableViewCell
 //        cell.setNameLabel(with: row[indexPath.row])
         cell.backgroundColor = .clear
-        
-//        cell.mainGameDataFromScore.removeAll()
-        print("CELL: \(mainGameData)")
-        print("MAIN CELL\(cell.mainGameDataFromScore)")
+
         print("Screen CELL\(cell.mainGameDataFromScoreScreen)")
         
         cell.scoreEnum = scoreSegmentEnum
@@ -441,7 +416,7 @@ extension ScoresViewController: UITableViewDataSource{
         cell.mainGameDataFromScoreScreen = mainGameDataScreen
         
         print("mainGameDataScreen \(mainGameDataScreen)")
-        cell.mainGameDataFromScore = mainGameData
+        cell.mainGameDataFromScore = mainGameDataScreen
         print("AFTER MAIN CELL\(cell.mainGameDataFromScore)")
         
         //MARK: - MainCollectionDetailVC
@@ -456,12 +431,6 @@ extension ScoresViewController: UITableViewDataSource{
                     print("DATA: \(data)")
                 }
             }, protocolId: self.mainGameDataScreen[id].protocolID)
-            
-//            self.mainDataCell?.protocolId = self.mainGameDataScreen[id].protocolID
-//                            let vc = MainCollectionDetailVC(model: self.mainDataCell!)
-//                            self.navigationController?.pushViewController(vc, animated: true)
-
-            
         }
         
         cell.reload()

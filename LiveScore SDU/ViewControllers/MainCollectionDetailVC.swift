@@ -19,16 +19,10 @@ class MainCollectionDetailVC: UIViewController {
         self.mainDataCellData = model
         super.init(nibName: nil, bundle: nil)
     }
-//    init(model: MainCellData) {
-//        self.mainDataCellData = model
-//        super.init(nibName: nil, bundle: nil)
-//    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    private lazy var group1NameString = mainDataCell?.team1
     
     private lazy var group1Name = groupName(group: mainDataCellData!.team1)
     private lazy var group2Name = groupName(group: mainDataCellData!.team2)

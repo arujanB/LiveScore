@@ -70,13 +70,6 @@ final class ScoresViewController: UIViewController {
     //MARK: - SEGMENT
     private lazy var segmentControll: UISegmentedControl = {
         var segmentControll = UISegmentedControl(items: ["1", "2", "3", "4", "5"])
-//        segmentControll.setTitle("\(buttonLive)", forSegmentAt: 0)
-        segmentControll.setTitle("\(createBTN()[1].month) \(createBTN()[1].day)", forSegmentAt: 0)
-        segmentControll.setTitle("\(createBTN()[2].month) \(createBTN()[2].day)", forSegmentAt: 1)
-        segmentControll.setTitle("\(createBTN()[3].month) \(createBTN()[3].day)", forSegmentAt: 2)
-        segmentControll.setTitle("\(createBTN()[4].month) \(createBTN()[4].day)", forSegmentAt: 3)
-        segmentControll.setTitle("\(createBTN()[5].month) \(createBTN()[5].day)", forSegmentAt: 4)
-        
         segmentControll.selectedSegmentIndex = 2
         segmentControll.addTarget(self, action: #selector(segmentControlValuChanged(_:)), for: .valueChanged)
         
@@ -106,91 +99,27 @@ final class ScoresViewController: UIViewController {
     var selectedSegmentIndex: Int = 0
     var selectedCategory: String = ""
     
+    private var dateModels: [DateModel] = []
+    
     @objc func segmentControlValuChanged(_ sender: UISegmentedControl){
-        if sender.selectedSegmentIndex == 0 {
-            selectedSegmentIndex = 0
-            selectedCategory = "\(createBTN()[1].year)-\(createBTN()[1].monthNumber)-\(createBTN()[1].dayWith0)"
-            
-            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-                DispatchQueue.main.async {
-                    guard let self else { return }
-                    self.mainGameDataScreen = values
-                    self.myTableView.reloadSections([0], with: .none)
-    //                self.myTableView.reloadData()
-                    print("screen\(self.mainGameDataScreen)")
-                }
-            }, date: selectedCategory)
-            
-            scoreSegmentEnum = .first
-            self.myTableView.reloadSections([0], with: .none)
-        }else if sender.selectedSegmentIndex == 1 {
-            selectedSegmentIndex = 1
-            selectedCategory = "\(createBTN()[2].year)-\(createBTN()[2].monthNumber)-\(createBTN()[2].dayWith0)"
-            
-            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-                DispatchQueue.main.async {
-                    guard let self else { return }
-                    self.mainGameDataScreen = values
-                    self.myTableView.reloadSections([0], with: .none)
-    //                self.myTableView.reloadData()
-                    print("screen\(self.mainGameDataScreen)")
-                }
-            }, date: selectedCategory)
-            
-            scoreSegmentEnum = .yesterday
-            
-            self.myTableView.reloadSections([0], with: .none)
-        }else if sender.selectedSegmentIndex == 2 {
-            selectedSegmentIndex = 2
-            selectedCategory = "\(createBTN()[3].year)-\(createBTN()[3].monthNumber)-\(createBTN()[3].dayWith0)"
-            
-            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-                DispatchQueue.main.async {
-                    guard let self else { return }
-                    self.mainGameDataScreen = values
-                    self.myTableView.reloadSections([0], with: .none)
-    //                self.myTableView.reloadData()
-                    print("screen\(self.mainGameDataScreen)")
-                }
-            }, date: selectedCategory)
-            
-            scoreSegmentEnum = .today
-            self.myTableView.reloadSections([0], with: .none)
-        }else if sender.selectedSegmentIndex == 3 {
-            selectedSegmentIndex = 3
-            selectedCategory = "\(createBTN()[4].year)-\(createBTN()[4].monthNumber)-\(createBTN()[4].dayWith0)"
-            
-            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-                DispatchQueue.main.async {
-                    guard let self else { return }
-                    self.mainGameDataScreen = values
-                    self.myTableView.reloadSections([0], with: .none)
-    //                self.myTableView.reloadData()
-                    print("screen\(self.mainGameDataScreen)")
-                }
-            }, date: selectedCategory)
-            
-            scoreSegmentEnum = .tomorrow
-            self.myTableView.reloadSections([0], with: .none)
-        }else {
-            selectedSegmentIndex = 4
-            selectedCategory = "\(createBTN()[5].year)-\(createBTN()[5].monthNumber)-\(createBTN()[5].dayWith0)"
-            
-            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-                DispatchQueue.main.async {
-                    guard let self else { return }
-                    self.mainGameDataScreen = values
-                    self.myTableView.reloadSections([0], with: .none)
-    //                self.myTableView.reloadData()
-                    print("screen\(self.mainGameDataScreen)")
-                }
-            }, date: selectedCategory)
-            
-            scoreSegmentEnum = .last
-            self.myTableView.reloadSections([0], with: .none)
-        }
         
-        self.myTableView.reloadSections([0], with: .none)
+        guard sender.selectedSegmentIndex < dateModels.count else { return }
+        
+        selectedSegmentIndex = sender.selectedSegmentIndex
+        let dateModel = dateModels[selectedSegmentIndex]
+        let apiDate = dateModel.apiDateText
+        
+        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.mainGameDataScreen = values
+                self.myTableView.reloadSections([0], with: .none)
+//                self.myTableView.reloadData()
+                print("screen\(self.mainGameDataScreen)")
+            }
+        }, date: apiDate)
+        
+        myTableView.reloadSections([0], with: .none)
     }
     
     //MARK: - Main SectionButton
@@ -216,12 +145,17 @@ final class ScoresViewController: UIViewController {
         myTableView.dataSource = self
         myTableView.delegate = self
         
-//        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())
-//        let dates = getDates(from: yesterday!)
-//        print(dates.map({
-//            formatDate($0)
-//        }))
-
+        setupSegmentTitles(date: Date())
+    }
+    
+    private func setupSegmentTitles(date: Date) {
+        let dateModels = makeDateModels(from: date)
+        self.dateModels = dateModels
+        
+        for i in 0..<dateModels.count {
+            let dateModel = dateModels[i]
+            segmentControll.setTitle(dateModel.title, forSegmentAt: i)
+        }
     }
     
     @objc func showDatePicker() {
@@ -240,13 +174,12 @@ final class ScoresViewController: UIViewController {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let formattedDate = dateFormatter.string(from: selectedDate)
 //            self.dateTo = formattedDate
-            
+            setupSegmentTitles(date: selectedDate)
             apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
                 DispatchQueue.main.async {
                     guard let self else { return }
                     self.mainGameDataScreen = values
                     self.myTableView.reloadSections([0], with: .none)
-                    let dates = getDates(from: <#T##Date#>)
                 }
             }, date: formattedDate)
             
@@ -286,74 +219,25 @@ final class ScoresViewController: UIViewController {
     func formatDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
-        
         dateFormatter.dateFormat = "MMM d"
-        let monthString = dateFormatter.string(from: date)
-        print(monthString)
-        
-        return monthString
+        return dateFormatter.string(from: date).uppercased()
     }
     
-    //MARK: - Date Dynamic for Segment
-    var dateData: [DateModel] = []
-    
-    func getListOfDate() -> [Date] {
-        let currentDate = Date()
-        var array:[Date] = []
-        
+    func formatApiDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        for index in -3..<0 {
-            let yesterday = Calendar.current.date(byAdding: .day, value: index, to: currentDate)
-            array.append(yesterday!)
-        }
-        
-        array.append(currentDate)
-        
-        for index in 1..<4{
-            let future = Calendar.current.date(byAdding: .day, value: index, to: currentDate)
-            array.append(future!)
-        }
-        
-        return array
+        return dateFormatter.string(from: date)
     }
-
-    func createBTN() -> [DateModel]{
-        let array = getListOfDate()
-        
-        for date in array {
-            let dateFormatter = DateFormatter()
-            dateFormatter.locale = Locale(identifier: "en_US")
-            dateFormatter.dateFormat = "MMM"
-            let monthString = dateFormatter.string(from: date)
-            print(monthString)
-            
-            let calendar = Calendar.current
-            dateFormatter.dateFormat = "EEE"
-        //    let weekday = calendar.component(.weekday, from: date)
-            let weekdayString = dateFormatter.string(from: date)
-            let day = calendar.component(.day, from: date)
-            print(day)
-            
-            print(weekdayString)
-            
-            let year = calendar.component(.year, from: date) // extract the year component from the date
-            print(year)
-            
-            let monthNumber = String(format: "%02d", Calendar.current.component(.month, from: date))
-            print(monthNumber) // Output: "04"
-            
-            let dayNumber = String(format: "%02d", day)
-            print("DAY with 0: \(dayNumber)") // Ex: if day 4 -> give 04
-            
-            let data = DateModel(week: weekdayString.uppercased(), day: "\(day)", month: monthString.uppercased(), year: "\(year)", monthNumber: monthNumber, dayWith0: dayNumber)
-            print(data)
-            
-            dateData.append(data)
+    
+    func makeDateModels(from date: Date) -> [DateModel] {
+        let dates = getDates(from: date)
+        let dateModels = dates.map {
+            let title = formatDate($0)
+            let apiDate = formatApiDate($0)
+            return DateModel(title: title, apiDateText: apiDate)
         }
-        
-        return dateData
+        return dateModels
     }
     
     func fetchMainCollectionDetailVCAPI() {

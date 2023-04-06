@@ -126,10 +126,8 @@
             filePath = "LiveScore SDU/ViewControllers/ScoresViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "428"
-            endingLineNumber = "428"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
+            startingLineNumber = "427"
+            endingLineNumber = "427">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -158,10 +156,57 @@
             filePath = "LiveScore SDU/ViewControllers/ScoresViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "showDatePicker()"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "fetchMainCollectionDetailVCAPI()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - 1e646f71cce6210a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LiveScore_SDU.ScoresViewController.fetchMainCollectionDetailVCAPI() -&gt; ()"
+                  moduleName = "LiveScore SDU"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Desktop/Diploma%20project/LiveScore%20SDU/LiveScore%20SDU/ViewControllers/ScoresViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "248"
+                  endingLineNumber = "248"
+                  offsetFromSymbolStart = "29">
+               </Location>
+               <Location
+                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - ae3cc9a19af7ba24"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (LiveScore_SDU.MainCellData) -&gt; () in LiveScore_SDU.ScoresViewController.fetchMainCollectionDetailVCAPI() -&gt; ()"
+                  moduleName = "LiveScore SDU"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Desktop/Diploma%20project/LiveScore%20SDU/LiveScore%20SDU/ViewControllers/ScoresViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "248"
+                  endingLineNumber = "248"
+                  offsetFromSymbolStart = "176">
+               </Location>
+               <Location
+                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - 9c2b2bd337cae8c7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (LiveScore_SDU.MainCellData) -&gt; () in LiveScore_SDU.ScoresViewController.fetchMainCollectionDetailVCAPI() -&gt; ()"
+                  moduleName = "LiveScore SDU"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/Desktop/Diploma%20project/LiveScore%20SDU/LiveScore%20SDU/ViewControllers/ScoresViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "248"
+                  endingLineNumber = "248"
+                  offsetFromSymbolStart = "155">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -174,9 +219,9 @@
             filePath = "LiveScore SDU/ViewControllers/ScoresViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
-            landmarkName = "showDatePicker()"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "fetchMainCollectionDetailVCAPI()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

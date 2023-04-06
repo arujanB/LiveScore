@@ -63,12 +63,8 @@ private func imageWithColor(color: UIColor) -> UIImage {
 
 //Date
 struct DateModel {
-    var week: String
-    var day: String
-    var month: String
-    var year: String
-    var monthNumber: String
-    var dayWith0: String
+    var title: String
+    var apiDateText: String
 }
 
  typealias DateData = [DateModel]

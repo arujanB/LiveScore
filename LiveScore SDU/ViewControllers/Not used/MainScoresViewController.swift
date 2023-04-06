@@ -61,12 +61,12 @@ class MainScoresViewController: UIViewController {
     private lazy var segmentControll: UISegmentedControl = {
         var segmentControll = UISegmentedControl(items: ["1", "2", "3", "4", "5"])
 //        segmentControll.setTitle("\(buttonLive)", forSegmentAt: 0)
-        segmentControll.setTitle("\(createBTN()[1].month) \(createBTN()[1].day)", forSegmentAt: 0)
-        segmentControll.setTitle("\(createBTN()[2].month) \(createBTN()[2].day)", forSegmentAt: 1)
-        segmentControll.setTitle("\(createBTN()[3].month) \(createBTN()[3].day)", forSegmentAt: 2)
-        segmentControll.setTitle("\(createBTN()[4].month) \(createBTN()[4].day)", forSegmentAt: 3)
-        segmentControll.setTitle("\(createBTN()[5].month) \(createBTN()[5].day)", forSegmentAt: 4)
-        
+//        segmentControll.setTitle("\(createBTN()[1].month) \(createBTN()[1].day)", forSegmentAt: 0)
+//        segmentControll.setTitle("\(createBTN()[2].month) \(createBTN()[2].day)", forSegmentAt: 1)
+//        segmentControll.setTitle("\(createBTN()[3].month) \(createBTN()[3].day)", forSegmentAt: 2)
+//        segmentControll.setTitle("\(createBTN()[4].month) \(createBTN()[4].day)", forSegmentAt: 3)
+//        segmentControll.setTitle("\(createBTN()[5].month) \(createBTN()[5].day)", forSegmentAt: 4)
+//
         
         segmentControll.selectedSegmentIndex = 2
         segmentControll.addTarget(self, action: #selector(segmentControlValuChanged(_:)), for: .valueChanged)
@@ -165,6 +165,7 @@ class MainScoresViewController: UIViewController {
 //        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
 
         let alert = UIAlertController(title: "Select Date", message: "\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
+        
         alert.view.addSubview(datePicker)
 
         let doneAction = UIAlertAction(title: "Done", style: .default) { _ in
@@ -244,7 +245,8 @@ class MainScoresViewController: UIViewController {
             let dayNumber = String(format: "%02d", day)
             print("DAY with 0: \(dayNumber)") // Ex: if day 4 -> give 04
             
-            let data = DateModel(week: weekdayString.uppercased(), day: "\(day)", month: monthString.uppercased(), year: yearString, monthNumber: monthNumber, dayWith0: dayNumber)
+//            let data = DateModel(week: weekdayString.uppercased(), day: "\(day)", month: monthString.uppercased(), year: yearString, monthNumber: monthNumber, dayWith0: dayNumber)
+            let data = DateModel(title: "", apiDateText: "")
             print(data)
             
             dateData.append(data)

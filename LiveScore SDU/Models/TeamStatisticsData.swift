@@ -11,6 +11,7 @@ struct TeamStatisticsDatum: Codable {
     let statName, groupName, teamName: String
     let total: Int
     let perGame: String
+    let teamLogo: String
 }
 
 //GOALS

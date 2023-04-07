@@ -35,7 +35,7 @@ class SectionHeaderTeamTableViewCell: UITableViewCell {
     private lazy var stackViewMainName: UIStackView = {
         var stackView = UIStackView()
         stackView.addArrangedSubview(id)
-//        stackView.addArrangedSubview(img)
+        stackView.addArrangedSubview(img)
         stackView.addArrangedSubview(name)
 
         stackView.spacing = 10
@@ -99,8 +99,8 @@ class SectionHeaderTeamTableViewCell: UITableViewCell {
         self.total.text = "\(data.total)"
         self.perGame.text = "\(data.perGame)"
         
-//        let url = URL(string: data.teamLogo)!
-//        img.kf.setImage(with: url)
+        let url = URL(string: data.teamLogo)!
+        img.kf.setImage(with: url)
     }
 
 }

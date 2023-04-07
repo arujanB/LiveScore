@@ -41,11 +41,10 @@ final class ScoresViewController: UIViewController {
     
     private lazy var buttonICON: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("CAL", for: .normal)
+        let myIcon = UIImage(systemName: "calendar")
+        button.setImage(myIcon, for: .normal)
+        button.tintColor = .white
         button.setTitleColor(.black, for: .normal)
-        button.layer.cornerRadius = 10
-        
-        button.backgroundColor = .white
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
             
         return button
@@ -162,10 +161,12 @@ final class ScoresViewController: UIViewController {
         print("CLICKED showDatePicker")
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
-//        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
 
-        let alert = UIAlertController(title: "Select Date", message: "\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "", message: "\n", preferredStyle: .actionSheet)
         alert.view.addSubview(datePicker)
+        datePicker.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+        }
 
         let doneAction = UIAlertAction(title: "Done", style: .default) { [self] _ in
             // Handle date selection
@@ -173,7 +174,6 @@ final class ScoresViewController: UIViewController {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let formattedDate = dateFormatter.string(from: selectedDate)
-//            self.dateTo = formattedDate
             setupSegmentTitles(date: selectedDate)
             apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
                 DispatchQueue.main.async {

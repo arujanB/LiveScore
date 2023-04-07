@@ -162,7 +162,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - 1e646f71cce6210a"
+                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - 1e646f71cce62148"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -172,12 +172,12 @@
                   urlString = "file:///Users/admin/Desktop/Diploma%20project/LiveScore%20SDU/LiveScore%20SDU/ViewControllers/ScoresViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "248"
-                  endingLineNumber = "248"
+                  startingLineNumber = "246"
+                  endingLineNumber = "246"
                   offsetFromSymbolStart = "29">
                </Location>
                <Location
-                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - ae3cc9a19af7ba24"
+                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - ae3cc9a19af7ba66"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -187,12 +187,12 @@
                   urlString = "file:///Users/admin/Desktop/Diploma%20project/LiveScore%20SDU/LiveScore%20SDU/ViewControllers/ScoresViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "248"
-                  endingLineNumber = "248"
+                  startingLineNumber = "246"
+                  endingLineNumber = "246"
                   offsetFromSymbolStart = "176">
                </Location>
                <Location
-                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - 9c2b2bd337cae8c7"
+                  uuid = "8302DB4F-0001-48BE-BF93-8809DDB2B750 - 9c2b2bd337cae885"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -202,8 +202,8 @@
                   urlString = "file:///Users/admin/Desktop/Diploma%20project/LiveScore%20SDU/LiveScore%20SDU/ViewControllers/ScoresViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "248"
-                  endingLineNumber = "248"
+                  startingLineNumber = "246"
+                  endingLineNumber = "246"
                   offsetFromSymbolStart = "155">
                </Location>
             </Locations>
@@ -222,6 +222,22 @@
             startingLineNumber = "248"
             endingLineNumber = "248"
             landmarkName = "fetchMainCollectionDetailVCAPI()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FA737DB2-2B2B-45D8-9C0B-1BF5B330B8A8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LiveScore SDU/View/Cell/SectionHeaderDetailViewCells/SectionHeaderTeamTableViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "setInfo(with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

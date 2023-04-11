@@ -15,7 +15,10 @@ protocol ProtocolForHeader {
 final class ScoresViewController: UIViewController {
     
     var apiCaller = APICaller()
-    var mainGameDataScreen: [MainGameDatum] = []
+//    var mainGameDataScreen: [MainGameDatum] = []
+    
+    //Example connect and in future change to this data
+    private var mainGameDataChangeNewData: [MainGameDataChangeNewDatum] = []
     
     var mainDataCell: MainCellData?
     
@@ -108,24 +111,26 @@ final class ScoresViewController: UIViewController {
         let dateModel = dateModels[selectedSegmentIndex]
         let apiDate = dateModel.apiDateText
         
-        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+//        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+//            DispatchQueue.main.async {
+//                guard let self else { return }
+//                self.mainGameDataScreen = values
+////                self.myTableView.reloadSections([0], with: .none)
+//                self.myTableView.reloadData()
+//                print("screen\(self.mainGameDataScreen)")
+//            }
+//        }, date: apiDate)
+        
+        apiCaller.fetchRequestMainGameChangeNewData(completion: { [weak self] values in
             DispatchQueue.main.async {
                 guard let self else { return }
-                self.mainGameDataScreen = values
-                self.myTableView.reloadSections([0], with: .none)
-//                self.myTableView.reloadData()
-                print("screen\(self.mainGameDataScreen)")
+                self.mainGameDataChangeNewData = values
+                print("NEW DATA IN SECTION\(self.mainGameDataChangeNewData)")
+                self.myTableView.reloadData()
             }
         }, date: apiDate)
         
-        myTableView.reloadSections([0], with: .none)
     }
-    
-    //MARK: - Main SectionButton
-    private lazy var sectionButton: UIButton = {
-        var button = UIButton()
-        return button
-    }()
     
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -135,6 +140,7 @@ final class ScoresViewController: UIViewController {
         
         segmentControll.selectedSegmentIndex = 2
         buttonICON.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
+        buttonLive.addTarget(self, action: #selector(showLive), for: .touchUpInside)
         
         view.backgroundColor = UIColor(red: 0.098, green: 0.098, blue: 0.098, alpha: 1)
         
@@ -145,6 +151,9 @@ final class ScoresViewController: UIViewController {
         myTableView.delegate = self
         
         setupSegmentTitles(date: Date())
+        print("ARUZHAN\(mainGameDataChangeNewData)")
+        
+        myTableView.reloadData()
     }
     
     private func setupSegmentTitles(date: Date) {
@@ -157,6 +166,18 @@ final class ScoresViewController: UIViewController {
         }
     }
     
+    //MARK: - Button LIVE
+    @objc func showLive() {
+        apiCaller.fetchRequestLive(completion: { values in
+            DispatchQueue.main.async {
+                self.mainGameDataChangeNewData = values
+                print("LIVE\(self.mainGameDataChangeNewData)")
+                self.myTableView.reloadData()
+            }
+        })
+    }
+    
+    //MARK: - Date Picker
     @objc func showDatePicker() {
         print("CLICKED showDatePicker")
         let datePicker = UIDatePicker()
@@ -175,14 +196,23 @@ final class ScoresViewController: UIViewController {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let formattedDate = dateFormatter.string(from: selectedDate)
             setupSegmentTitles(date: selectedDate)
-            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+//            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
+//                DispatchQueue.main.async {
+//                    guard let self else { return }
+//                    self.mainGameDataScreen = values
+//                    self.myTableView.reloadData()
+//                }
+//            }, date: formattedDate)
+            
+            apiCaller.fetchRequestMainGameChangeNewData(completion: { [weak self] values in
                 DispatchQueue.main.async {
                     guard let self else { return }
-                    self.mainGameDataScreen = values
-                    self.myTableView.reloadSections([0], with: .none)
+                    self.mainGameDataChangeNewData = values
+                    print("NEW DATA DATE PICKER\(self.mainGameDataChangeNewData)")
+                    myTableView.reloadData()
                 }
             }, date: formattedDate)
-            
+            print(mainGameDataChangeNewData)
             print(formattedDate)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -262,17 +292,22 @@ final class ScoresViewController: UIViewController {
 extension ScoresViewController: UITableViewDataSource{
     //section
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        print("COUNT ARUZHAN\(mainGameDataChangeNewData.count)")
+//        return Database.nameLocationDataArray.count
+        return mainGameDataChangeNewData.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        Database.nameLocationDataArray[0].footballName
+//        Database.nameLocationDataArray[0].footballName
+        mainGameDataChangeNewData[section].groupName
     }
     
     //sectionHeader
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = SectionHearderView()
-        view.setInfo(with: Database.nameLocationDataArray[section])
+        print("mainGameDataChangeNewData:\(mainGameDataChangeNewData)")
+//        view.setInfo(with: Database.nameLocationDataArray[section])
+        view.setInfo(with: mainGameDataChangeNewData[section])
         
         view.outputDetail = { [weak self] data in
             let vc = SectionHeaderDetailMainVC()
@@ -286,6 +321,7 @@ extension ScoresViewController: UITableViewDataSource{
     //cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
+//        return mainGameDataChangeNewData[section].games.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -297,24 +333,24 @@ extension ScoresViewController: UITableViewDataSource{
         
         cell.scoreEnum = scoreSegmentEnum
         cell.selectedCategoryScreen = selectedCategory
-        cell.mainGameDataFromScoreScreen = mainGameDataScreen
+//        cell.mainGameDataFromScoreScreen = mainGameDataScreen
+        cell.mainGameDataFromScoreScreen = mainGameDataChangeNewData
         
-        print("mainGameDataScreen \(mainGameDataScreen)")
-        cell.mainGameDataFromScore = mainGameDataScreen
-        print("AFTER MAIN CELL\(cell.mainGameDataFromScore)")
+//         print("mainGameDataScreen \(mainGameDataScreen)")
         
         //MARK: - MainCollectionDetailVC
         cell.outputDetail = { id in
             self.apiCaller.fetchRequestMainCell(completion: { [weak self] values in
                 DispatchQueue.main.async {
                     guard let self else { return }
-                    self.mainDataCell?.protocolId = self.mainGameDataScreen[id].protocolID
+//                    self.mainDataCell?.protocolId = self.mainGameDataScreen[id].protocolID
+                    self.mainDataCell?.protocolId = self.mainGameDataChangeNewData[indexPath.row].games[id].protocolID
                     let vc = MainCollectionDetailVC(model: values)
                     self.navigationController?.pushViewController(vc, animated: true)
                     guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
                     print("DATA: \(data)")
                 }
-            }, protocolId: self.mainGameDataScreen[id].protocolID)
+            }, protocolId: self.mainGameDataChangeNewData[indexPath.row].games[id].protocolID)
         }
         
         cell.reload()

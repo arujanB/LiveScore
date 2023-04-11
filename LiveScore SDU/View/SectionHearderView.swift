@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 //protocol SectionHearderViewProtocol{
 //    func dataa(data: [NameLocationData])
@@ -89,10 +90,17 @@ final class SectionHearderView: UIView {
 //        self.subtitleSection.text = subtitleSection
 //    }
     
-    func setInfo(with data: NameLocationData) {
-        titleSection.text = data.footballName
-        subtitleSection.text = data.location
-        img.image = data.logo
+//    func setInfo(with data: NameLocationData) {
+//        titleSection.text = data.footballName
+//        subtitleSection.text = data.location
+//        img.image = data.logo
+//    }
+    func setInfo(with data: MainGameDataChangeNewDatum) {
+        titleSection.text = data.tournamentName
+        subtitleSection.text = data.groupName
+
+        let url = URL(string: data.tournamentLogo)!
+        img.kf.setImage(with: url)
     }
     
     func getData() -> NameLocationData {

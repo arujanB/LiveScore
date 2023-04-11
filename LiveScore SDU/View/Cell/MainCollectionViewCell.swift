@@ -120,7 +120,9 @@ class MainCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    func configure(with model: MainGameDatum) {
+    func configure(with model: Game) {
+//        group1.text = model.team1Name
+//        group2.text = model.team2Name
         group1.text = model.team1Name
         group2.text = model.team2Name
         

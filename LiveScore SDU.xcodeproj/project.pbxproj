@@ -35,9 +35,11 @@
 		848BF8E329D18C9600ED7615 /* MainScoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BF8E229D18C9600ED7615 /* MainScoresViewController.swift */; };
 		848E2BB629BF7CAF00E308C4 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E2BB529BF7CAF00E308C4 /* APICaller.swift */; };
 		848E2BB829BF7FE300E308C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E2BB729BF7FE300E308C4 /* Constants.swift */; };
+		848EB4AB29E535AA005945F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 848EB4AA29E535A9005945F3 /* GoogleService-Info.plist */; };
 		848EBA1529C2352C00E2B645 /* SectionHeaderStatsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848EBA1429C2352C00E2B645 /* SectionHeaderStatsCollectionViewCell.swift */; };
 		848EBA1729C2E59800E2B645 /* MainCollectionDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848EBA1629C2E59800E2B645 /* MainCollectionDetailVC.swift */; };
 		848EBA1A29C304FA00E2B645 /* SectionHeaderDetailPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848EBA1929C304FA00E2B645 /* SectionHeaderDetailPlayerVC.swift */; };
+		84CB216729E1748400C93812 /* MainGameDataChangeNewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB216629E1748400C93812 /* MainGameDataChangeNewData.swift */; };
 		84E5A7CC29AF0FC60013D32F /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A7CB29AF0FC60013D32F /* MainCollectionViewCell.swift */; };
 		84E5A81C29B3372D0013D32F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A81B29B3372D0013D32F /* MainViewController.swift */; };
 		84E5A81F29B339310013D32F /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A81E29B339310013D32F /* FavoritesViewController.swift */; };
@@ -78,9 +80,11 @@
 		848BF8E229D18C9600ED7615 /* MainScoresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScoresViewController.swift; sourceTree = "<group>"; };
 		848E2BB529BF7CAF00E308C4 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		848E2BB729BF7FE300E308C4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		848EB4AA29E535A9005945F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		848EBA1429C2352C00E2B645 /* SectionHeaderStatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderStatsCollectionViewCell.swift; sourceTree = "<group>"; };
 		848EBA1629C2E59800E2B645 /* MainCollectionDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionDetailVC.swift; sourceTree = "<group>"; };
 		848EBA1929C304FA00E2B645 /* SectionHeaderDetailPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderDetailPlayerVC.swift; sourceTree = "<group>"; };
+		84CB216629E1748400C93812 /* MainGameDataChangeNewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainGameDataChangeNewData.swift; sourceTree = "<group>"; };
 		84E5A7CB29AF0FC60013D32F /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		84E5A81B29B3372D0013D32F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		84E5A81E29B339310013D32F /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 		84669A7A29ADC913001B8707 /* LiveScore SDU */ = {
 			isa = PBXGroup;
 			children = (
+				848EB4AA29E535A9005945F3 /* GoogleService-Info.plist */,
 				84669A7B29ADC913001B8707 /* AppDelegate.swift */,
 				84669A7D29ADC913001B8707 /* SceneDelegate.swift */,
 				84E5A81B29B3372D0013D32F /* MainViewController.swift */,
@@ -181,6 +186,7 @@
 				848BF8CF29CF246C00ED7615 /* PlayerStatisticsData.swift */,
 				848BF8D529D01D7900ED7615 /* TeamStatisticsData.swift */,
 				848B2A2829D963DE0082E0C1 /* MainCellData.swift */,
+				84CB216629E1748400C93812 /* MainGameDataChangeNewData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -200,12 +206,12 @@
 			isa = PBXGroup;
 			children = (
 				84880AC429B912560003A97D /* SectionHeaderDetailMainVC.swift */,
-				848BF8C729CD475700ED7615 /* SectionHeaderDetailSegmentVC.swift */,
 				848BF8C929CEF50900ED7615 /* SectionHeaderDetailOverviewVC.swift */,
 				848BF8DC29D05F1C00ED7615 /* SectionHeaderDetailMatchesVC.swift */,
 				848BF8CD29CEFF1D00ED7615 /* SectionHeaderDetailTableVC.swift */,
 				848EBA1929C304FA00E2B645 /* SectionHeaderDetailPlayerVC.swift */,
 				848BF8CB29CEF54F00ED7615 /* SectionHeaderDetailTeamVC.swift */,
+				848BF8C729CD475700ED7615 /* SectionHeaderDetailSegmentVC.swift */,
 			);
 			path = SectionHeaderViewControllers;
 			sourceTree = "<group>";
@@ -314,6 +320,7 @@
 			files = (
 				84669A8829ADC91C001B8707 /* LaunchScreen.storyboard in Resources */,
 				84669A8529ADC91C001B8707 /* Assets.xcassets in Resources */,
+				848EB4AB29E535AA005945F3 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +388,7 @@
 				848EBA1729C2E59800E2B645 /* MainCollectionDetailVC.swift in Sources */,
 				84669A9029ADE3C0001B8707 /* MainTableViewCell.swift in Sources */,
 				848BF8DF29D0609400ED7615 /* SectionHeaderDetailMatchesViewCell.swift in Sources */,
+				84CB216729E1748400C93812 /* MainGameDataChangeNewData.swift in Sources */,
 				848BF8DD29D05F1D00ED7615 /* SectionHeaderDetailMatchesVC.swift in Sources */,
 				848BF8C829CD475700ED7615 /* SectionHeaderDetailSegmentVC.swift in Sources */,
 				84E5A82129B339640013D32F /* RefreshViewController.swift in Sources */,

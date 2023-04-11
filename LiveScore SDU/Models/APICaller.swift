@@ -15,6 +15,26 @@ struct APICaller {
     var delegate: AllPlayStatsData?
     
     //MARK: - MAIN GAME DATA
+    //MARK: - Change MainGameData, it is with section name
+    func fetchRequestMainGameChangeNewData(completion: @escaping ([MainGameDataChangeNewDatum]) -> Void, date: String){
+        let urlString = "http://localhost:8080/game/new/date?date=\(date)"
+        print(urlString)
+        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        let request = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+            guard let data else { return }
+            do{
+                let mainGameData = try JSONDecoder().decode(MainGameDataChangeNewData.self, from: data)
+//                print(mainGameData[0].tournamentName)
+                completion(mainGameData)
+            }catch {
+                print(error)
+            }
+        }
+        task.resume()
+    }
+    
     //Change
     func fetchRequestMainGameChange(completion: @escaping ([MainGameDatum]) -> Void, date: String){
         let urlString = "http://localhost:8080/game/date?date=\(date)"
@@ -63,7 +83,6 @@ struct APICaller {
             guard let data else { return }
             if let dataCell = try? JSONDecoder().decode(MainCellData.self, from: data) {
                 completion(dataCell)
-                print("AAAAAAA...............AAAAAAAAA\(dataCell.events)")
             }else {
                 print("FAIL UUUUUU")
             }
@@ -140,6 +159,23 @@ struct APICaller {
             guard let data else { return }
             if let teamStatisticsRedCardData = try? JSONDecoder().decode(TeamStatisticsRedCardData.self, from: data) {
                 completion(teamStatisticsRedCardData)
+            }else {
+                print("FAIL")
+            }
+        }
+        task.resume()
+    }
+    
+    func fetchRequestLive(completion: @escaping ([MainGameDataChangeNewDatum]) -> Void){
+        let urlString = "http://localhost:8080/game/live"
+        
+        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        let request = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+            guard let data else { return }
+            if let liveData = try? JSONDecoder().decode(MainGameDataChangeNewData.self, from: data) {
+                completion(liveData)
             }else {
                 print("FAIL")
             }

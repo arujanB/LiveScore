@@ -33,7 +33,6 @@ class MainCollectionViewCell: UICollectionViewCell {
         var button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.tintColor = .gray
-        button.setImage(UIImage(systemName: "star.fill"), for: .focused)
         
         return button
         
@@ -155,6 +154,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         contentView.backgroundColor = UIColor.init(red: 0.118, green: 0.118, blue: 0.118, alpha: 1)
         
+        buttonImg.addTarget(self, action: #selector(starButtonTapped), for: .touchUpInside)
+        
         setUpViews()
         setUpConstrains()
         
@@ -163,6 +164,15 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //star button change when you click (fill)
+    @objc func starButtonTapped() {
+        if buttonImg.image(for: .normal) == UIImage(systemName: "star.fill") {
+            buttonImg.setImage(UIImage(systemName: "star"), for: .normal)
+        } else {
+            buttonImg.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
     }
     
     func groupName(group name:String) -> UILabel {

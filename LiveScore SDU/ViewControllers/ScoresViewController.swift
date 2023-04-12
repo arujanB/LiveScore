@@ -304,15 +304,17 @@ extension ScoresViewController: UITableViewDataSource{
     
     //sectionHeader
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = SectionHearderView()
+        let view = SectionHearderView(model: self.mainGameDataChangeNewData[section])
         print("mainGameDataChangeNewData:\(mainGameDataChangeNewData)")
 //        view.setInfo(with: Database.nameLocationDataArray[section])
         view.setInfo(with: mainGameDataChangeNewData[section])
         
         view.outputDetail = { [weak self] data in
-            let vc = SectionHeaderDetailMainVC()
-            vc.dataTakeForTabHeader = data
-            self?.navigationController?.pushViewController(vc, animated: true)
+            guard let self else { return }
+            
+            let vc = SectionHeaderDetailMainVC(model: self.mainGameDataChangeNewData[section])
+//            vc.dataTakeForTabHeader = data
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         
         return view

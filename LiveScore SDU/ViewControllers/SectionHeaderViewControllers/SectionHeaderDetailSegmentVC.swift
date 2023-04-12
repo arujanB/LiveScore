@@ -27,8 +27,8 @@ class SectionHeaderDetailSegmentVC: UIViewController {
         return view
     }()
     
-    private var tableVC = SectionHeaderDetailMainVC()
-    private var playerVC = SectionHeaderDetailPlayerVC()
+//    private var tableVC = SectionHeaderDetailMainVC()
+//    private var playerVC = SectionHeaderDetailPlayerVC()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +40,11 @@ class SectionHeaderDetailSegmentVC: UIViewController {
     
     @objc func segmentControlValuChanged(_ sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0 {
-            removeChildViewControllers(playerVC)
-            addChildViewControllers(tableVC)
+//            removeChildViewControllers(playerVC)
+//            addChildViewControllers(tableVC)
         }else {
-            removeChildViewControllers(tableVC)
-            addChildViewControllers(playerVC)
+//            removeChildViewControllers(tableVC)
+//            addChildViewControllers(playerVC)
         }
     }
     

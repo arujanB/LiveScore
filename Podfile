@@ -8,5 +8,9 @@ target 'LiveScore SDU' do
   # Pods for LiveScore SDU
 	pod 'SnapKit'
 	pod 'Kingfisher'
+pod 'FirebaseAnalytics'
+
+pod 'FirebaseAuth'
+pod 'FirebaseFirestore'
 
 end

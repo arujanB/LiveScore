@@ -9,9 +9,18 @@ import UIKit
 
 class SectionHeaderDetailMainVC: UIViewController {
     let apiCaller = APICaller()
+    var mainGameDataChangeNewData: MainGameDataChangeNewDatum?
+    
+    init(model: MainGameDataChangeNewDatum) {
+        self.mainGameDataChangeNewData = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     let sectionHV = ScoresViewController()
-    var dataTakeForTabHeader: NameLocationData?
     
     private lazy var line: UIView = {
         var view = UIView()
@@ -41,7 +50,7 @@ class SectionHeaderDetailMainVC: UIViewController {
     private var overviewVC = SectionHeaderDetailOverviewVC()
     private var matchesVC = SectionHeaderDetailMatchesVC()
     private var tableVC = SectionHeaderDetailTableVC()
-    private var playerVC = SectionHeaderDetailPlayerVC()
+    private lazy var playerVC = SectionHeaderDetailPlayerVC(id: mainGameDataChangeNewData?.groupId ?? 0)
     private var teamVC = SectionHeaderDetailTeamVC()
 
     @objc func segmentControlValuChanged(_ sender: UISegmentedControl){
@@ -146,22 +155,24 @@ extension SectionHeaderDetailMainVC {
 //MARK: - Navigation
 extension SectionHeaderDetailMainVC {
     private func setNav() {
-        guard let datatake = dataTakeForTabHeader else { return }
+        guard let datatake = mainGameDataChangeNewData else { return }
         
-        let customTitleView = createCustomTitleView(contactName: datatake.footballName,
-                                                    contactDescribtion: datatake.location,
-                                                    contactImg: datatake.logo)
+        let customTitleView = createCustomTitleView(contactName: datatake.tournamentName,
+                                                    contactDescribtion: datatake.groupName,
+                                                    contactImg: datatake.tournamentLogo)
         
         navigationItem.titleView = customTitleView
     }
 
-    func createCustomTitleView(contactName: String, contactDescribtion: String, contactImg: UIImage?) -> UIView {
+    func createCustomTitleView(contactName: String, contactDescribtion: String, contactImg: String) -> UIView {
         
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 280, height: 41)
         
         let imageContact = UIImageView()
-        imageContact.image = contactImg
+        let url = URL(string: contactImg)!
+        imageContact.kf.setImage(with: url)
+        //imageContact.image = contactImg
         imageContact.layer.cornerRadius = imageContact.frame.height / 2
         imageContact.frame = CGRect(x: 5, y: 10, width: 30, height: 20)
         view.addSubview(imageContact)

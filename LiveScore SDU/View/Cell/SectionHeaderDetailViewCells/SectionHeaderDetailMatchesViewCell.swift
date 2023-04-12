@@ -107,6 +107,8 @@ class SectionHeaderDetailMatchesViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        buttonImg.addTarget(self, action: #selector(starButtonTapped), for: .touchUpInside)
+        
         setUpViews()
         setUpConstrains()
         
@@ -120,6 +122,15 @@ class SectionHeaderDetailMatchesViewCell: UITableViewCell {
     //move when you click to the cell
     @objc private func moveToVC() {
         outputDetail?()
+    }
+    
+    //star button change when you click (fill)
+    @objc func starButtonTapped() {
+        if buttonImg.image(for: .normal) == UIImage(systemName: "star.fill") {
+            buttonImg.setImage(UIImage(systemName: "star"), for: .normal)
+        } else {
+            buttonImg.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
     }
     
     func groupName(group name:String) -> UILabel {

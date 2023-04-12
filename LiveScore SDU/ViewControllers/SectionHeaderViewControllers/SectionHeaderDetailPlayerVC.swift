@@ -11,6 +11,17 @@ import SnapKit
 class SectionHeaderDetailPlayerVC: UIViewController {
     let apiCaller = APICaller()
     
+    var id: Int
+    
+    init(id: Int) {
+        self.id = id
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     var allList: [[PlayerStatisticsDatum]] = []
     
     private var playerStatisticsGoals: [PlayerStatisticsDatum] = []
@@ -81,7 +92,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
                 self.playerStatisticsGoals = values
                 self.tableView.reloadData()
             }
-        }, sectionName: APIStats.goals.rawValue, groupId: 1)
+        }, sectionName: APIStats.goals.rawValue, groupId: id)
         
         apiCaller.fetchRequestPS (completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -89,7 +100,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
                 self.playerStatisticsAssistsData = values
                 self.tableView.reloadData()
             }
-        }, sectionName: APIStats.assist.rawValue, groupId: 1)
+        }, sectionName: APIStats.assist.rawValue, groupId: id)
         
         apiCaller.fetchRequestPS (completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -97,7 +108,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
                 self.playerStatisticsRedCardData = values
                 self.tableView.reloadData()
             }
-        }, sectionName: APIStats.redCard.rawValue, groupId: 1)
+        }, sectionName: APIStats.redCard.rawValue, groupId: id)
         
         apiCaller.fetchRequestPS (completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -105,7 +116,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
                 self.playerStatisticsYellowCardData = values
                 self.tableView.reloadData()
             }
-        }, sectionName: APIStats.yellowCard.rawValue, groupId: 1)
+        }, sectionName: APIStats.yellowCard.rawValue, groupId: id)
         
     }
     

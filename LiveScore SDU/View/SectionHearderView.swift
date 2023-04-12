@@ -13,12 +13,9 @@ import Kingfisher
 //}
 
 final class SectionHearderView: UIView {
-    var outputDetail: ((NameLocationData) -> Void)?
+    var outputDetail: ((Int) -> Void)?
     
-    var saveProtocolData: [NameLocationData] = []
-//    var delegate: SectionHearderViewProtocol?
-    
-    var saveData: NameLocationData?
+    var mainGameDataChangeNewDatum: MainGameDataChangeNewDatum?
     
     private lazy var titleSection: UILabel = {
         var label = UILabel()
@@ -40,7 +37,7 @@ final class SectionHearderView: UIView {
     
     private lazy var img: UIImageView = {
         var img = UIImageView()
-        img.image = UIImage(named: "sdu")
+        img.image = UIImage(named: " ")
         return img
     }()
     
@@ -64,8 +61,9 @@ final class SectionHearderView: UIView {
 //        return stackView
 //    }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(model: MainGameDataChangeNewDatum) {
+        self.mainGameDataChangeNewDatum = model
+        super.init(frame: .zero)
         
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(moveToVC)))
         
@@ -73,28 +71,12 @@ final class SectionHearderView: UIView {
         setUpConstrains()
         
         backgroundColor = UIColor(red: 0.098, green: 0.098, blue: 0.098, alpha: 1)
-        
-//        delegate?.dataa(data: saveProtocolData)
-        fetchrequest()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func setTitleSection(with titleSection: String) {
-//        self.titleSection.text = titleSection
-//    }
-//
-//    func setSubtitleSection(with subtitleSection: String) {
-//        self.subtitleSection.text = subtitleSection
-//    }
-    
-//    func setInfo(with data: NameLocationData) {
-//        titleSection.text = data.footballName
-//        subtitleSection.text = data.location
-//        img.image = data.logo
-//    }
     func setInfo(with data: MainGameDataChangeNewDatum) {
         titleSection.text = data.tournamentName
         subtitleSection.text = data.groupName
@@ -103,18 +85,9 @@ final class SectionHearderView: UIView {
         img.kf.setImage(with: url)
     }
     
-    func getData() -> NameLocationData {
-        saveData!.footballName.append(titleSection.text!)
-        return saveData!
-    }
-    func fetchrequest(){
-//        let model = NameLocationData(footballName: titleSection.text!, location: subtitleSection.text!, logo: String(describing: img.image))
-//
-//        saveProtocolData.append(model)
-    }
-    
     @objc private func moveToVC() {
-        outputDetail?(NameLocationData.init(footballName: titleSection.text!, location: subtitleSection.text!, logo: img.image))
+        guard let main = mainGameDataChangeNewDatum else { return }
+        outputDetail?(main.groupId)
     }
 }
 

@@ -32,20 +32,20 @@
 		848BF8DD29D05F1D00ED7615 /* SectionHeaderDetailMatchesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BF8DC29D05F1C00ED7615 /* SectionHeaderDetailMatchesVC.swift */; };
 		848BF8DF29D0609400ED7615 /* SectionHeaderDetailMatchesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BF8DE29D0609400ED7615 /* SectionHeaderDetailMatchesViewCell.swift */; };
 		848BF8E129D1753800ED7615 /* MainGameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BF8E029D1753800ED7615 /* MainGameData.swift */; };
-		848BF8E329D18C9600ED7615 /* MainScoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BF8E229D18C9600ED7615 /* MainScoresViewController.swift */; };
 		848E2BB629BF7CAF00E308C4 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E2BB529BF7CAF00E308C4 /* APICaller.swift */; };
 		848E2BB829BF7FE300E308C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E2BB729BF7FE300E308C4 /* Constants.swift */; };
 		848EB4AB29E535AA005945F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 848EB4AA29E535A9005945F3 /* GoogleService-Info.plist */; };
 		848EBA1529C2352C00E2B645 /* SectionHeaderStatsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848EBA1429C2352C00E2B645 /* SectionHeaderStatsCollectionViewCell.swift */; };
 		848EBA1729C2E59800E2B645 /* MainCollectionDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848EBA1629C2E59800E2B645 /* MainCollectionDetailVC.swift */; };
 		848EBA1A29C304FA00E2B645 /* SectionHeaderDetailPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848EBA1929C304FA00E2B645 /* SectionHeaderDetailPlayerVC.swift */; };
+		8491078329E66A8500C16627 /* Pods_LiveScore_SDU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8491078229E66A8500C16627 /* Pods_LiveScore_SDU.framework */; };
+		84AE488429E59CC90051F595 /* FavoritesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE488329E59CC90051F595 /* FavoritesTableViewCell.swift */; };
 		84CB216729E1748400C93812 /* MainGameDataChangeNewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB216629E1748400C93812 /* MainGameDataChangeNewData.swift */; };
 		84E5A7CC29AF0FC60013D32F /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A7CB29AF0FC60013D32F /* MainCollectionViewCell.swift */; };
 		84E5A81C29B3372D0013D32F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A81B29B3372D0013D32F /* MainViewController.swift */; };
 		84E5A81F29B339310013D32F /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A81E29B339310013D32F /* FavoritesViewController.swift */; };
 		84E5A82129B339640013D32F /* RefreshViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A82029B339640013D32F /* RefreshViewController.swift */; };
 		84E5A82329B34E030013D32F /* SectionHearderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A82229B34E030013D32F /* SectionHearderView.swift */; };
-		C41B4A0A698778DFA9B9BA16 /* Pods_LiveScore_SDU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3D74309E27980AB4DE5DA58 /* Pods_LiveScore_SDU.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,13 +77,14 @@
 		848BF8DC29D05F1C00ED7615 /* SectionHeaderDetailMatchesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderDetailMatchesVC.swift; sourceTree = "<group>"; };
 		848BF8DE29D0609400ED7615 /* SectionHeaderDetailMatchesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderDetailMatchesViewCell.swift; sourceTree = "<group>"; };
 		848BF8E029D1753800ED7615 /* MainGameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainGameData.swift; sourceTree = "<group>"; };
-		848BF8E229D18C9600ED7615 /* MainScoresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScoresViewController.swift; sourceTree = "<group>"; };
 		848E2BB529BF7CAF00E308C4 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		848E2BB729BF7FE300E308C4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		848EB4AA29E535A9005945F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		848EBA1429C2352C00E2B645 /* SectionHeaderStatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderStatsCollectionViewCell.swift; sourceTree = "<group>"; };
 		848EBA1629C2E59800E2B645 /* MainCollectionDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionDetailVC.swift; sourceTree = "<group>"; };
 		848EBA1929C304FA00E2B645 /* SectionHeaderDetailPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderDetailPlayerVC.swift; sourceTree = "<group>"; };
+		8491078229E66A8500C16627 /* Pods_LiveScore_SDU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_LiveScore_SDU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84AE488329E59CC90051F595 /* FavoritesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewCell.swift; sourceTree = "<group>"; };
 		84CB216629E1748400C93812 /* MainGameDataChangeNewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainGameDataChangeNewData.swift; sourceTree = "<group>"; };
 		84E5A7CB29AF0FC60013D32F /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		84E5A81B29B3372D0013D32F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C41B4A0A698778DFA9B9BA16 /* Pods_LiveScore_SDU.framework in Frameworks */,
+				8491078329E66A8500C16627 /* Pods_LiveScore_SDU.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +110,7 @@
 		53AE0AF83E59972E79548B98 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8491078229E66A8500C16627 /* Pods_LiveScore_SDU.framework */,
 				A3D74309E27980AB4DE5DA58 /* Pods_LiveScore_SDU.framework */,
 			);
 			name = Frameworks;
@@ -229,12 +231,12 @@
 			path = SectionHeaderDetailViewCells;
 			sourceTree = "<group>";
 		};
-		84A19B2D29D2DCEE00681BEC /* Not used */ = {
+		84AE488229E59C990051F595 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
-				848BF8E229D18C9600ED7615 /* MainScoresViewController.swift */,
+				84AE488329E59CC90051F595 /* FavoritesTableViewCell.swift */,
 			);
-			path = "Not used";
+			path = Favorites;
 			sourceTree = "<group>";
 		};
 		84E5A81D29B337350013D32F /* ViewControllers */ = {
@@ -243,9 +245,9 @@
 				84669A7F29ADC913001B8707 /* ScoresViewController.swift */,
 				84E5A81E29B339310013D32F /* FavoritesViewController.swift */,
 				84E5A82029B339640013D32F /* RefreshViewController.swift */,
-				84A19B2D29D2DCEE00681BEC /* Not used */,
 				848EBA1829C3022F00E2B645 /* SectionHeaderViewControllers */,
 				848EBA1629C2E59800E2B645 /* MainCollectionDetailVC.swift */,
+				84AE488229E59C990051F595 /* Favorites */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -377,7 +379,6 @@
 				84E5A7CC29AF0FC60013D32F /* MainCollectionViewCell.swift in Sources */,
 				848BF8D229CF3CB600ED7615 /* SectionHeaderPlayerTableViewCell.swift in Sources */,
 				848BF8D629D01D7900ED7615 /* TeamStatisticsData.swift in Sources */,
-				848BF8E329D18C9600ED7615 /* MainScoresViewController.swift in Sources */,
 				848E2BB629BF7CAF00E308C4 /* APICaller.swift in Sources */,
 				848BF8D029CF246C00ED7615 /* PlayerStatisticsData.swift in Sources */,
 				848BF8E129D1753800ED7615 /* MainGameData.swift in Sources */,
@@ -394,6 +395,7 @@
 				84E5A82129B339640013D32F /* RefreshViewController.swift in Sources */,
 				844D736429B687410051568B /* Database.swift in Sources */,
 				8402B96D29C7C17600A87F0E /* TableTeamFootballData.swift in Sources */,
+				84AE488429E59CC90051F595 /* FavoritesTableViewCell.swift in Sources */,
 				8485E17829D7EE94004129E3 /* MainCollectionDetailGoalCell.swift in Sources */,
 				84E5A81C29B3372D0013D32F /* MainViewController.swift in Sources */,
 				848EBA1529C2352C00E2B645 /* SectionHeaderStatsCollectionViewCell.swift in Sources */,

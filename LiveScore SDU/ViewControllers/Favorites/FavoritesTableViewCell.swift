@@ -100,6 +100,14 @@ class FavoritesTableViewCell: UITableViewCell {
         }
     }
     
+    func setWelcome2Page(with model: WelcomeDatum) {
+        titleSection.text = model.tournamentName
+        subtitleSection.text = model.tournamentType
+        
+//        let url = URL(string: data.teamLogo)!
+//        img.kf.setImage(with: url)
+    }
+    
 }
 
 //MARK: - setUpViews & setUpConstrains

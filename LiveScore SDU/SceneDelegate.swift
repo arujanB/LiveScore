@@ -20,9 +20,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
+        
+        UserDefaults.standard.register(defaults: ["isFirstLaunchKey": true])
+        let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunchKey")
+//        let isFirstLaunch = true
+        if isFirstLaunch {
+            // Set the root view controller to a UIPageViewController
+            let pageViewController = WelcomeViewController()
+            window?.rootViewController = pageViewController
+        } else {
+            // Set the root view controller to a MainViewController
+            let mainViewController = MainViewController()
+            window?.rootViewController = mainViewController
+        }
+
+        // Update the isFirstLaunch key in UserDefaults
+        UserDefaults.standard.set(false, forKey: "isFirstLaunchKey")
+        
         window?.makeKeyAndVisible()
-        window?.rootViewController = MainViewController()
-//        window?.rootViewController = UINavigationController(rootViewController: MainViewController())
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

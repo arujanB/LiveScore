@@ -183,4 +183,23 @@ struct APICaller {
         task.resume()
     }
     
+    //MARK: - WELCOME 2 PAGE
+    func fetchRequestWelcome(completion: @escaping ([WelcomeDatum]) -> Void){
+        let urlString = "http://localhost:8080/tournament"
+        
+        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        let request = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+            guard let data else { return }
+            if let welcomeData = try? JSONDecoder().decode(WelcomeData.self, from: data) {
+                print(welcomeData[0].tournamentName)
+                completion(welcomeData)
+            }else {
+                print("FAIL")
+            }
+        }
+        task.resume()
+    }
+    
 }

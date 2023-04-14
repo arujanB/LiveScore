@@ -4,6 +4,11 @@
 <dict>
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DancingScript-Bold.ttf</string>
+		<string>BebasNeue-Regular.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

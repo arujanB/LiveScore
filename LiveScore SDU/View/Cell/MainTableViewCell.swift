@@ -62,7 +62,7 @@ extension MainTableViewCell: UICollectionViewDataSource {
         cell.layer.borderWidth = 1
         print("Main TableView cell\(mainGameDataFromScoreScreen)")
         
-        cell.configure(with: mainGameDataFromScoreScreen[0].games[indexPath.row])
+        cell.configure(with: mainGameDataFromScoreScreen[indexPath.section].games[indexPath.row])// i am not sure that it is correct. IndexPath.section replaced from 0
         cell.backgroundColor = .gray
         cell.outputDetail = {
             self.outputDetail?(indexPath.row)

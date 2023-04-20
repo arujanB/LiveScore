@@ -15,7 +15,6 @@ protocol ProtocolForHeader {
 final class ScoresViewController: UIViewController {
     
     var apiCaller = APICaller()
-//    var mainGameDataScreen: [MainGameDatum] = []
     
     //Example connect and in future change to this data
     private var mainGameDataChangeNewData: [MainGameDataChangeNewDatum] = []
@@ -95,6 +94,7 @@ final class ScoresViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -110,16 +110,6 @@ final class ScoresViewController: UIViewController {
         selectedSegmentIndex = sender.selectedSegmentIndex
         let dateModel = dateModels[selectedSegmentIndex]
         let apiDate = dateModel.apiDateText
-        
-//        apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-//            DispatchQueue.main.async {
-//                guard let self else { return }
-//                self.mainGameDataScreen = values
-////                self.myTableView.reloadSections([0], with: .none)
-//                self.myTableView.reloadData()
-//                print("screen\(self.mainGameDataScreen)")
-//            }
-//        }, date: apiDate)
         
         apiCaller.fetchRequestMainGameChangeNewData(completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -175,6 +165,14 @@ final class ScoresViewController: UIViewController {
                 self.myTableView.reloadData()
             }
         })
+        
+        if buttonLive.backgroundColor == .white {
+            buttonLive.backgroundColor = .orange
+            segmentControll.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        } else {
+            buttonLive.backgroundColor = .white
+            segmentControll.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orange], for: UIControl.State.selected)
+        }
     }
     
     //MARK: - Date Picker
@@ -196,13 +194,6 @@ final class ScoresViewController: UIViewController {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let formattedDate = dateFormatter.string(from: selectedDate)
             setupSegmentTitles(date: selectedDate)
-//            apiCaller.fetchRequestMainGameChange(completion: { [weak self] values in
-//                DispatchQueue.main.async {
-//                    guard let self else { return }
-//                    self.mainGameDataScreen = values
-//                    self.myTableView.reloadData()
-//                }
-//            }, date: formattedDate)
             
             apiCaller.fetchRequestMainGameChangeNewData(completion: { [weak self] values in
                 DispatchQueue.main.async {
@@ -293,12 +284,10 @@ extension ScoresViewController: UITableViewDataSource{
     //section
     func numberOfSections(in tableView: UITableView) -> Int {
         print("COUNT ARUZHAN\(mainGameDataChangeNewData.count)")
-//        return Database.nameLocationDataArray.count
         return mainGameDataChangeNewData.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        Database.nameLocationDataArray[0].footballName
         mainGameDataChangeNewData[section].groupName
     }
     
@@ -306,10 +295,9 @@ extension ScoresViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = SectionHearderView(model: self.mainGameDataChangeNewData[section])
         print("mainGameDataChangeNewData:\(mainGameDataChangeNewData)")
-//        view.setInfo(with: Database.nameLocationDataArray[section])
         view.setInfo(with: mainGameDataChangeNewData[section])
         
-        view.outputDetail = { [weak self] data in
+        view.outputDetail = { [weak self] data, tournId in
             guard let self else { return }
             
             let vc = SectionHeaderDetailMainVC(model: self.mainGameDataChangeNewData[section])
@@ -335,10 +323,7 @@ extension ScoresViewController: UITableViewDataSource{
         
         cell.scoreEnum = scoreSegmentEnum
         cell.selectedCategoryScreen = selectedCategory
-//        cell.mainGameDataFromScoreScreen = mainGameDataScreen
         cell.mainGameDataFromScoreScreen = mainGameDataChangeNewData
-        
-//         print("mainGameDataScreen \(mainGameDataScreen)")
         
         //MARK: - MainCollectionDetailVC
         cell.outputDetail = { id in
@@ -364,8 +349,8 @@ extension ScoresViewController: UITableViewDataSource{
 //MARK: - TableView Delegate
 extension ScoresViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 400
-//        return 100 * CGFloat(Database.nameLocationDataArray.count)
+//        return UITableView.automaticDimension
+        return 80 * CGFloat(mainGameDataChangeNewData[indexPath.row].games.count)
     }
 }
 

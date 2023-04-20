@@ -50,8 +50,8 @@ class SectionHeaderDetailMainVC: UIViewController {
     private var overviewVC = SectionHeaderDetailOverviewVC()
     private var matchesVC = SectionHeaderDetailMatchesVC()
     private var tableVC = SectionHeaderDetailTableVC()
-    private lazy var playerVC = SectionHeaderDetailPlayerVC(id: mainGameDataChangeNewData?.groupId ?? 0)
-    private var teamVC = SectionHeaderDetailTeamVC()
+    private lazy var playerVC = SectionHeaderDetailPlayerVC(id: mainGameDataChangeNewData?.tournamentId ?? 0)
+    private lazy var teamVC = SectionHeaderDetailTeamVC(id: mainGameDataChangeNewData?.tournamentId ?? 0)
 
     @objc func segmentControlValuChanged(_ sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0 {

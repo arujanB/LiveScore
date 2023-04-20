@@ -75,8 +75,6 @@ class SectionHeaderDetailPlayerVC: UIViewController {
         setUpViews()
         setUpConstrains()
         
-        //CHANGE VIEW
-//        btnOverview.addTarget(self, action: #selector(changeView(_:)), for: .touchUpInside)
     }
     
     //for show the datas which you choose in collection cell
@@ -92,7 +90,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
                 self.playerStatisticsGoals = values
                 self.tableView.reloadData()
             }
-        }, sectionName: APIStats.goals.rawValue, groupId: id)
+        }, sectionName: APIStats.goals.rawValue, tournamentId: id)
         
         apiCaller.fetchRequestPS (completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -100,7 +98,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
                 self.playerStatisticsAssistsData = values
                 self.tableView.reloadData()
             }
-        }, sectionName: APIStats.assist.rawValue, groupId: id)
+        }, sectionName: APIStats.assist.rawValue, tournamentId: id)
         
         apiCaller.fetchRequestPS (completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -108,7 +106,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
                 self.playerStatisticsRedCardData = values
                 self.tableView.reloadData()
             }
-        }, sectionName: APIStats.redCard.rawValue, groupId: id)
+        }, sectionName: APIStats.redCard.rawValue, tournamentId: id)
         
         apiCaller.fetchRequestPS (completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -116,7 +114,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
                 self.playerStatisticsYellowCardData = values
                 self.tableView.reloadData()
             }
-        }, sectionName: APIStats.yellowCard.rawValue, groupId: id)
+        }, sectionName: APIStats.yellowCard.rawValue, tournamentId: id)
         
     }
     
@@ -295,7 +293,6 @@ extension SectionHeaderDetailPlayerVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SectionHeaderPlayerTableViewCell.IDENTIFIER, for: indexPath) as! SectionHeaderPlayerTableViewCell
         cell.backgroundColor = .clear
-//        cell.setInfo(with: Database.playerInfoArray[indexPath.row])
         if indexPath.section == 1 {
             cell.setInfo(with: playerStatisticsGoals[indexPath.row])
         }else if indexPath.section == 2 {
@@ -307,7 +304,6 @@ extension SectionHeaderDetailPlayerVC: UITableViewDataSource {
         }else {
             cell.setInfo(with: playerStatisticsGoals[indexPath.row])
         }
-//        cell.setInfo(with: playerStatisticsData[indexPath.row])
         return cell
     }
 }

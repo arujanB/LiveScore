@@ -19,7 +19,7 @@ import Foundation
 //}
 
 struct PlayerStatisticsDatum: Codable {
-    let statName, groupName, teamName: String
+    let statName, teamName: String
     let teamLogo: String
     let playerName: String
     let total: Int

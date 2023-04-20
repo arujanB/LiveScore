@@ -13,7 +13,7 @@ import Kingfisher
 //}
 
 final class SectionHearderView: UIView {
-    var outputDetail: ((Int) -> Void)?
+    var outputDetail: ((Int, Int) -> Void)?
     
     var mainGameDataChangeNewDatum: MainGameDataChangeNewDatum?
     
@@ -87,7 +87,7 @@ final class SectionHearderView: UIView {
     
     @objc private func moveToVC() {
         guard let main = mainGameDataChangeNewDatum else { return }
-        outputDetail?(main.groupId)
+        outputDetail?(main.groupId, main.tournamentId)
     }
 }
 

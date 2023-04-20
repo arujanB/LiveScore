@@ -12,7 +12,7 @@ class Page2ViewController: UIViewController/*, PageProtocol*/ {
     var pageIndex: Int = 1
 
     let apiCaller = APICaller()
-    var tournamentData: [WelcomeDatum] = []
+    var tournamentData: [WelcomeDatumItem] = []
     
     private lazy var myLabel: UILabel = {
         var label = UILabel()
@@ -34,7 +34,7 @@ class Page2ViewController: UIViewController/*, PageProtocol*/ {
     
     private let myTableView: UITableView = {
         var tableView = UITableView()
-        tableView.register(FavoritesTableViewCell.self, forCellReuseIdentifier: FavoritesTableViewCell.IDENTIFIER)
+        tableView.register(Welcome2PageTableViewCell.self, forCellReuseIdentifier: Welcome2PageTableViewCell.IDENTIFIER)
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
@@ -68,7 +68,9 @@ class Page2ViewController: UIViewController/*, PageProtocol*/ {
         
         apiCaller.fetchRequestWelcome(completion: { values in
             DispatchQueue.main.async {
-                self.tournamentData = values
+                self.tournamentData = values.map {
+                    WelcomeDatumItem(welcomeDatum: $0, isFavorite: false)
+                }
                 self.myTableView.reloadData()
             }
         })
@@ -85,8 +87,7 @@ class Page2ViewController: UIViewController/*, PageProtocol*/ {
     }
     
     @objc func handleTapGesture(_ gesture: UITapGestureRecognizer) {
-        let moveVC = Page3ViewController()
-        navigationController?.pushViewController(moveVC, animated: true)
+        (parent as? WelcomeViewController)?.goToPage3()
     }
 
 }
@@ -111,11 +112,12 @@ extension Page2ViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FavoritesTableViewCell.IDENTIFIER, for: indexPath) as! FavoritesTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Welcome2PageTableViewCell.IDENTIFIER, for: indexPath) as! Welcome2PageTableViewCell
         cell.layer.borderWidth = 1
         cell.layer.borderColor = .init(red: 0.104, green: 0.104, blue: 0.104, alpha: 1)
         cell.backgroundColor = UIColor.init(red: 0.118, green: 0.118, blue: 0.118, alpha: 1)
         cell.setWelcome2Page(with: tournamentData[indexPath.row])
+        cell.delegate = self
         
         return cell
     }
@@ -179,3 +181,33 @@ extension Page2ViewController{
     }
 }
 
+//MARK: - Save data to favorites 
+extension Page2ViewController: Welcome2PageTableViewCellDelegate {
+    func welcome2PageTableViewCell(_ welcome2PageTableViewCell: Welcome2PageTableViewCell, didFavorite item: WelcomeDatumItem) {
+        let item = WelcomeDatumItem(welcomeDatum: item.welcomeDatum, isFavorite: !item.isFavorite)
+        
+        var favorites: [WelcomeDatumItem] = []
+        
+        if let data = UserDefaults.standard.value(forKey: "favorites") as? Data {
+            favorites = try! PropertyListDecoder().decode([WelcomeDatumItem].self, from: data)
+        }
+        
+        if let index = favorites.firstIndex(where: { $0.welcomeDatum.tournamentID == item.welcomeDatum.tournamentID }) {
+            if item.isFavorite == false {
+                favorites.remove(at: index)
+            }
+        } else {
+            favorites.append(item)
+        }
+        
+        if let data = try? PropertyListEncoder().encode(favorites){
+            UserDefaults.standard.set(data, forKey: "favorites")
+        }
+        
+        if let index = tournamentData.firstIndex(where: { $0.welcomeDatum.tournamentID == item.welcomeDatum.tournamentID }) {
+            tournamentData[index] = item
+            myTableView.reloadData()
+        }
+        
+    }
+}

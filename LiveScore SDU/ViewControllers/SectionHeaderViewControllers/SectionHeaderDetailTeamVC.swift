@@ -19,7 +19,16 @@ final class SectionHeaderDetailTeamVC: UIViewController {
     
     var allTeamStatisticsData: [TeamStatisticsDatum] = []
     
+    var id: Int
     
+    init(id: Int) {
+        self.id = id
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     
     private lazy var array = ["ALL", "GOALS SCORED", "RED CARD", "YELLOW CARD"]
@@ -77,7 +86,7 @@ final class SectionHeaderDetailTeamVC: UIViewController {
                 self.tableView.reloadData()
                 self.allTeamStatisticsData += self.teamStatisticsGoals
             }
-        }, id: 1)
+        }, id: id)
         
         //RedCard
         apiCaller.fetchRequestTS (completion: { [weak self] values in
@@ -86,7 +95,7 @@ final class SectionHeaderDetailTeamVC: UIViewController {
                 self.teamStatisticsRedCardData = values
                 self.tableView.reloadData()
             }
-        }, sectionName: "red_cards", id: 1)
+        }, sectionName: "red_cards", id: id)
         
         //YellowCard
         apiCaller.fetchRequestTS (completion: { [weak self] values in
@@ -95,7 +104,7 @@ final class SectionHeaderDetailTeamVC: UIViewController {
                 self.teamStatisticsYellowCardData = values
                 self.tableView.reloadData()
             }
-        }, sectionName: "yellow_cards", id: 1)
+        }, sectionName: "yellow_cards", id: id)
         
     }
     

@@ -102,15 +102,15 @@ struct APICaller {
             if let teamStatisticsData = try? JSONDecoder().decode(TableTeamFootballData.self, from: data) {
                 completion(teamStatisticsData)
             }else {
-                print("FAIL")
+                print("FAIL TABLE")
             }
         }
         task.resume()
     }
     
     //MARK: - PLAYER STATISTICS
-    func fetchRequestPS(completion: @escaping ([PlayerStatisticsDatum]) -> Void, sectionName: String, groupId: Int){
-        let urlString = "http://localhost:8080/player_statistics/\(sectionName)?groupId=\(groupId)"
+    func fetchRequestPS(completion: @escaping ([PlayerStatisticsDatum]) -> Void, sectionName: String, tournamentId: Int){
+        let urlString = "http://localhost:8080/player_statistics/\(sectionName)?tournament_id=\(tournamentId)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -118,11 +118,10 @@ struct APICaller {
         let task = URLSession.shared.dataTask(with: request) { data, responce, error in
             guard let data else { return }
             if let playerStatisticsData = try? JSONDecoder().decode(PlayerStatisticsData.self, from: data) {
-//                print(playerStatisticsData[0].assists)
                 completion(playerStatisticsData)
                 delegate?.didFetch(with: playerStatisticsData)
             }else {
-                print("FAIL")
+                print("FAIL PLAYER")
             }
         }
         task.resume()
@@ -132,7 +131,7 @@ struct APICaller {
     //MARK: - TEAM STATISTICS
     //TEAM STATISTICS: GOALS
     func fetchRequestTSGoals(completion: @escaping ([TeamStatisticsDatum]) -> Void, id: Int){
-        let urlString = "http://localhost:8080/team_statistics/goals?groupId=\(id)"
+        let urlString = "http://localhost:8080/team_statistics/goals?tournament_id=\(id)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -142,7 +141,7 @@ struct APICaller {
             if let teamStatisticsData = try? JSONDecoder().decode(TeamStatisticsData.self, from: data) {
                 completion(teamStatisticsData)
             }else {
-                print("FAIL")
+                print("FAIL Team GOALS")
             }
         }
         task.resume()
@@ -160,7 +159,7 @@ struct APICaller {
             if let teamStatisticsRedCardData = try? JSONDecoder().decode(TeamStatisticsRedCardData.self, from: data) {
                 completion(teamStatisticsRedCardData)
             }else {
-                print("FAIL")
+                print("FAIL TEAM RED YELLOW")
             }
         }
         task.resume()
@@ -195,6 +194,25 @@ struct APICaller {
             if let welcomeData = try? JSONDecoder().decode(WelcomeData.self, from: data) {
                 print(welcomeData[0].tournamentName)
                 completion(welcomeData)
+            }else {
+                print("FAIL")
+            }
+        }
+        task.resume()
+    }
+    
+    //MARK: - FAVORITES SECTION DETAIL
+    func fetchRequestFavoritesSection(completion: @escaping ([FavoritesDatum]) -> Void, tourId: Int){
+        let urlString = "http://localhost:8080/group_info/all_group/points?tournamentId=\(tourId)"
+        
+        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        let request = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+            guard let data else { return }
+            if let favoritesData = try? JSONDecoder().decode(FavoritesData.self, from: data) {
+                print(favoritesData[0].tournamentName)
+                completion(favoritesData)
             }else {
                 print("FAIL")
             }

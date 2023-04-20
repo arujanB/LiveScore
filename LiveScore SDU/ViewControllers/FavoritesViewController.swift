@@ -10,6 +10,8 @@ import UIKit
 class FavoritesViewController: UIViewController {
     
     let apiCaller = APICaller()
+    var items: [WelcomeDatumItem] = []
+    var favoritesSectionData: [FavoritesDatum] = []
     
     private lazy var myLabel: UILabel = {
         var label = UILabel()
@@ -30,7 +32,7 @@ class FavoritesViewController: UIViewController {
     
     private let myTableView: UITableView = {
         var tableView = UITableView()
-        tableView.register(FavoritesTableViewCell.self, forCellReuseIdentifier: FavoritesTableViewCell.IDENTIFIER)
+        tableView.register(Welcome2PageTableViewCell.self, forCellReuseIdentifier: Welcome2PageTableViewCell.IDENTIFIER)
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
@@ -50,9 +52,21 @@ class FavoritesViewController: UIViewController {
         
         setUpViews()
         setUpConstrains()
+        
+        loadItems()
+    }
+    
+    private func loadItems() {
+        var favorites: [WelcomeDatumItem] = []
+        
+        if let data = UserDefaults.standard.value(forKey: "favorites") as? Data {
+            favorites = try! PropertyListDecoder().decode([WelcomeDatumItem].self, from: data)
+        }
+         items = favorites
     }
 
 }
+
 
 //MARK: - SearchBar delegate
 extension FavoritesViewController: UISearchBarDelegate{
@@ -70,15 +84,33 @@ extension FavoritesViewController: UISearchBarDelegate{
 extension FavoritesViewController: UITableViewDataSource{
     //cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FavoritesTableViewCell.IDENTIFIER, for: indexPath) as! FavoritesTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Welcome2PageTableViewCell.IDENTIFIER, for: indexPath) as! Welcome2PageTableViewCell
         cell.layer.borderWidth = 1
         cell.layer.borderColor = .init(red: 0.104, green: 0.104, blue: 0.104, alpha: 1)
         cell.backgroundColor = UIColor.init(red: 0.118, green: 0.118, blue: 0.118, alpha: 1)
         
+        cell.setWelcome2Page(with: items[indexPath.row])
+        cell.delegate = self
+        
+        cell.outputDetail = { [weak self] tournament in
+            guard let self else { return }
+            
+            self.apiCaller.fetchRequestFavoritesSection (completion: { [weak self] values in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.favoritesSectionData = values
+                    self.myTableView.reloadData()
+                }
+            },  tourId: tournament)
+            
+            let vc = ScoresViewController()
+//            vc.dataTakeForTabHeader = data
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
         return cell
     }
     
@@ -129,3 +161,32 @@ extension FavoritesViewController{
     }
 }
 
+extension FavoritesViewController: Welcome2PageTableViewCellDelegate {
+    func welcome2PageTableViewCell(_ welcome2PageTableViewCell: Welcome2PageTableViewCell, didFavorite item: WelcomeDatumItem) {
+        let item = WelcomeDatumItem(welcomeDatum: item.welcomeDatum, isFavorite: !item.isFavorite)
+        
+        var favorites: [WelcomeDatumItem] = []
+        
+        if let data = UserDefaults.standard.value(forKey: "favorites") as? Data {
+            favorites = try! PropertyListDecoder().decode([WelcomeDatumItem].self, from: data)
+        }
+        
+        if let index = favorites.firstIndex(where: { $0.welcomeDatum.tournamentID == item.welcomeDatum.tournamentID }) {
+            if item.isFavorite == false {
+                favorites.remove(at: index)
+            }
+        } else {
+            favorites.append(item)
+        }
+        
+        if let data = try? PropertyListEncoder().encode(favorites){
+            UserDefaults.standard.set(data, forKey: "favorites")
+        }
+        
+        items = favorites
+        
+        myTableView.reloadData()
+        
+    }
+    
+}

@@ -120,8 +120,6 @@ class MainCollectionViewCell: UICollectionViewCell {
     }()
     
     func configure(with model: Game) {
-//        group1.text = model.team1Name
-//        group2.text = model.team2Name
         group1.text = model.team1Name
         group2.text = model.team2Name
         
@@ -214,23 +212,6 @@ class MainCollectionViewCell: UICollectionViewCell {
         stackView.distribution = .fill
         return stackView
     }
-    
-//    func setData(with data: GameScoreData) {
-//        time.text = data.time
-//        group1.text = data.firstGroup
-//        group2.text = data.secondGroup
-//        img1.image = UIImage(named: data.logo1)
-//        img2.image = UIImage(named: data.logo2)
-//        score1.text = String(data.firstScore)
-//        score2.text = String(data.secondScore)
-//
-//        if data.favorite == true{
-//            buttonImg.setImage(UIImage(systemName: "star"), for: .normal)
-//        }else {
-//            buttonImg.setImage(UIImage(systemName: "star.fill"), for: .normal)
-//        }
-//
-//    }
     
     @objc private func moveToVC() {
         outputDetail?()

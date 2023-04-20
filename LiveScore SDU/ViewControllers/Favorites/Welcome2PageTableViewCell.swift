@@ -7,8 +7,14 @@
 
 import UIKit
 
-class FavoritesTableViewCell: UITableViewCell {
-    static let IDENTIFIER = "MainTableViewCell"
+protocol Welcome2PageTableViewCellDelegate: AnyObject {
+    func welcome2PageTableViewCell(_ welcome2PageTableViewCell: Welcome2PageTableViewCell, didFavorite item: WelcomeDatumItem)
+}
+
+class Welcome2PageTableViewCell: UITableViewCell {
+    static let IDENTIFIER = "Welcome2PageTableViewCell"
+    
+    var outputDetail: ((Int) -> Void)?
     
     private lazy var titleSection: UILabel = {
         var label = UILabel()
@@ -62,8 +68,8 @@ class FavoritesTableViewCell: UITableViewCell {
     
     private lazy var buttonImg: UIButton = {
         var button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        button.tintColor = .gray
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.tintColor = .orange
         
         return button
     }()
@@ -78,10 +84,15 @@ class FavoritesTableViewCell: UITableViewCell {
         return stackView
     }()
     
+    weak var delegate: Welcome2PageTableViewCellDelegate?
+    private(set) var item: WelcomeDatumItem?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         buttonImg.addTarget(self, action: #selector(starButtonTapped), for: .touchUpInside)
+        
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(moveToVC)))
         
         setUpViews()
         setUpConstrains()
@@ -91,18 +102,24 @@ class FavoritesTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //star button change when you click (fill)
-    @objc func starButtonTapped() {
-        if buttonImg.image(for: .normal) == UIImage(systemName: "star.fill") {
-            buttonImg.setImage(UIImage(systemName: "star"), for: .normal)
-        } else {
-            buttonImg.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        }
+    @objc private func moveToVC() {
+        guard let main = item?.welcomeDatum else { return }
+        outputDetail?(main.tournamentID)
     }
     
-    func setWelcome2Page(with model: WelcomeDatum) {
-        titleSection.text = model.tournamentName
-        subtitleSection.text = model.tournamentType
+    //star button change when you click (fill)
+    @objc func starButtonTapped() {
+        guard let item = item else { return }
+        delegate?.welcome2PageTableViewCell(self, didFavorite: item)
+    }
+    
+    func setWelcome2Page(with model: WelcomeDatumItem) {
+        item = model
+        titleSection.text = model.welcomeDatum.tournamentName
+        subtitleSection.text = model.welcomeDatum.tournamentType
+        
+        let img = UIImage(systemName: model.isFavorite ? "star.fill" : "star")
+        buttonImg.setImage(img, for: .normal)
         
 //        let url = URL(string: data.teamLogo)!
 //        img.kf.setImage(with: url)
@@ -111,9 +128,9 @@ class FavoritesTableViewCell: UITableViewCell {
 }
 
 //MARK: - setUpViews & setUpConstrains
-private extension FavoritesTableViewCell {
+private extension Welcome2PageTableViewCell {
     func setUpViews(){
-        addSubview(stackViewMommy)
+        contentView.addSubview(stackViewMommy)
     }
     
     func setUpConstrains(){

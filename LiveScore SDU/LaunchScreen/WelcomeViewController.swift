@@ -160,28 +160,23 @@ class WelcomeViewController: UIPageViewController, UIPageViewControllerDataSourc
         if let page3 = self.pages.last {
             if let page3Content = page3 as? Page3ViewController {
                 print("Tapped on Page 3: \(page3Content)")
-                // Create an instance of the destination view controller
+                
                 let destinationVC = MainViewController()
                 destinationVC.modalPresentationStyle = .overFullScreen
-                // Push the destination view controller onto the navigation stack
                 present(destinationVC, animated: true)
             }
         }
         
     }
     
-//    private func viewControllerForPage(page: Int) -> UIViewController {
-//        switch page {
-//        case 0:
-//            return Page1ViewController()
-//        case 1:
-//            return Page2ViewController()
-//        case 2:
-//            return Page3ViewController()
-//        default:
-//            return UIViewController()
-//        }
-//    }
+    func goToPage3() {
+        guard pages.count == 3 else { return }
+        
+        let page3 = pages[2]
+        setViewControllers([page3], direction: .forward, animated: true)
+        
+        pageControl.currentPage = 2
+    }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         if let viewControllerIndex = self.pages.firstIndex(of: viewController) {
@@ -192,11 +187,6 @@ class WelcomeViewController: UIPageViewController, UIPageViewControllerDataSourc
             }
         }
         return nil
-        
-//        guard let index = viewController as? PageProtocol else { return nil }
-//        let previousIndex = index.pageIndex - 1
-//        guard previousIndex >= 0 else { return nil }
-//        return viewControllerForPage(page: previousIndex)
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -204,15 +194,11 @@ class WelcomeViewController: UIPageViewController, UIPageViewControllerDataSourc
             if viewControllerIndex < self.pages.count - 1 {
                 return self.pages[viewControllerIndex + 1]
             } else {
-                return self.pages.first
+//                return self.pages.first
+                return nil
             }
         }
         return nil
-        
-//        guard let index = viewController as? PageProtocol else { return nil }
-//        let nextIndex = index.pageIndex + 1
-//        guard nextIndex < 3 else { return nil }
-//        return viewControllerForPage(page: nextIndex)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {

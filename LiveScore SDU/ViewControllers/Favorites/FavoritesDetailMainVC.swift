@@ -1,26 +1,25 @@
 //
-//  SectionDetailViewController.swift
+//  FavoriteDetailViewController.swift
 //  LiveScore SDU
 //
-//  Created by Aruzhan Boranbay on 09.03.2023.
+//  Created by Aruzhan Boranbay on 20.04.2023.
 //
 
 import UIKit
 
-class SectionHeaderDetailMainVC: UIViewController {
+class FavoritesDetailMainVC: UIViewController {
+
     let apiCaller = APICaller()
-    var mainGameDataChangeNewData: MainGameDataChangeNewDatum?
+    var favoritesData: FavoritesDatum?
     
-    init(model: MainGameDataChangeNewDatum) {
-        self.mainGameDataChangeNewData = model
+    init(model: FavoritesDatum) {
+        self.favoritesData = model
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    let sectionHV = ScoresViewController()
     
     private lazy var line: UIView = {
         var view = UIView()
@@ -49,9 +48,9 @@ class SectionHeaderDetailMainVC: UIViewController {
     
     private var overviewVC = SectionHeaderDetailOverviewVC()
     private var matchesVC = SectionHeaderDetailMatchesVC()
-    private lazy var tableVC = SectionHeaderDetailTableVC(tourId: mainGameDataChangeNewData?.tournamentId ?? 0, grouId: mainGameDataChangeNewData?.groupId ?? 0)
-    private lazy var playerVC = SectionHeaderDetailPlayerVC(id: mainGameDataChangeNewData?.tournamentId ?? 0)
-    private lazy var teamVC = SectionHeaderDetailTeamVC(id: mainGameDataChangeNewData?.tournamentId ?? 0)
+    private lazy var tableVC = FavoritesTableVC(id: favoritesData?.groupID ?? 0)
+    private lazy var playerVC = SectionHeaderDetailPlayerVC(id: favoritesData?.groupID ?? 0)
+    private lazy var teamVC = SectionHeaderDetailTeamVC(id: favoritesData?.groupID ?? 0)
 
     @objc func segmentControlValuChanged(_ sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0 {
@@ -107,23 +106,21 @@ class SectionHeaderDetailMainVC: UIViewController {
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        sectionHV.delegate = self
-//        sectionHV.fetchData()
 
         view.backgroundColor = UIColor(red: 0.098, green: 0.098, blue: 0.098, alpha: 1)
-        setNav()
-        
+                
         setUpViews()
         setUpConstrains()
+       
     }
-    
+
 }
 
 //MARK: - setUpViews & setUpConstrains
-extension SectionHeaderDetailMainVC {
+extension FavoritesDetailMainVC {
     func setUpViews() {
         view.addSubview(line)
         view.addSubview(segmentControll)
@@ -147,49 +144,6 @@ extension SectionHeaderDetailMainVC {
             make.top.equalTo(line.snp.bottom).offset(10)
             make.width.equalToSuperview()
             make.height.equalTo(view.safeAreaLayoutGuide.snp.height).multipliedBy(0.9)
-//            make.bottom.equalTo(tableView.snp.top).multipliedBy(0.7)
         }
-    }
-}
-
-//MARK: - Navigation
-extension SectionHeaderDetailMainVC {
-    private func setNav() {
-        guard let datatake = mainGameDataChangeNewData else { return }
-        
-        let customTitleView = createCustomTitleView(contactName: datatake.tournamentName,
-                                                    contactDescribtion: datatake.groupName,
-                                                    contactImg: datatake.tournamentLogo)
-        
-        navigationItem.titleView = customTitleView
-    }
-
-    func createCustomTitleView(contactName: String, contactDescribtion: String, contactImg: String) -> UIView {
-        
-        let view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 280, height: 41)
-        
-        let imageContact = UIImageView()
-        let url = URL(string: contactImg)!
-        imageContact.kf.setImage(with: url)
-        //imageContact.image = contactImg
-        imageContact.layer.cornerRadius = imageContact.frame.height / 2
-        imageContact.frame = CGRect(x: 5, y: 10, width: 30, height: 20)
-        view.addSubview(imageContact)
-        
-        let nameLabel = UILabel()
-        nameLabel.text = contactName
-        nameLabel.frame = CGRect(x: 55, y: 0, width: 220, height: 20)
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 15)
-        view.addSubview(nameLabel)
-        
-        let descriptionLabel = UILabel()
-        descriptionLabel.text = contactDescribtion
-        descriptionLabel.frame = CGRect(x: 55, y: 21, width: 220, height: 20)
-        descriptionLabel.font = UIFont.systemFont(ofSize: 10)
-        descriptionLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        view.addSubview(descriptionLabel)
-        
-        return view
     }
 }

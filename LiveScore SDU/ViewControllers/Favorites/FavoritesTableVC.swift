@@ -1,21 +1,19 @@
 //
-//  SectionHeaderDetailTableVC.swift
+//  FavoritesTableVC.swift
 //  LiveScore SDU
 //
-//  Created by Aruzhan Boranbay on 25.03.2023.
+//  Created by Aruzhan Boranbay on 20.04.2023.
 //
 
 import UIKit
 
-class SectionHeaderDetailTableVC: UIViewController {
+class FavoritesTableVC: UIViewController {
     let apiCaller = APICaller()
     
-    var tourId: Int
-    var grouId: Int
+    var id: Int
     
-    init(tourId: Int, grouId: Int) {
-        self.tourId = tourId
-        self.grouId = grouId
+    init(id: Int) {
+        self.id = id
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,9 +34,8 @@ class SectionHeaderDetailTableVC: UIViewController {
     }()
     
     //get Data TEAM STATS from API
-    private var tableData: [FavoritesDatum] = []
+    private var favoritesSectionDataTable: [FavoritesDatum] = []
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,23 +43,23 @@ class SectionHeaderDetailTableVC: UIViewController {
         setUpConstrains()
         
         tableView.dataSource = self
-        tableView.delegate = self
         
         //API team Stats
-        self.apiCaller.fetchRequestTable (completion: { [weak self] values in
+        self.apiCaller.fetchRequestFavoritesSection (completion: { [weak self] values in
             DispatchQueue.main.async {
                 guard let self else { return }
-                self.tableData = values
+                self.favoritesSectionDataTable = values
                 self.tableView.reloadData()
             }
-        }, grouId: grouId,  tourId: tourId)
+        },  tourId: id)
         
     }
-
+    
+    
 }
 
 //MARK: - TableView DataSource
-extension SectionHeaderDetailTableVC: UITableViewDataSource {
+extension FavoritesTableVC: UITableViewDataSource {
     
     //section
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -75,42 +72,25 @@ extension SectionHeaderDetailTableVC: UITableViewDataSource {
     
     //cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return Database.playerInfoArray.count
-        if !tableData.isEmpty {
-            return tableData[0].sortedByPointTeams.count
-        }
-        return 0
+        return favoritesSectionDataTable[0].sortedByPointTeams.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SectionHeaderDetailTableViewCell.IDENTIFIER, for: indexPath) as! SectionHeaderDetailTableViewCell
         cell.backgroundColor = .clear
-        cell.setInfo(with: tableData[0].sortedByPointTeams[indexPath.row])
+        cell.setInfo(with: favoritesSectionDataTable[0].sortedByPointTeams[indexPath.row])
         return cell
     }
 }
 
-//MARK: - tableView Delegate
-extension SectionHeaderDetailTableVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = SectionHeaderTableView()
-        return view
-    }
-}
-
 //MARK: - setUpViews & setUpConstarins
-extension SectionHeaderDetailTableVC {
+extension FavoritesTableVC {
     func setUpViews() {
         view.addSubview(tableView)
     }
     
     func setUpConstrains() {
         tableView.snp.makeConstraints { make in
-//            make.center.equalToSuperview()
-////            make.height.equalToSuperview().multipliedBy(0.5)
-//            make.height.equalTo(300)
-//            make.width.equalToSuperview().inset(20)
-            
             make.top.equalToSuperview().inset(50)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalToSuperview().multipliedBy(0.9)

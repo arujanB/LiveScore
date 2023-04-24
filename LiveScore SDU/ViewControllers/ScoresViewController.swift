@@ -84,6 +84,7 @@ final class ScoresViewController: UIViewController {
         let font = UIFont.boldSystemFont(ofSize: 10)
         segmentControll.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
         
+        
         return segmentControll
     }()
     
@@ -104,6 +105,11 @@ final class ScoresViewController: UIViewController {
     private var dateModels: [DateModel] = []
     
     @objc func segmentControlValuChanged(_ sender: UISegmentedControl){
+        
+        if buttonLive.backgroundColor == .orange {
+            buttonLive.backgroundColor = .white
+            segmentControll.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orange], for: UIControl.State.selected)
+        }
         
         guard sender.selectedSegmentIndex < dateModels.count else { return }
         
@@ -158,6 +164,18 @@ final class ScoresViewController: UIViewController {
     
     //MARK: - Button LIVE
     @objc func showLive() {
+//        var lineOrange: UIView = {
+//            var view = UIView()
+//            view.backgroundColor = .orange
+//            return view
+//        }()
+//        view.addSubview(lineOrange)
+//        lineOrange.snp.makeConstraints { make in
+//            make.height.equalTo(10)
+//            make.width.equalToSuperview()
+//            make.top.equalTo(line.snp.bottom).offset(10)
+//        }
+        
         apiCaller.fetchRequestLive(completion: { values in
             DispatchQueue.main.async {
                 self.mainGameDataChangeNewData = values
@@ -169,9 +187,6 @@ final class ScoresViewController: UIViewController {
         if buttonLive.backgroundColor == .white {
             buttonLive.backgroundColor = .orange
             segmentControll.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
-        } else {
-            buttonLive.backgroundColor = .white
-            segmentControll.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orange], for: UIControl.State.selected)
         }
     }
     
@@ -319,11 +334,9 @@ extension ScoresViewController: UITableViewDataSource{
 //        cell.setNameLabel(with: row[indexPath.row])
         cell.backgroundColor = .clear
 
-        print("Screen CELL\(cell.mainGameDataFromScoreScreen)")
-        
         cell.scoreEnum = scoreSegmentEnum
         cell.selectedCategoryScreen = selectedCategory
-        cell.mainGameDataFromScoreScreen = mainGameDataChangeNewData
+        cell.games = mainGameDataChangeNewData[indexPath.section].games
         
         //MARK: - MainCollectionDetailVC
         cell.outputDetail = { id in
@@ -331,13 +344,13 @@ extension ScoresViewController: UITableViewDataSource{
                 DispatchQueue.main.async {
                     guard let self else { return }
 //                    self.mainDataCell?.protocolId = self.mainGameDataScreen[id].protocolID
-                    self.mainDataCell?.protocolId = self.mainGameDataChangeNewData[indexPath.row].games[id].protocolID
+                    self.mainDataCell?.protocolId = self.mainGameDataChangeNewData[indexPath.section].games[id].protocolID
                     let vc = MainCollectionDetailVC(model: values)
                     self.navigationController?.pushViewController(vc, animated: true)
                     guard let data = self.mainDataCell else { fatalError("ERROR DATA")}
                     print("DATA: \(data)")
                 }
-            }, protocolId: self.mainGameDataChangeNewData[indexPath.row].games[id].protocolID)
+            }, protocolId: self.mainGameDataChangeNewData[indexPath.section].games[id].protocolID)
         }
         
         cell.reload()

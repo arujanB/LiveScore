@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SectionHeaderDetailTableViewCell: UITableViewCell {
 
     static let IDENTIFIER = "SectionHeaderDetailTableViewCell"
     
-    private lazy var id: UILabel = myLabel(with: "")
+    private lazy var id: UILabel = myLabel(with: "1")
     private lazy var name: UILabel = myLabel(with: "Default")
     
     private lazy var img: UIImageView = {
@@ -87,15 +88,15 @@ class SectionHeaderDetailTableViewCell: UITableViewCell {
         return label
     }
     
-    func setInfo(with data: TableTeamFootballDatum){
+    func setInfo(with data: SortedByPointTeam){
 //        self.id.text = "\(data.teamID)"
         self.name.text = data.teamName
         self.p.text = "\(data.gamePlayed)"
-        self.cg.text = "\(data.drawCount)"
+        self.cg.text = "\(data.goalCount - data.goalMissed)"
         self.pts.text = "\(data.points)"
         
-//        let url = URL(string: data.teamLogo)!
-//        img.kf.setImage(with: url)
+        let url = URL(string: data.teamLogo)!
+        img.kf.setImage(with: url)
     }
     
 }
@@ -108,7 +109,7 @@ extension SectionHeaderDetailTableViewCell{
     
     func setUpConstrains() {
         stackViewMainMommy.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(30)
             make.top.bottom.equalToSuperview().inset(10)
         }
         

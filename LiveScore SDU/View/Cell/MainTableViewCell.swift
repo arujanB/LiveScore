@@ -12,7 +12,7 @@ class MainTableViewCell: UITableViewCell {
 
     var scoreEnum: ScoreSegment = .today
 //    var mainGameDataFromScoreScreen: [MainGameDatum] = []
-    var mainGameDataFromScoreScreen: [MainGameDataChangeNewDatum] = []
+    var games: [Game] = []
     var selectedCategoryScreen = ""
     
     var outputDetail: ((Int) -> Void)?
@@ -51,7 +51,7 @@ class MainTableViewCell: UITableViewCell {
 extension MainTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return mainGameDataFromScore.count
-        return mainGameDataFromScoreScreen[section].games.count
+        return games.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -60,9 +60,9 @@ extension MainTableViewCell: UICollectionViewDataSource {
         cell.layer.masksToBounds = true
         cell.layer.borderColor = .init(red: 0.104, green: 0.104, blue: 0.104, alpha: 1)
         cell.layer.borderWidth = 1
-        print("Main TableView cell\(mainGameDataFromScoreScreen)")
+        print("Main TableView cell\(games)")
         
-        cell.configure(with: mainGameDataFromScoreScreen[indexPath.section].games[indexPath.row])// i am not sure that it is correct. IndexPath.section replaced from 0
+        cell.configure(with: games[indexPath.item])// i am not sure that it is correct. IndexPath.section replaced from 0
         cell.backgroundColor = .gray
         cell.outputDetail = {
             self.outputDetail?(indexPath.row)

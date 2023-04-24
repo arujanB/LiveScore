@@ -11,6 +11,7 @@ class FavoritesViewController: UIViewController {
     
     let apiCaller = APICaller()
     var items: [WelcomeDatumItem] = []
+    var welcomeDataModel: [WelcomeDatum] = []
     var favoritesSectionData: [FavoritesDatum] = []
     
     private lazy var myLabel: UILabel = {
@@ -75,9 +76,28 @@ extension FavoritesViewController: UISearchBarDelegate{
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {// help search automatically when you write
-        let query = searchBar.text?.replacingOccurrences(of: " ", with: "+")
+        let query = searchBar.text?.replacingOccurrences(of: " ", with: "")
         print(query ?? "")
+        
+        apiCaller.fetchRequestSearch(completion: items[0].welcomeDatum, searchName: query ?? "")
+        myTableView.reloadData()
+//        apiCaller.fetchRequestSearch(completion: { [weak self] newArray in
+//            self?.welcomeDataModel = newArray
+//            self?.myTableView.reloadData()
+//        }, searchName: query ?? "")
+        
+//        apiCaller.fetchRequestSearch(searchName: query ?? "") { result in
+//            switch result {
+//            case .success(let items):
+//                self.items = items
+//                self.myTableView.reloadData()
+//            case .failure(let error):
+//                print("Error searching: \(error)")
+//            }
+//        }
+        
     }
+    
 }
 
 //MARK: - TableView DataSource
@@ -103,13 +123,20 @@ extension FavoritesViewController: UITableViewDataSource{
                 DispatchQueue.main.async {
                     guard let self else { return }
                     self.favoritesSectionData = values
+//                    self.favoritesSectionData.append(contentsOf: values)
+                    if self.favoritesSectionData[0].groupID == tournament {
+                        let vc = FavoritesDetailMainVC(model: values[0])
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+//                    self.favoritesSectionData = values
                     self.myTableView.reloadData()
                 }
             },  tourId: tournament)
             
-            let vc = ScoresViewController()
+//            favoritesSectionData[indexPath.row].groupID = tournament
+//            let vc = FavoriteDetailViewController(model: self.favoritesSectionData[0])
 //            vc.dataTakeForTabHeader = data
-            self.navigationController?.pushViewController(vc, animated: true)
+//            self.navigationController?.pushViewController(vc, animated: true)
         }
         return cell
     }

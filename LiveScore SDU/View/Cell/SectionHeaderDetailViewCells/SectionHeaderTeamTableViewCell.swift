@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class SectionHeaderTeamTableViewCell: UITableViewCell {
     static let IDENTIFIER = "SectionHeaderTeamTableViewCell"

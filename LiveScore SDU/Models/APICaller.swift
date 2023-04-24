@@ -91,16 +91,18 @@ struct APICaller {
     }
     
     //MARK: - TABLE TEAM FOOTBALL
-    func fetchRequestTable(completion: @escaping ([TableTeamFootballDatum]) -> Void){
-        let urlString = "http://localhost:8080/team_statistics/points?groupId=1"
+    func fetchRequestTable(completion: @escaping ([FavoritesDatum]) -> Void, grouId: Int, tourId:Int){
+        let urlString = "http://localhost:8080/group_info/group/points?groupId=\(grouId)&tournamentId=\(tourId)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { data, responce, error in
             guard let data else { return }
-            if let teamStatisticsData = try? JSONDecoder().decode(TableTeamFootballData.self, from: data) {
-                completion(teamStatisticsData)
+            if let tableData = try? JSONDecoder().decode(FavoritesData.self, from: data) {
+                completion(tableData)
+                print(tableData[0].groupID)
+                print("TOURNAMENT ID \(tourId)")
             }else {
                 print("FAIL TABLE")
             }
@@ -219,5 +221,41 @@ struct APICaller {
         }
         task.resume()
     }
+    
+    //MARK: - SEARCH BUTTON
+    func fetchRequestSearch(completion: WelcomeDatum, searchName: String = ""){
+        let urlString = "http://localhost:8080/tournament/tournament_name?name=\(searchName)"
+
+        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        let request = URLRequest(url: url)
+
+        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+            guard let data else { return }
+            if let favoritesData = try? JSONDecoder().decode(WelcomeData.self, from: data) {
+                print(favoritesData)
+            }else {
+                print("FAIL SEARCH BUTTON")
+            }
+        }
+        task.resume()
+    }
+    
+//    func fetchRequestSearch(completion: @escaping ([WelcomeDatum]) -> Void, searchName: String = ""){
+//        let urlString = "http://localhost:8080/tournament/tournament_name?name=\(searchName)"
+//
+//        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+//        let request = URLRequest(url: url)
+//
+//        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+//            guard let data else { return }
+//            if let favoritesData = try? JSONDecoder().decode([WelcomeDatum].self, from: data) {
+////                completion(favoritesData)
+//                print(favoritesData)
+//            }else {
+//                print("FAIL SEARCH BUTTON")
+//            }
+//        }
+//        task.resume()
+//    }
     
 }

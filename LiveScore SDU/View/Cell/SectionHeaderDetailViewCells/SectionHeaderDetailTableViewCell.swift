@@ -89,7 +89,7 @@ class SectionHeaderDetailTableViewCell: UITableViewCell {
     }
     
     func setInfo(with data: SortedByPointTeam){
-//        self.id.text = "\(data.teamID)"
+        self.id.text = "\(data.position)"
         self.name.text = data.teamName
         self.p.text = "\(data.gamePlayed)"
         self.cg.text = "\(data.goalCount - data.goalMissed)"

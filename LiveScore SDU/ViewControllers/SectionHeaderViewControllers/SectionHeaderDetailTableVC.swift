@@ -23,6 +23,8 @@ class SectionHeaderDetailTableVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    let refreshControl = UIRefreshControl()
+    
     private lazy var tableView: UITableView = {
         var tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -48,6 +50,9 @@ class SectionHeaderDetailTableVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        refreshControl.tintColor = .orange
+        
         //API team Stats
         self.apiCaller.fetchRequestTable (completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -57,6 +62,11 @@ class SectionHeaderDetailTableVC: UIViewController {
             }
         }, grouId: grouId,  tourId: tourId)
         
+    }
+
+    @objc private func refreshTable() {
+        tableView.reloadData()
+        refreshControl.endRefreshing()
     }
 
 }
@@ -102,6 +112,7 @@ extension SectionHeaderDetailTableVC: UITableViewDelegate {
 extension SectionHeaderDetailTableVC {
     func setUpViews() {
         view.addSubview(tableView)
+        tableView.addSubview(refreshControl)
     }
     
     func setUpConstrains() {

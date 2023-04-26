@@ -22,6 +22,8 @@ class SectionHeaderDetailPlayerVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    let refreshControl = UIRefreshControl()
+    
     var allList: [[PlayerStatisticsDatum]] = []
     
     private var playerStatisticsGoals: [PlayerStatisticsDatum] = []
@@ -57,6 +59,8 @@ class SectionHeaderDetailPlayerVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        refreshControl.tintColor = .orange
 //        view.backgroundColor = .systemPink
         
         collectionView.dataSource = self
@@ -75,6 +79,11 @@ class SectionHeaderDetailPlayerVC: UIViewController {
         setUpViews()
         setUpConstrains()
         
+    }
+    
+    @objc private func refreshTable() {
+        tableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
     //for show the datas which you choose in collection cell
@@ -313,6 +322,7 @@ extension SectionHeaderDetailPlayerVC{
     func setUpViews(){
         view.addSubview(collectionView)
         view.addSubview(tableView)
+        tableView.addSubview(refreshControl)
     }
     
     func setUpConstrains(){

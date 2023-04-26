@@ -43,6 +43,7 @@ class FavoritesTableVC: UIViewController {
         setUpConstrains()
         
         tableView.dataSource = self
+        tableView.delegate = self
         
         //API team Stats
         self.apiCaller.fetchRequestFavoritesSection (completion: { [weak self] values in
@@ -80,6 +81,13 @@ extension FavoritesTableVC: UITableViewDataSource {
         cell.backgroundColor = .clear
         cell.setInfo(with: favoritesSectionDataTable[0].sortedByPointTeams[indexPath.row])
         return cell
+    }
+}
+
+//MARK: - TableView Delegate
+extension FavoritesTableVC: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return SectionHeaderTableView()
     }
 }
 

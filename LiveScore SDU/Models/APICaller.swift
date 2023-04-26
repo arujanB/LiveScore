@@ -213,7 +213,7 @@ struct APICaller {
         let task = URLSession.shared.dataTask(with: request) { data, responce, error in
             guard let data else { return }
             if let favoritesData = try? JSONDecoder().decode(FavoritesData.self, from: data) {
-                print(favoritesData[0].tournamentName)
+//                print(favoritesData[0].tournamentName)
                 completion(favoritesData)
             }else {
                 print("FAIL")
@@ -223,24 +223,7 @@ struct APICaller {
     }
     
     //MARK: - SEARCH BUTTON
-    func fetchRequestSearch(completion: WelcomeDatum, searchName: String = ""){
-        let urlString = "http://localhost:8080/tournament/tournament_name?name=\(searchName)"
-
-        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
-        let request = URLRequest(url: url)
-
-        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
-            guard let data else { return }
-            if let favoritesData = try? JSONDecoder().decode(WelcomeData.self, from: data) {
-                print(favoritesData)
-            }else {
-                print("FAIL SEARCH BUTTON")
-            }
-        }
-        task.resume()
-    }
-    
-//    func fetchRequestSearch(completion: @escaping ([WelcomeDatum]) -> Void, searchName: String = ""){
+//    func fetchRequestSearch(completion: WelcomeDatum, searchName: String = ""){
 //        let urlString = "http://localhost:8080/tournament/tournament_name?name=\(searchName)"
 //
 //        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
@@ -248,8 +231,7 @@ struct APICaller {
 //
 //        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
 //            guard let data else { return }
-//            if let favoritesData = try? JSONDecoder().decode([WelcomeDatum].self, from: data) {
-////                completion(favoritesData)
+//            if let favoritesData = try? JSONDecoder().decode(WelcomeData.self, from: data) {
 //                print(favoritesData)
 //            }else {
 //                print("FAIL SEARCH BUTTON")
@@ -257,5 +239,25 @@ struct APICaller {
 //        }
 //        task.resume()
 //    }
+    
+    func fetchRequestSearch(completion: @escaping ([WelcomeDatum]) -> Void, searchName: String = ""){
+        let urlString = "http://localhost:8080/tournament/tournament_name?name=\(searchName)"
+
+        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        let request = URLRequest(url: url)
+
+        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
+            guard let data else { return }
+            if let favoritesData = try? JSONDecoder().decode([WelcomeDatum].self, from: data) {
+                DispatchQueue.main.async {
+                    completion(favoritesData)
+                }
+                print(favoritesData)
+            }else {
+                print("FAIL SEARCH BUTTON")
+            }
+        }
+        task.resume()
+    }
     
 }

@@ -23,10 +23,12 @@ struct FavoritesDatum: Codable {
 
 // MARK: - SortedByPointTeam
 struct SortedByPointTeam: Codable {
+    let position: Int
     let teamName: String
     let teamLogo: String
     let gamePlayed, winCount, drawCount, loseCount: Int
     let goalCount, goalMissed, points: Int
+    let live: Bool
 }
 
 typealias FavoritesData = [FavoritesDatum]

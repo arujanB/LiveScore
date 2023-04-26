@@ -8,8 +8,8 @@
 import Foundation
 
 struct WelcomeDatumItem: Codable {
-    let welcomeDatum: WelcomeDatum
-    let isFavorite: Bool
+    var welcomeDatum: WelcomeDatum
+    var isFavorite: Bool
 }
 
 struct WelcomeDatum: Codable {

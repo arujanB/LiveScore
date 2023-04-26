@@ -28,6 +28,10 @@ final class ScoresViewController: UIViewController {
     
     var dateArray: [DateModel] = []
     
+    //MARK: - Refresh
+    //when you pull the tableView(to refresh)
+    let refreshControl = UIRefreshControl()
+    
     //MARK: - Date
     private lazy var buttonLive: UIButton = {
         let button = UIButton(type: .system)
@@ -149,7 +153,23 @@ final class ScoresViewController: UIViewController {
         setupSegmentTitles(date: Date())
         print("ARUZHAN\(mainGameDataChangeNewData)")
         
+        refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        refreshControl.tintColor = .orange
+        
         myTableView.reloadData()
+    }
+    
+    @objc private func refreshTable() {
+        // Code to update your data
+        segmentControlValuChanged(segmentControll)
+        myTableView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
+    func reload() {
+        segmentControlValuChanged(segmentControll)
+        myTableView.reloadData()
+//        refreshControl.endRefreshing()
     }
     
     private func setupSegmentTitles(date: Date) {
@@ -373,6 +393,7 @@ private extension ScoresViewController {
         view.addSubview(dateStackView)
         view.addSubview(line)
         view.addSubview(myTableView)
+        myTableView.addSubview(refreshControl)
     }
     
     func setUPConstrains() {

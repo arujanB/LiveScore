@@ -11,8 +11,15 @@ class FavoritesViewController: UIViewController {
     
     let apiCaller = APICaller()
     var items: [WelcomeDatumItem] = []
+    
+    var favoriteItems: [WelcomeDatumItem] = []
+    
     var welcomeDataModel: [WelcomeDatum] = []
     var favoritesSectionData: [FavoritesDatum] = []
+    
+    //MARK: - Refresh
+    //when you pull the tableView(to refresh)
+    let refreshControl = UIRefreshControl()
     
     private lazy var myLabel: UILabel = {
         var label = UILabel()
@@ -54,7 +61,17 @@ class FavoritesViewController: UIViewController {
         setUpViews()
         setUpConstrains()
         
+        refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        refreshControl.tintColor = .orange
+        
         loadItems()
+    }
+    
+    @objc private func refreshTable() {
+        // Code to update your data
+        loadItems()
+        myTableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
     private func loadItems() {
@@ -64,6 +81,7 @@ class FavoritesViewController: UIViewController {
             favorites = try! PropertyListDecoder().decode([WelcomeDatumItem].self, from: data)
         }
          items = favorites
+        favoriteItems = favorites
     }
 
 }
@@ -76,15 +94,26 @@ extension FavoritesViewController: UISearchBarDelegate{
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {// help search automatically when you write
-        let query = searchBar.text?.replacingOccurrences(of: " ", with: "")
-        print(query ?? "")
+        let query = searchBar.text?.replacingOccurrences(of: " ", with: "") ?? ""
         
-        apiCaller.fetchRequestSearch(completion: items[0].welcomeDatum, searchName: query ?? "")
-        myTableView.reloadData()
-//        apiCaller.fetchRequestSearch(completion: { [weak self] newArray in
-//            self?.welcomeDataModel = newArray
-//            self?.myTableView.reloadData()
-//        }, searchName: query ?? "")
+//        apiCaller.fetchRequestSearch(completion: items[0].welcomeDatum, searchName: query ?? "")
+//        myTableView.reloadSections([0], with: .none)
+        guard !query.isEmpty else {
+            items = favoriteItems
+            myTableView.reloadData()
+            return 
+        }
+        
+        apiCaller.fetchRequestSearch(completion: { [weak self] newArray in
+            guard let self else { return }
+            let updatedItems = newArray.map { item in
+                let isFavorite = self.favoriteItems.contains(where: { $0.welcomeDatum.tournamentID == item.tournamentID })
+                return WelcomeDatumItem(welcomeDatum: item, isFavorite: isFavorite)
+            }
+            self.items = updatedItems
+            self.myTableView.reloadData()
+            
+        }, searchName: query)
         
 //        apiCaller.fetchRequestSearch(searchName: query ?? "") { result in
 //            switch result {
@@ -167,6 +196,7 @@ extension FavoritesViewController{
         view.addSubview(myLabel)
         view.addSubview(searchBar)
         view.addSubview(myTableView)
+        myTableView.addSubview(refreshControl)
     }
     
     func setUpConstrains(){
@@ -210,10 +240,11 @@ extension FavoritesViewController: Welcome2PageTableViewCellDelegate {
             UserDefaults.standard.set(data, forKey: "favorites")
         }
         
-        items = favorites
-        
-        myTableView.reloadData()
-        
+        if let index = items.firstIndex(where: { $0.welcomeDatum.tournamentID == item.welcomeDatum.tournamentID }) {
+            items[index] = item
+            myTableView.reloadData()
+        }
+        favoriteItems = favorites
     }
     
 }

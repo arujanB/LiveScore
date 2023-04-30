@@ -103,6 +103,12 @@ final class ScoresViewController: UIViewController {
         return tableView
     }()
     
+    lazy var emptyText: UILabel = {
+        var view = UILabel()
+        view.text = "No match today:)"
+        return view
+    }()
+    
     var selectedSegmentIndex: Int = 0
     var selectedCategory: String = ""
     
@@ -125,6 +131,17 @@ final class ScoresViewController: UIViewController {
             DispatchQueue.main.async {
                 guard let self else { return }
                 self.mainGameDataChangeNewData = values
+                
+                if values.count == 0 {
+                    self.emptyText.text = "No matches today:)"
+                    self.myTableView.addSubview(self.emptyText)
+                    self.emptyText.snp.makeConstraints { make in
+                        make.center.equalToSuperview()
+                    }
+                } else {
+                    self.emptyText.text = ""
+                }
+                
                 print("NEW DATA IN SECTION\(self.mainGameDataChangeNewData)")
                 self.myTableView.reloadData()
             }
@@ -155,6 +172,27 @@ final class ScoresViewController: UIViewController {
         
         refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         refreshControl.tintColor = .orange
+        
+        //to show automatically
+        apiCaller.fetchRequestMainGameChangeNewData(completion: { [weak self] values in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.mainGameDataChangeNewData = values
+                
+                if values.count == 0 {
+                    self.emptyText.text = "No matches today:)"
+                    self.myTableView.addSubview(self.emptyText)
+                    self.emptyText.snp.makeConstraints { make in
+                        make.center.equalToSuperview()
+                    }
+                } else {
+                    self.emptyText.text = ""
+                }
+                
+                print("NEW DATA IN SECTION\(self.mainGameDataChangeNewData)")
+                self.myTableView.reloadData()
+            }
+        }, date: dateModels[2].apiDateText)
         
         myTableView.reloadData()
     }
@@ -199,6 +237,17 @@ final class ScoresViewController: UIViewController {
         apiCaller.fetchRequestLive(completion: { values in
             DispatchQueue.main.async {
                 self.mainGameDataChangeNewData = values
+                
+                if values.count == 0 {
+                    self.emptyText.text = "No LIVE matches today:)"
+                    self.myTableView.addSubview(self.emptyText)
+                    self.emptyText.snp.makeConstraints { make in
+                        make.center.equalToSuperview()
+                    }
+                } else {
+                    self.emptyText.text = ""
+                }
+                
                 print("LIVE\(self.mainGameDataChangeNewData)")
                 self.myTableView.reloadData()
             }
@@ -234,6 +283,17 @@ final class ScoresViewController: UIViewController {
                 DispatchQueue.main.async {
                     guard let self else { return }
                     self.mainGameDataChangeNewData = values
+                    
+                    if values.count == 0 {
+                        self.emptyText.text = "No matches today:)"
+                        self.myTableView.addSubview(self.emptyText)
+                        self.emptyText.snp.makeConstraints { make in
+                            make.center.equalToSuperview()
+                        }
+                    } else {
+                        self.emptyText.text = ""
+                    }
+                    
                     print("NEW DATA DATE PICKER\(self.mainGameDataChangeNewData)")
                     myTableView.reloadData()
                 }

@@ -21,7 +21,6 @@ class RefreshViewController: UIViewController {
 
         refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         refreshControl.tintColor = .orange
-        refreshControl.attributedTitle = NSAttributedString(string: "LiveScore⚽️")
     }
     
 

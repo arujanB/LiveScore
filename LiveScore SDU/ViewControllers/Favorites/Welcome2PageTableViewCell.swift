@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Kingfisher
+import SnapKit
 
 protocol Welcome2PageTableViewCellDelegate: AnyObject {
     func welcome2PageTableViewCell(_ welcome2PageTableViewCell: Welcome2PageTableViewCell, didFavorite item: WelcomeDatumItem)
@@ -121,7 +123,7 @@ class Welcome2PageTableViewCell: UITableViewCell {
         let img = UIImage(systemName: model.isFavorite ? "star.fill" : "star")
         buttonImg.setImage(img, for: .normal)
         
-//        let url = URL(string: data.teamLogo)!
+//        let url = URL(string: model.welcomeDatum.tournamentLogo)!
 //        img.kf.setImage(with: url)
     }
     

@@ -443,7 +443,7 @@ extension ScoresViewController: UITableViewDataSource{
 extension ScoresViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return UITableView.automaticDimension
-        return 80 * CGFloat(mainGameDataChangeNewData[indexPath.row].games.count)
+        return 80 * CGFloat(mainGameDataChangeNewData[indexPath.section].games.count)
     }
 }
 

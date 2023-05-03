@@ -170,7 +170,8 @@ extension SectionHeaderDetailMainVC {
         view.frame = CGRect(x: 0, y: 0, width: 280, height: 41)
         
         let imageContact = UIImageView()
-        let url = URL(string: contactImg)!
+//        let url = URL(string: contactImg)!
+        let url = URL(string: contactImg ?? "sdu")
         imageContact.kf.setImage(with: url)
         //imageContact.image = contactImg
         imageContact.layer.cornerRadius = imageContact.frame.height / 2

@@ -153,7 +153,7 @@ extension FavoritesViewController: UITableViewDataSource{
                     guard let self else { return }
                     self.favoritesSectionData = values
 //                    self.favoritesSectionData.append(contentsOf: values)
-                    if self.favoritesSectionData[0].groupID == tournament {
+                    if self.favoritesSectionData[indexPath.section].groupID == tournament {
                         let vc = FavoritesDetailMainVC(model: values[0])
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
@@ -188,6 +188,14 @@ extension FavoritesViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 83
     }
+}
+
+//MARK: - Protocol: Refreshable (Refresh the viewController)
+extension FavoritesViewController: Refreshable {
+    func refresh() {
+        myTableView.reloadData()
+    }
+    
 }
 
 //MARK: - setUpViews & setUpConstrains

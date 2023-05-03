@@ -62,24 +62,19 @@ class FavoritesTableVC: UIViewController {
 //MARK: - TableView DataSource
 extension FavoritesTableVC: UITableViewDataSource {
     
-    //section
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Team"
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return favoritesSectionDataTable.count
     }
     
     //cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoritesSectionDataTable[0].sortedByPointTeams.count
+        return favoritesSectionDataTable[section].sortedByPointTeams.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SectionHeaderDetailTableViewCell.IDENTIFIER, for: indexPath) as! SectionHeaderDetailTableViewCell
         cell.backgroundColor = .clear
-        cell.setInfo(with: favoritesSectionDataTable[0].sortedByPointTeams[indexPath.row])
+        cell.setInfo(with: favoritesSectionDataTable[indexPath.section].sortedByPointTeams[indexPath.row])
         return cell
     }
 }
@@ -87,7 +82,9 @@ extension FavoritesTableVC: UITableViewDataSource {
 //MARK: - TableView Delegate
 extension FavoritesTableVC: UITableViewDelegate{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return SectionHeaderTableView()
+        let view = SectionHeaderTableView()
+        view.setName(groupName: favoritesSectionDataTable[section].groupName)
+        return view
     }
 }
 

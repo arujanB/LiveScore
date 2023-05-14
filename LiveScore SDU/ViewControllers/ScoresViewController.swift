@@ -233,7 +233,7 @@ final class ScoresViewController: UIViewController {
 //            make.width.equalToSuperview()
 //            make.top.equalTo(line.snp.bottom).offset(10)
 //        }
-        
+        segmentControll.selectedSegmentIndex = UISegmentedControl.noSegment
         apiCaller.fetchRequestLive(completion: { values in
             DispatchQueue.main.async {
                 self.mainGameDataChangeNewData = values
@@ -278,7 +278,7 @@ final class ScoresViewController: UIViewController {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let formattedDate = dateFormatter.string(from: selectedDate)
             setupSegmentTitles(date: selectedDate)
-            
+            segmentControll.selectedSegmentIndex = 2
             apiCaller.fetchRequestMainGameChangeNewData(completion: { [weak self] values in
                 DispatchQueue.main.async {
                     guard let self else { return }

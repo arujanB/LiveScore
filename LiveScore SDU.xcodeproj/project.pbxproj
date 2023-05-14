@@ -49,6 +49,7 @@
 		8491078329E66A8500C16627 /* Pods_LiveScore_SDU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8491078229E66A8500C16627 /* Pods_LiveScore_SDU.framework */; };
 		84928F6929F6696E00C8736B /* SectionHeaderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84928F6829F6696E00C8736B /* SectionHeaderTableView.swift */; };
 		84A2B2BC29FE8AE100D72A8F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84A2B2BB29FE8AE100D72A8F /* GoogleService-Info.plist */; };
+		84A4CE512A04FF06007E41DF /* SectionFooterTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4CE502A04FF06007E41DF /* SectionFooterTableView.swift */; };
 		84AE488429E59CC90051F595 /* Welcome2PageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE488329E59CC90051F595 /* Welcome2PageTableViewCell.swift */; };
 		84CB216729E1748400C93812 /* MainGameDataChangeNewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB216629E1748400C93812 /* MainGameDataChangeNewData.swift */; };
 		84E5A7CC29AF0FC60013D32F /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5A7CB29AF0FC60013D32F /* MainCollectionViewCell.swift */; };
@@ -104,6 +105,7 @@
 		8491078229E66A8500C16627 /* Pods_LiveScore_SDU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_LiveScore_SDU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84928F6829F6696E00C8736B /* SectionHeaderTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderTableView.swift; sourceTree = "<group>"; };
 		84A2B2BB29FE8AE100D72A8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		84A4CE502A04FF06007E41DF /* SectionFooterTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionFooterTableView.swift; sourceTree = "<group>"; };
 		84AE488329E59CC90051F595 /* Welcome2PageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Welcome2PageTableViewCell.swift; sourceTree = "<group>"; };
 		84CB216629E1748400C93812 /* MainGameDataChangeNewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainGameDataChangeNewData.swift; sourceTree = "<group>"; };
 		84E5A7CB29AF0FC60013D32F /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				848BF8DA29D03D0900ED7615 /* SectionHeaderTeamView.swift */,
 				84928F6829F6696E00C8736B /* SectionHeaderTableView.swift */,
+				84A4CE502A04FF06007E41DF /* SectionFooterTableView.swift */,
 			);
 			path = SectionHeaderDetailView;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				84CB216729E1748400C93812 /* MainGameDataChangeNewData.swift in Sources */,
 				848BF8DD29D05F1D00ED7615 /* SectionHeaderDetailMatchesVC.swift in Sources */,
 				848BF8C829CD475700ED7615 /* SectionHeaderDetailSegmentVC.swift in Sources */,
+				84A4CE512A04FF06007E41DF /* SectionFooterTableView.swift in Sources */,
 				848C931A29E698990094CC82 /* Page2ViewController.swift in Sources */,
 				84E5A82129B339640013D32F /* RefreshViewController.swift in Sources */,
 				844D736429B687410051568B /* Database.swift in Sources */,

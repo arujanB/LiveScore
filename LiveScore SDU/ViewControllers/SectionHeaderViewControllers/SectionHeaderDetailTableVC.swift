@@ -53,6 +53,15 @@ class SectionHeaderDetailTableVC: UIViewController {
         refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         refreshControl.tintColor = .orange
         
+        load()
+    }
+    
+    @objc private func refreshTable() {
+        tableView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
+    func load() {
         //API team Stats
         self.apiCaller.fetchRequestTable (completion: { [weak self] values in
             DispatchQueue.main.async {
@@ -61,14 +70,7 @@ class SectionHeaderDetailTableVC: UIViewController {
                 self.tableView.reloadData()
             }
         }, grouId: grouId,  tourId: tourId)
-        
     }
-
-    @objc private func refreshTable() {
-        tableView.reloadData()
-        refreshControl.endRefreshing()
-    }
-
 }
 
 //MARK: - TableView DataSource

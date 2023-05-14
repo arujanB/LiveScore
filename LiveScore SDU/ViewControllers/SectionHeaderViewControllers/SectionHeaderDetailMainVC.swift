@@ -118,6 +118,8 @@ class SectionHeaderDetailMainVC: UIViewController {
         
         setUpViews()
         setUpConstrains()
+        segmentControlValuChanged(segmentControll)
+        tableVC.load()
     }
     
 }

@@ -32,6 +32,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
     private var playerStatisticsYellowCardData: [PlayerStatisticsDatum] = []
     
     private lazy var array = ["ALL", "GOALS SCORED", "ASSISTS", "RED CARD", "YELLOW CARD"]
+    var sectionExpanded = [false, false, false, false, false]
     
     private lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -55,6 +56,12 @@ class SectionHeaderDetailPlayerVC: UIViewController {
         tableView.layer.cornerRadius = 10
         return tableView
     }()
+    
+    lazy var emptyText: UILabel = {
+        var view = UILabel()
+        view.text = "No match today:)"
+        return view
+    }()
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +75,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
         selectedCategory = array[0]
         
         tableView.dataSource = self
+        tableView.delegate = self
         
         //connect with backpart
         allFetchAPI()
@@ -147,6 +155,7 @@ extension SectionHeaderDetailPlayerVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SectionHeaderStatsCollectionViewCell.IDENTIFIER, for: indexPath) as! SectionHeaderStatsCollectionViewCell
         cell.configure(with: array[indexPath.item])
+//        cell.contentView.tag = indexPath.item // add tag here
         cell.layer.cornerRadius = 13
         cell.layer.borderWidth = 1
         cell.layer.borderColor = CGColor.init(red: 58, green: 58, blue: 58, alpha: 1)
@@ -215,13 +224,15 @@ extension SectionHeaderDetailPlayerVC: UITableViewDataSource {
             }
         }else {
             if section == 1 {
-                return playerStatisticsGoals.count
+//                return playerStatisticsGoals.count
+                return sectionExpanded[section] ? playerStatisticsGoals.count : 0
             }else if section == 2 {
-                return playerStatisticsAssistsData.count
+//                return playerStatisticsAssistsData.count
+                return sectionExpanded[section] ? playerStatisticsAssistsData.count : 0
             }else if section == 3 {
-                return playerStatisticsRedCardData.count
+                return sectionExpanded[section] ? playerStatisticsRedCardData.count : 0
             }else if section == 4 {
-                return playerStatisticsYellowCardData.count
+                return sectionExpanded[section] ? playerStatisticsYellowCardData.count : 0
             }
         }
         return 0
@@ -243,6 +254,34 @@ extension SectionHeaderDetailPlayerVC: UITableViewDataSource {
             cell.setInfo(with: playerStatisticsGoals[indexPath.row])
         }
         return cell
+    }
+}
+
+//MARK: - tableView Delegate
+extension SectionHeaderDetailPlayerVC: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            let tb = UITableView()
+            tb.backgroundColor = .clear
+            return tb
+        }
+        
+        let view = SectionFooterTableView()
+        view.section = section
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handelFooterTapped(_:))))
+        if sectionExpanded[section] == false {
+            view.setSeeAll(with: "SeeAll")
+        }else {
+            view.setSeeAll(with: "Close")
+        }
+        
+        return view
+    }
+    
+    @objc private func handelFooterTapped(_ gesterRecognizer: UITapGestureRecognizer) {
+        guard let section = (gesterRecognizer.view as? SectionFooterTableView)?.section else { return }
+        sectionExpanded[section].toggle()
+        tableView.reloadSections(IndexSet(integer: section), with: .automatic)
     }
 }
 

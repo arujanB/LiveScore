@@ -15,10 +15,10 @@ protocol Refreshable {
 class RefreshViewController: UIViewController {
 //    var score = ScoresViewController()
 //    let favorite = FavoritesViewController()
-    
+
 //    MARK: - Refresh
     let refreshControl = UIRefreshControl()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 //        view.addSubview(refreshControl)
@@ -45,12 +45,6 @@ class RefreshViewController: UIViewController {
     }
 
 }
-
-
-
-
-
-
 
 
 //class RefreshViewController: UIViewController {
@@ -89,6 +83,9 @@ class RefreshViewController: UIViewController {
 //        return collectionView
 //    }()
 //
+//    private var scrollView = UIScrollView()
+//    private var contentView = UIView()
+//
 //    private lazy var tableView: UITableView = {
 //        var tableView = UITableView()
 //        tableView.backgroundColor = .clear
@@ -100,6 +97,7 @@ class RefreshViewController: UIViewController {
 //        tableView.layer.cornerRadius = 10
 //        return tableView
 //    }()
+//
 //
 //    override func viewDidLoad() {
 //        super.viewDidLoad()

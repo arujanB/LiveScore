@@ -46,6 +46,19 @@ class FavoritesTableVC: UIViewController {
         tableView.delegate = self
         
         //API team Stats
+//        self.apiCaller.fetchRequestFavoritesSection (completion: { [weak self] values in
+//            DispatchQueue.main.async {
+//                guard let self else { return }
+//                self.favoritesSectionDataTable = values
+//                self.tableView.reloadData()
+//            }
+//        },  tourId: id)
+        load()
+        
+    }
+    
+    func load() {
+        //API team Stats
         self.apiCaller.fetchRequestFavoritesSection (completion: { [weak self] values in
             DispatchQueue.main.async {
                 guard let self else { return }
@@ -53,7 +66,6 @@ class FavoritesTableVC: UIViewController {
                 self.tableView.reloadData()
             }
         },  tourId: id)
-        
     }
     
     

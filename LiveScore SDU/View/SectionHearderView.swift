@@ -107,7 +107,8 @@ private extension SectionHearderView {
         img.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(10)
             make.top.equalToSuperview().inset(-7)
-            make.width.height.equalTo(20)
+            make.height.equalTo(20)
+            make.width.equalTo(25)
         }
         
         stackViewVertical.snp.makeConstraints { make in

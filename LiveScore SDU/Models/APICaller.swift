@@ -16,12 +16,31 @@ struct APICaller {
     var url = "http://localhost:8080/"
     var delegate: AllPlayStatsData?
     
+    
+    
     //MARK: - MAIN GAME DATA
     //MARK: - Change MainGameData, it is with section name
     func fetchRequestMainGameChangeNewData(completion: @escaping ([MainGameDataChangeNewDatum]) -> Void, date: String){
-        let urlString = "\(url)game/new/date?date=\(date)"
-        print(urlString)
-        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        
+        let dateString = date
+        let tournaments = ["1", "2", "3"]
+
+        var urlComponents = URLComponents(string: "\(url)game/new/date")!
+
+        // Add the date parameter
+        let dateQueryItem = URLQueryItem(name: "date", value: dateString)
+        urlComponents.queryItems = [dateQueryItem]
+
+        // Add the tournaments parameter as a list
+        let tournamentsQueryItems = tournaments.map { URLQueryItem(name: "tournaments", value: $0) }
+        urlComponents.queryItems?.append(contentsOf: tournamentsQueryItems)
+        
+                                         
+//        let urlString = "\(url)game/new/date?date=\(date)"
+//        print(urlString)
+        print("COMPONENTS: \(urlComponents)")
+//        guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
+        guard let url = URL(string: "\(urlComponents)") else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { data, responce, error in

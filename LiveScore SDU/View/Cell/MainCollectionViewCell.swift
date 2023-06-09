@@ -140,11 +140,12 @@ class MainCollectionViewCell: UICollectionViewCell {
         let date = format.date(from: model.gameDateTime)
         format.dateFormat = "HH:mm"
         
-//        if  {
+//        time.text = format.string(from: date!)
+        if model.gameState == "ENDED" {
+            time.text = "  FT"
+        }else {
             time.text = format.string(from: date!)
-//        }else {
-//            time.text = "FT"
-//        }
+        }
     }
     
     override init(frame: CGRect) {

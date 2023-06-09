@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>732698521335-janq1k06rffmlcf254va50e76mrcn2df.apps.googleusercontent.com</string>
+	<string>509297612922-uukebhue8liau01r5pqce4uu36alsbfi.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.732698521335-janq1k06rffmlcf254va50e76mrcn2df</string>
+	<string>com.googleusercontent.apps.509297612922-uukebhue8liau01r5pqce4uu36alsbfi</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAqUR8urPOecYUb_JKMHZXEVyi1CpD5_hE</string>
+	<string>AIzaSyAnhSo4oYAAzy_GmhZ3UikNPMIBacvOVF4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>732698521335</string>
+	<string>509297612922</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>sdu.edu.arujan.kz.LiveScore-SDU</string>
 	<key>PROJECT_ID</key>
-	<string>livescore-sdu-59195</string>
+	<string>livescoresdu</string>
 	<key>STORAGE_BUCKET</key>
-	<string>livescore-sdu-59195.appspot.com</string>
+	<string>livescoresdu.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:732698521335:ios:76e9e25c1114f8af636df2</string>
+	<string>1:509297612922:ios:c2e3a7ae6be51d8ac9c3c3</string>
 </dict>
 </plist>

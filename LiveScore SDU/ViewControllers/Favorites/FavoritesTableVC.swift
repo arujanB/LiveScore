@@ -46,6 +46,19 @@ class FavoritesTableVC: UIViewController {
         tableView.delegate = self
         
         //API team Stats
+//        self.apiCaller.fetchRequestFavoritesSection (completion: { [weak self] values in
+//            DispatchQueue.main.async {
+//                guard let self else { return }
+//                self.favoritesSectionDataTable = values
+//                self.tableView.reloadData()
+//            }
+//        },  tourId: id)
+        load()
+        
+    }
+    
+    func load() {
+        //API team Stats
         self.apiCaller.fetchRequestFavoritesSection (completion: { [weak self] values in
             DispatchQueue.main.async {
                 guard let self else { return }
@@ -53,7 +66,6 @@ class FavoritesTableVC: UIViewController {
                 self.tableView.reloadData()
             }
         },  tourId: id)
-        
     }
     
     
@@ -62,24 +74,19 @@ class FavoritesTableVC: UIViewController {
 //MARK: - TableView DataSource
 extension FavoritesTableVC: UITableViewDataSource {
     
-    //section
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Team"
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return favoritesSectionDataTable.count
     }
     
     //cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoritesSectionDataTable[0].sortedByPointTeams.count
+        return favoritesSectionDataTable[section].sortedByPointTeams.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SectionHeaderDetailTableViewCell.IDENTIFIER, for: indexPath) as! SectionHeaderDetailTableViewCell
         cell.backgroundColor = .clear
-        cell.setInfo(with: favoritesSectionDataTable[0].sortedByPointTeams[indexPath.row])
+        cell.setInfo(with: favoritesSectionDataTable[indexPath.section].sortedByPointTeams[indexPath.row])
         return cell
     }
 }
@@ -87,7 +94,9 @@ extension FavoritesTableVC: UITableViewDataSource {
 //MARK: - TableView Delegate
 extension FavoritesTableVC: UITableViewDelegate{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return SectionHeaderTableView()
+        let view = SectionHeaderTableView()
+        view.setName(groupName: favoritesSectionDataTable[section].groupName)
+        return view
     }
 }
 

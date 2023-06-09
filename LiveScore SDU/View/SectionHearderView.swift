@@ -37,7 +37,7 @@ final class SectionHearderView: UIView {
     
     private lazy var img: UIImageView = {
         var img = UIImageView()
-        img.image = UIImage(named: " ")
+        img.image = UIImage(named: "sdu")
         return img
     }()
     

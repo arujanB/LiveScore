@@ -12,12 +12,14 @@ protocol AllPlayStatsData {
 }
 
 struct APICaller {
+//    var url = "http://192.168.1.15:8081/"
+    var url = "http://localhost:8080/"
     var delegate: AllPlayStatsData?
     
     //MARK: - MAIN GAME DATA
     //MARK: - Change MainGameData, it is with section name
     func fetchRequestMainGameChangeNewData(completion: @escaping ([MainGameDataChangeNewDatum]) -> Void, date: String){
-        let urlString = "http://localhost:8080/game/new/date?date=\(date)"
+        let urlString = "\(url)game/new/date?date=\(date)"
         print(urlString)
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -37,7 +39,7 @@ struct APICaller {
     
     //Change
     func fetchRequestMainGameChange(completion: @escaping ([MainGameDatum]) -> Void, date: String){
-        let urlString = "http://localhost:8080/game/date?date=\(date)"
+        let urlString = "\(url)game/date?date=\(date)"
         print(urlString)
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -56,7 +58,7 @@ struct APICaller {
     
     func fetchRequestMainGame(completion: @escaping ([MainGameDatum]) -> Void, date: String){
 //        let urlString = "http://localhost:8080/game/date?date=2023-03-06"
-        let urlString = "http://localhost:8080/game/date?date=\(date)"
+        let urlString = "\(url)game/date?date=\(date)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -74,7 +76,7 @@ struct APICaller {
     
     //MARK: - MAIN CELL DATA
     func fetchRequestMainCell(completion: @escaping (MainCellData) -> Void, protocolId: Int){
-        let urlString = "http://localhost:8080/protocol/\(protocolId)"
+        let urlString = "\(url)protocol/\(protocolId)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -92,7 +94,7 @@ struct APICaller {
     
     //MARK: - TABLE TEAM FOOTBALL
     func fetchRequestTable(completion: @escaping ([FavoritesDatum]) -> Void, grouId: Int, tourId:Int){
-        let urlString = "http://localhost:8080/group_info/group/points?groupId=\(grouId)&tournamentId=\(tourId)"
+        let urlString = "\(url)group_info/group/points?groupId=\(grouId)&tournamentId=\(tourId)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -112,7 +114,7 @@ struct APICaller {
     
     //MARK: - PLAYER STATISTICS
     func fetchRequestPS(completion: @escaping ([PlayerStatisticsDatum]) -> Void, sectionName: String, tournamentId: Int){
-        let urlString = "http://localhost:8080/player_statistics/\(sectionName)?tournament_id=\(tournamentId)"
+        let urlString = "\(url)player_statistics/\(sectionName)?tournament_id=\(tournamentId)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -133,7 +135,7 @@ struct APICaller {
     //MARK: - TEAM STATISTICS
     //TEAM STATISTICS: GOALS
     func fetchRequestTSGoals(completion: @escaping ([TeamStatisticsDatum]) -> Void, id: Int){
-        let urlString = "http://localhost:8080/team_statistics/goals?tournament_id=\(id)"
+        let urlString = "\(url)team_statistics/goals?tournament_id=\(id)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -151,7 +153,7 @@ struct APICaller {
     
     //TEAM STATISTICS: RED CARD, YELLOW CARD
     func fetchRequestTS(completion: @escaping ([TeamStatisticsDatum]) -> Void, sectionName: String, id: Int){
-        let urlString = "http://localhost:8080/team_statistics/\(sectionName)/\(id)"
+        let urlString = "\(url)team_statistics/\(sectionName)/\(id)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -168,7 +170,7 @@ struct APICaller {
     }
     
     func fetchRequestLive(completion: @escaping ([MainGameDataChangeNewDatum]) -> Void){
-        let urlString = "http://localhost:8080/game/live"
+        let urlString = "\(url)game/live"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -186,7 +188,7 @@ struct APICaller {
     
     //MARK: - WELCOME 2 PAGE
     func fetchRequestWelcome(completion: @escaping ([WelcomeDatum]) -> Void){
-        let urlString = "http://localhost:8080/tournament"
+        let urlString = "\(url)tournament"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -205,7 +207,7 @@ struct APICaller {
     
     //MARK: - FAVORITES SECTION DETAIL
     func fetchRequestFavoritesSection(completion: @escaping ([FavoritesDatum]) -> Void, tourId: Int){
-        let urlString = "http://localhost:8080/group_info/all_group/points?tournamentId=\(tourId)"
+        let urlString = "\(url)group_info/all_group/points?tournamentId=\(tourId)"
         
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)
@@ -241,7 +243,7 @@ struct APICaller {
 //    }
     
     func fetchRequestSearch(completion: @escaping ([WelcomeDatum]) -> Void, searchName: String = ""){
-        let urlString = "http://localhost:8080/tournament/tournament_name?name=\(searchName)"
+        let urlString = "\(url)tournament/tournament_name?name=\(searchName)"
 
         guard let url = URL(string: urlString) else { fatalError("Error urlString in APICaller") }
         let request = URLRequest(url: url)

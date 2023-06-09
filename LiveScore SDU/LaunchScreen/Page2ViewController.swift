@@ -13,6 +13,7 @@ class Page2ViewController: UIViewController/*, PageProtocol*/ {
 
     let apiCaller = APICaller()
     var tournamentData: [WelcomeDatumItem] = []
+    var welcomeItems: [WelcomeDatumItem] = []
     
     private lazy var myLabel: UILabel = {
         var label = UILabel()
@@ -71,6 +72,7 @@ class Page2ViewController: UIViewController/*, PageProtocol*/ {
                 self.tournamentData = values.map {
                     WelcomeDatumItem(welcomeDatum: $0, isFavorite: false)
                 }
+                self.welcomeItems = self.tournamentData
                 self.myTableView.reloadData()
             }
         })
@@ -99,8 +101,23 @@ extension Page2ViewController: UISearchBarDelegate{
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {// help search automatically when you write
-        let query = searchBar.text?.replacingOccurrences(of: " ", with: "+")
-        print(query ?? "")
+        let query = searchBar.text?.replacingOccurrences(of: " ", with: "") ?? ""
+        
+        guard !query.isEmpty else {
+            tournamentData = welcomeItems
+            myTableView.reloadData()
+            return
+        }
+        
+        apiCaller.fetchRequestSearch(completion: { [weak self] newArray in
+            guard let self else { return }
+            let updatedItems = newArray.map { item in
+                return WelcomeDatumItem(welcomeDatum: item, isFavorite: false)
+            }
+            self.tournamentData = updatedItems
+            self.myTableView.reloadData()
+            
+        }, searchName: query)
     }
 }
 

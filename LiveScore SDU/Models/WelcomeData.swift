@@ -15,10 +15,12 @@ struct WelcomeDatumItem: Codable {
 struct WelcomeDatum: Codable {
     let tournamentID: Int
     let tournamentName, tournamentType: String
+//    let tournamentLogo: String
 
     enum CodingKeys: String, CodingKey {
         case tournamentID = "tournamentId"
         case tournamentName, tournamentType
+//        case tournamentLogo
     }
     
 //    //USER DEFAULT SAVE DATA

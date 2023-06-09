@@ -9,6 +9,8 @@ import UIKit
 
 class MainViewController: UITabBarController {
 
+//    private let vc3 = RefreshViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +24,7 @@ class MainViewController: UITabBarController {
         
         let vc1 = UINavigationController(rootViewController: ScoresViewController())
         let vc2 = UINavigationController(rootViewController: FavoritesViewController())
-        let vc3 = RefreshViewController()
+        let vc3 = UINavigationController(rootViewController: RefreshViewController())
         
         vc1.tabBarItem.image = UIImage(systemName: "soccerball.inverse")
         vc1.tabBarItem.selectedImage = UIImage(systemName: "soccerball.inverse")
@@ -38,5 +40,11 @@ class MainViewController: UITabBarController {
         setViewControllers([vc1, vc2, vc3], animated: true)
         
     }
-
+    
+//    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+//        if item == vc3.tabBarItem {
+////            vc3.refreshTapped(ScoresViewController())
+//            vc3.refreshTapped(FavoritesViewController())
+//        }
+//    }
 }

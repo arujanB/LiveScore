@@ -71,6 +71,10 @@ final class SectionHeaderTableView: UIView {
         label.textAlignment = .center
         return label
     }
+    
+    func setName(groupName: String) {
+        self.name.text = groupName
+    }
 }
 
 //MARK: - setUpViews & setUpConstrains

@@ -111,6 +111,8 @@ class FavoritesDetailMainVC: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor(red: 0.098, green: 0.098, blue: 0.098, alpha: 1)
+        segmentControlValuChanged(segmentControll)
+        tableVC.load()
                 
         setUpViews()
         setUpConstrains()

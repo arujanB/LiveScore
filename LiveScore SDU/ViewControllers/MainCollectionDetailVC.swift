@@ -45,23 +45,10 @@ class MainCollectionDetailVC: UIViewController {
     
     private lazy var fullTime: UILabel = {
         let label = UILabel()
+        label.text = "Full Time"
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 11)
         label.textColor = UIColor(red: 0.788, green: 0.788, blue: 0.788, alpha: 1)
-        
-        if mainDataCellData?.gameState == "ENDED" {
-            label.text = "Full Time"
-        }else if  mainDataCellData?.gameState == "STARTED" {
-            label.text = "LIVE"
-            label.textColor = .orange
-        }else {
-            let format = DateFormatter()
-            format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-            let date = format.date(from: mainDataCellData?.dateAndTime ?? "00:00")
-            format.dateFormat = "HH:mm"
-            
-            label.text = "\(format.string(from: date!))"
-        }
         
         return label
     }()
@@ -148,7 +135,6 @@ class MainCollectionDetailVC: UIViewController {
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.init(red: 0.118, green: 0.118, blue: 0.118, alpha: 1).cgColor
         tableView.backgroundColor = UIColor(red: 0.098, green: 0.098, blue: 0.098, alpha: 1)
-//        tableView.backgroundColor = .systemGray5
         
         return tableView
     }()

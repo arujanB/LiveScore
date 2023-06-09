@@ -76,8 +76,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(time)
         stackView.addArrangedSubview(stackViewMainName)
             
-        stackView.spacing = 10
-//        stackView.backgroundColor = .systemGreen
+        stackView.spacing = 20
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
@@ -112,11 +111,11 @@ class MainCollectionViewCell: UICollectionViewCell {
     private lazy var stackViewMainMommy: UIStackView = {
         var stackView = UIStackView()
         stackView.addArrangedSubview(stackViewLeading)
-        stackView.addArrangedSubview(stackViewMainScore)
+        stackView.addArrangedSubview(stackViewTrailing)
             
-//        stackView.spacing = 5
+        stackView.spacing = 5
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         return stackView
     }()
     
@@ -143,14 +142,9 @@ class MainCollectionViewCell: UICollectionViewCell {
         
 //        time.text = format.string(from: date!)
         if model.gameState == "ENDED" {
-            time.text = "  FT  "
-            time.textColor = .white
-        }else if model.gameState == "STARTED" {
-            time.text = " Live "
-            time.textColor = .orange
+            time.text = "  FT"
         }else {
             time.text = format.string(from: date!)
-            time.textColor = .white
         }
     }
     
@@ -192,8 +186,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     func groupImg(img name: String) -> UIImageView {
         let img = UIImageView()
         img.image = UIImage(named: name)
-//        img.sizeThatFits(CGSize.init(width: 3, height: 10))
-        img.sizeThatFits(CGSize.init(width: 2, height: 20))
+        img.sizeThatFits(CGSize.init(width: 3, height: 10))
             
         img.layer.cornerRadius = 10 //it works with maskToBounds /*do not forget it to use*/
         img.layer.masksToBounds = true
@@ -233,7 +226,7 @@ extension MainCollectionViewCell {
     
     func setUpConstrains() {
         stackViewMainMommy.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(15)
+            make.edges.equalToSuperview().inset(10)
         }
         
         img1.snp.makeConstraints { make in

@@ -14,6 +14,7 @@ class MainCollectionDetailInfoCell: UITableViewCell {
     
 //    var mainDataCellDataTeam: MainCellData?
     
+    
     var teamId1 = 0
     var teamId2 = 0
     
@@ -27,49 +28,23 @@ class MainCollectionDetailInfoCell: UITableViewCell {
         return label
     }()
     private lazy var name1Group: UILabel = myLabel2(with: "Luccas Tarro")
-    private lazy var assist1Group: UILabel = myLabel2(with: "")
     private lazy var name2Group: UILabel = myLabel2(with: "Default")
-    private lazy var assist2Group: UILabel = myLabel2(with: "")
-    
-    private lazy var stackViewAssist1: UIStackView = {
-        var stackView = UIStackView()
-        stackView.addArrangedSubview(name1Group)
-        stackView.addArrangedSubview(assist1Group)
-
-        stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.alignment = .center
-        return stackView
-    }()
-    
-    private lazy var stackViewAssist2: UIStackView = {
-        var stackView = UIStackView()
-        stackView.addArrangedSubview(name2Group)
-        stackView.addArrangedSubview(assist2Group)
-
-        stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.alignment = .center
-        return stackView
-    }()
 
     private lazy var img1Group: UIImageView = myImg(with: " ")
     private lazy var img2Group: UIImageView = myImg(with: " ")
 
     private lazy var stackViewMainName: UIStackView = {
         var stackView = UIStackView()
-//        stackView.addArrangedSubview(name1Group)
-        stackView.addArrangedSubview(stackViewAssist1)
+        stackView.addArrangedSubview(name1Group)
         stackView.addArrangedSubview(img1Group)
         stackView.addArrangedSubview(score)
         stackView.addArrangedSubview(img2Group)
-//        stackView.addArrangedSubview(name2Group)
-        stackView.addArrangedSubview(stackViewAssist2)
+        stackView.addArrangedSubview(name2Group)
 
         stackView.spacing = 10
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.alignment = .center
+        stackView.alignment = .leading
         return stackView
     }()
 
@@ -155,10 +130,6 @@ class MainCollectionDetailInfoCell: UITableViewCell {
             }else {
                 img1Group.image = UIImage(named: "redCard")
             }
-            
-            if events.assist != nil {
-                assist1Group.text = events.assist?.assistPlayer
-            }
         }
         
         if mainCell.team2Id == events.teamId {
@@ -171,10 +142,6 @@ class MainCollectionDetailInfoCell: UITableViewCell {
                 img2Group.image = UIImage(named: "yellowCard")
             }else {
                 img2Group.image = UIImage(named: "redCard")
-            }
-            
-            if events.assist != nil {
-                assist2Group.text = events.assist?.assistPlayer
             }
         }
     }
@@ -198,7 +165,7 @@ extension MainCollectionDetailInfoCell {
         }
         
         img2Group.snp.makeConstraints { make in
-            make.size.equalTo(13)
+            make.size.equalTo(15)
         }
     }
 }

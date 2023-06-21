@@ -15,8 +15,6 @@ final class SectionHeaderDetailTeamVC: UIViewController {
     private var teamStatisticsRedCardData: [TeamStatisticsDatum] = []
     private var teamStatisticsYellowCardData: [TeamStatisticsDatum] = []
     
-    
-    
     var allTeamStatisticsData: [TeamStatisticsDatum] = []
     
     var id: Int
@@ -30,8 +28,8 @@ final class SectionHeaderDetailTeamVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     private lazy var array = ["ALL", "GOALS SCORED", "RED CARD", "YELLOW CARD"]
+    var sectionExpanded = [false, false, false, false, false]
     
     private lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -249,6 +247,48 @@ extension SectionHeaderDetailTeamVC: UITableViewDelegate{
         view.setName(with: array[section])
         return view
     }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            let tb = UITableView()
+            tb.backgroundColor = .clear
+            return tb
+        }
+        
+        let view = SectionFooterTableView()
+        view.section = section
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handelFooterTapped(_:))))
+        if sectionExpanded[section] == false {
+            view.setSeeAll(with: "SeeAll")
+        }else {
+            view.setSeeAll(with: "Close")
+        }
+        
+        return view
+    }
+    
+    @objc private func handelFooterTapped(_ gesterRecognizer: UITapGestureRecognizer) {
+        guard let section = (gesterRecognizer.view as? SectionFooterTableView)?.section else { return }
+//        sectionExpanded[section].toggle()
+//        tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+        
+        if section == 1 && selectedCollectionIndex != 1 {
+            selectedCollectionIndex = 1
+            selectedCategory = array[selectedCollectionIndex]
+        }else if section == 2 && selectedCollectionIndex != 2 {
+            selectedCollectionIndex = 2
+            selectedCategory = array[selectedCollectionIndex]
+        }else if section == 3 && selectedCollectionIndex != 3 {
+            selectedCollectionIndex = 3
+            selectedCategory = array[selectedCollectionIndex]
+        }else if section == 4 && selectedCollectionIndex != 4 {
+            selectedCollectionIndex = 4
+            selectedCategory = array[selectedCollectionIndex]
+        }
+            collectionView.reloadData()
+            tableView.reloadData()
+    }
+    
 }
 
 //MARK: - setUpViews & setUpConstrains {

@@ -31,7 +31,7 @@ class SectionHeaderDetailPlayerVC: UIViewController {
     private var playerStatisticsRedCardData: [PlayerStatisticsDatum] = []
     private var playerStatisticsYellowCardData: [PlayerStatisticsDatum] = []
     
-    private lazy var array = ["ALL", "GOALS SCORED", "ASSISTS", "RED CARD", "YELLOW CARD"]
+    private lazy var array = ["ALL", "GOALS", "ASSISTS", "RED CARD", "YELLOW CARD"]
     var sectionExpanded = [false, false, false, false, false]
     
     private lazy var collectionView: UICollectionView = {
@@ -225,14 +225,29 @@ extension SectionHeaderDetailPlayerVC: UITableViewDataSource {
         }else {
             if section == 1 {
 //                return playerStatisticsGoals.count
-                return sectionExpanded[section] ? playerStatisticsGoals.count : 0
+                if playerStatisticsGoals.count > 5 {
+                    return sectionExpanded[section] ? playerStatisticsGoals.count : 5
+                }
+                return sectionExpanded[section] ? 0 : playerStatisticsGoals.count
             }else if section == 2 {
 //                return playerStatisticsAssistsData.count
-                return sectionExpanded[section] ? playerStatisticsAssistsData.count : 0
+//                return sectionExpanded[section] ? playerStatisticsAssistsData.count : 3
+                if playerStatisticsAssistsData.count > 5 {
+                    return sectionExpanded[section] ? playerStatisticsAssistsData.count : 5
+                }
+                return sectionExpanded[section] ? 0 : playerStatisticsAssistsData.count
             }else if section == 3 {
-                return sectionExpanded[section] ? playerStatisticsRedCardData.count : 0
+//                return sectionExpanded[section] ? playerStatisticsRedCardData.count : 1
+                if playerStatisticsRedCardData.count > 5 {
+                    return sectionExpanded[section] ? playerStatisticsRedCardData.count : 5
+                }
+                return sectionExpanded[section] ? 0 : playerStatisticsRedCardData.count
             }else if section == 4 {
-                return sectionExpanded[section] ? playerStatisticsYellowCardData.count : 0
+//                return sectionExpanded[section] ? playerStatisticsYellowCardData.count : 1
+                if playerStatisticsYellowCardData.count > 5 {
+                    return sectionExpanded[section] ? playerStatisticsYellowCardData.count : 5
+                }
+                return sectionExpanded[section] ? 0 : playerStatisticsYellowCardData.count
             }
         }
         return 0
@@ -280,8 +295,26 @@ extension SectionHeaderDetailPlayerVC: UITableViewDelegate{
     
     @objc private func handelFooterTapped(_ gesterRecognizer: UITapGestureRecognizer) {
         guard let section = (gesterRecognizer.view as? SectionFooterTableView)?.section else { return }
-        sectionExpanded[section].toggle()
-        tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+//        sectionExpanded[section].toggle()
+//        tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+        
+        if section == 1 && selectedCollectionIndex != 1 {
+            selectedCollectionIndex = 1
+            selectedCategory = array[selectedCollectionIndex]
+        }else if section == 2 && selectedCollectionIndex != 2 {
+            selectedCollectionIndex = 2
+            selectedCategory = array[selectedCollectionIndex]
+        }else if section == 3 && selectedCollectionIndex != 3 {
+            selectedCollectionIndex = 3
+            selectedCategory = array[selectedCollectionIndex]
+        }else if section == 4 && selectedCollectionIndex != 4 {
+            selectedCollectionIndex = 4
+            selectedCategory = array[selectedCollectionIndex]
+        }
+            collectionView.reloadData()
+            tableView.reloadData()
+        
+        
     }
 }
 
